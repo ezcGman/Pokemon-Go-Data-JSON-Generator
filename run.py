@@ -6,14 +6,27 @@ import re
 # from v0_47_1_pb2 import *
 from v0_57_2_pb2 import *
 from google.protobuf.json_format import MessageToJson
+import csv
 
 
+# Read text CSVs
+pokemonTexts = {}
+with open('text-files/pokemon.txt') as csvfile:
+    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'comment'])
+    for row in reader:
+        key = row['key']
+        del row['key']
+        del row['comment']
+        pokemonTexts[key] = row
+
+# Read GAME_MASTER file
 with open('GAME_MASTER', mode='rb') as file: # b is important -> binary
     fileContent = file.read()
 
 decodedGameMaster=GetGameMasterClientTemplatesOutProto()
 decodedGameMaster.ParseFromString(fileContent)
 
+# Process messages in GAME_MASTER file
 moves = {}
 pokemons = {}
 items = []
@@ -42,12 +55,28 @@ for i in decodedGameMaster.items:
         jsonObj = MessageToJson(i)
         pokemon = json.loads(jsonObj)['pokemon']
 
-        m = re.search('V[0-9]+_POKEMON_(.*)', pokemon['uniqueId'])
-        pokemon['name'] = m.group(1).replace('_', ' ').lower().title()
-        if pokemonId == 29:
-            pokemon['name'] += ' ♀'
-        elif pokemonId == 32:
-            pokemon['name'] += ' ♂'
+        pokemonCategoryKey = 'pokemon_category_{:04d}'.format(pokemonId)
+        pokemon['category'] = None
+        if pokemonCategoryKey in pokemonTexts:
+            pokemon['category'] = pokemonTexts[pokemonCategoryKey]
+
+        pokemonDescKey = 'pokemon_desc_{:04d}'.format(pokemonId)
+        pokemon['description'] = None
+        if pokemonDescKey in pokemonTexts:
+            pokemon['description'] = pokemonTexts[pokemonDescKey]
+
+        pokemonNameKey = 'pokemon_name_{:04d}'.format(pokemonId)
+        if pokemonNameKey in pokemonTexts:
+            pokemon['name'] = pokemonTexts[pokemonNameKey]
+        else:
+            m = re.search('V[0-9]+_POKEMON_(.*)', pokemon['uniqueId'])
+            pokemonName = m.group(1).replace('_', ' ').lower().title()
+            if pokemonId == 29:
+                pokemonName += ' ♀'
+            elif pokemonId == 32:
+                pokemonName += ' ♂'
+
+            pokemon['name'] = {'en': pokemonName}
 
         pokemon['pokemonId'] = pokemonId
 

@@ -1,0 +1,4 @@
+[submodule "text-files"]
+	path = text-files
+	url = https://github.com/vaginessa/POGOIngameText.git
+	branch = master
