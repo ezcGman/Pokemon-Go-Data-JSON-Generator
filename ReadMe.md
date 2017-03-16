@@ -1,3 +1,6 @@
+Simple / dirty / hacky script that generates Pokemon, Moves, Types and Items JSON files to be used e.g. with pgoapi. This is far from being perfect and done, but it does what it should do (for me ;) ). Feel free to fork, further develop and/or send merge requests!
+
+HowTo:
 1. Download GAME_MASTER file from your phone, located at 'Android/data/com.nianticlabs.pokemongo/files/remote_config_cache'
 2. Change the 'GAME_MASTER' symlink to point to the downloaded GAME_MASTER file
 3. Checkout POGOProtos
