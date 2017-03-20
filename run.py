@@ -56,12 +56,12 @@ for i in decodedGameMaster.items:
         pokemon = json.loads(jsonObj)['pokemon']
 
         pokemonCategoryKey = 'pokemon_category_{:04d}'.format(pokemonId)
-        pokemon['category'] = None
+        pokemon['category'] = {'en': ''}
         if pokemonCategoryKey in pokemonTexts:
             pokemon['category'] = pokemonTexts[pokemonCategoryKey]
 
         pokemonDescKey = 'pokemon_desc_{:04d}'.format(pokemonId)
-        pokemon['description'] = None
+        pokemon['description'] = {'en': ''}
         if pokemonDescKey in pokemonTexts:
             pokemon['description'] = pokemonTexts[pokemonDescKey]
 
