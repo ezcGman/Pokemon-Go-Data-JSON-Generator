@@ -133,7 +133,6 @@ for i in decodedGameMaster.items:
         else:
             type['name'] = {'en': typeName.title()}
 
-
         type['typeId'] = typeId
 
         types[typeId] = type
@@ -146,8 +145,23 @@ for i in decodedGameMaster.items:
         badge = badgeTmp['badge']
 
         m = re.search('BADGE_(.*)', badgeTmp['templateId'])
-        badgeName = m.group(1).replace('_', ' ').lower().title()
-        badge['name'] = {'en': badgeName}
+        badgeName = m.group(1).lower()
+
+        badgeNameKey = 'badge_{:s}_title'.format(badgeName)
+        if badgeNameKey in generalTexts:
+            badge['name'] = generalTexts[badgeNameKey]
+        else:
+            badge['name'] = {'en': badgeName.replace('_', ' ').title()}
+
+        badgeDescKey = 'badge_{:s}'.format(badgeName)
+        if badgeDescKey in generalTexts:
+            badge['description'] = generalTexts[badgeDescKey].copy()
+            badge['descriptionClean'] = generalTexts[badgeDescKey].copy()
+            for key, desc in badge['descriptionClean'].items():
+                badgeDescClean = desc.replace('{0}', ' ').replace('{0:0.#}', ' ')
+                badge['descriptionClean'][key] = " ".join(badgeDescClean.split())
+        else:
+            badge['description'] = {'en': ''}
 
         badge['badgeId'] = badgeId
 
