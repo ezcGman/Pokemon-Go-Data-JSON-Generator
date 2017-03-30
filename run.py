@@ -27,6 +27,14 @@ with open('text-files/moves.txt') as csvfile:
         del row['key']
         movesTexts[key] = row
 
+itemsTexts = {}
+with open('text-files/items.txt') as csvfile:
+    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'kr'])
+    for row in reader:
+        key = row['key']
+        del row['key']
+        itemsTexts[key] = row
+
 generalTexts = {}
 with open('text-files/general.txt') as csvfile:
     reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'kr'])
@@ -45,7 +53,7 @@ decodedGameMaster.ParseFromString(fileContent)
 # Process messages in GAME_MASTER file
 moves = {}
 pokemons = {}
-items = []
+items = {}
 types = {}
 badges = {}
 for i in decodedGameMaster.items:
@@ -73,10 +81,40 @@ for i in decodedGameMaster.items:
         if i.pokemon.buddy_size > 3:
             i.pokemon.buddy_size = 0
 
+        # The next section until the MessageToJson() call is done to force the translation of constants to their int vals
+        # MessageToJson() translates constants to strings, so the field 'uniqueId' would not have intval 1 for Bulbasaur,
+        # but string 'V0001_POKEMON_BULBASAUR'. So we first call all those properties with constant values to later overwrite
+        # them in the dict coming out of json-loads(MessageToJson())
+
         pokemonId = i.pokemon.unique_id
+        familyId = i.pokemon.family_id
+
+        parentId = None
+        if i.pokemon.parent_id:
+            parentId = i.pokemon.parent_id
+
         pokemonTypes = [i.pokemon.type1]
         if i.pokemon.type2:
             pokemonTypes.append(i.pokemon.type2)
+
+        evolution = None
+        if i.pokemon.evolution:
+            evolution = []
+            for evo in i.pokemon.evolution:
+                evolution.append(evo)
+
+        evolutionBranch = None
+        if i.pokemon.evolution_branch:
+            evolutionBranch = []
+            for evoBranch in i.pokemon.evolution_branch:
+                tmpEvoBranch = {
+                    'evolution': evoBranch.evolution,
+                    'candyCost': evoBranch.candy_cost
+                }
+                if evoBranch.evolution_item_requirement:
+                    tmpEvoBranch['evolutionItemRequirement'] = evoBranch.evolution_item_requirement
+
+                evolutionBranch.append(tmpEvoBranch)
 
         jsonObj = MessageToJson(i)
         pokemon = json.loads(jsonObj)['pokemon']
@@ -104,7 +142,15 @@ for i in decodedGameMaster.items:
 
             pokemon['name'] = {'en': pokemonName}
 
-        pokemon['pokemonId'] = pokemonId
+        pokemon['uniqueId'] = pokemonId
+        pokemon['familyId'] = familyId
+
+        if parentId is not None:
+            pokemon['parentId'] = parentId
+        if evolution is not None:
+            pokemon['evolution'] = evolution
+        if evolutionBranch is not None:
+            pokemon['evolutionBranch'] = evolutionBranch
 
         pokemon['types'] = pokemonTypes
         del pokemon['type1']
@@ -114,8 +160,34 @@ for i in decodedGameMaster.items:
         pokemons[pokemonId] = pokemon
 
     elif i.HasField('item'):
+        itemId = i.item.unique_id
+        itemCategory = i.item.category
+        itemType = i.item.item_type
+
         jsonObj = MessageToJson(i)
-        items.append(jsonObj)
+        itemTmp = json.loads(jsonObj)
+        item = itemTmp['item']
+
+        m = re.search('ITEM_(.*)', itemTmp['templateId'])
+        itemName = m.group(1).lower()
+
+        itemNameKey = 'item_{:s}_name'.format(itemName)
+        if itemNameKey in itemsTexts:
+            item['name'] = itemsTexts[itemNameKey]
+        else:
+            item['name'] = {'en': itemName.replace('_', ' ').title()}
+
+        itemDescKey = 'item_{:s}_desc'.format(itemName)
+        if itemDescKey in itemsTexts:
+            item['description'] = itemsTexts[itemDescKey]
+        else:
+            item['description'] = {'en': ''}
+
+        item['uniqueId'] = itemId
+        item['category'] = itemCategory
+        item['itemType'] = itemType
+
+        items[itemId] = item
 
     elif i.HasField('type_effective'):
         typeId = i.type_effective.attack_type
