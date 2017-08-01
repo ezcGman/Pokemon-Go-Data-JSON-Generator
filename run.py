@@ -13,7 +13,7 @@ from pprint import pprint
 # Read text CSVs
 pokemonTexts = {}
 with open('text-files/pokemon.txt') as csvfile:
-    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'kr'])
+    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
     for row in reader:
         key = row['key']
         del row['key']
@@ -21,7 +21,7 @@ with open('text-files/pokemon.txt') as csvfile:
 
 movesTexts = {}
 with open('text-files/moves.txt') as csvfile:
-    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'kr'])
+    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
     for row in reader:
         key = row['key']
         del row['key']
@@ -29,7 +29,7 @@ with open('text-files/moves.txt') as csvfile:
 
 itemsTexts = {}
 with open('text-files/items.txt') as csvfile:
-    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'kr'])
+    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
     for row in reader:
         key = row['key']
         del row['key']
@@ -37,7 +37,7 @@ with open('text-files/items.txt') as csvfile:
 
 generalTexts = {}
 with open('text-files/general.txt') as csvfile:
-    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'kr'])
+    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
     for row in reader:
         key = row['key']
         del row['key']
