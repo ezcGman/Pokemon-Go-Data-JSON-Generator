@@ -3,7 +3,6 @@
 import json
 import re
 
-# from v0_47_1_pb2 import *
 from v0_73_1_pb2 import *
 from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import SerializeToJsonError
