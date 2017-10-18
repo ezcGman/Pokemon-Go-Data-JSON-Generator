@@ -4,8 +4,9 @@ import json
 import re
 
 # from v0_47_1_pb2 import *
-from v0_57_2_pb2 import *
+from v0_73_1_pb2 import *
 from google.protobuf.json_format import MessageToJson
+from google.protobuf.json_format import SerializeToJsonError
 import csv
 from pprint import pprint
 
@@ -212,7 +213,14 @@ for i in decodedGameMaster.items:
     elif i.HasField('badge'):
         badgeId = i.badge.badge_type
 
-        jsonObj = MessageToJson(i)
+        # No idea why a few badges have an int instead of an enum which then raises this error:
+        # google.protobuf.json_format.SerializeToJsonError: Enum field contains an integer value which can not mapped to an enum value.
+        try:
+            jsonObj = MessageToJson(i)
+        except SerializeToJsonError:
+            pprint(i)
+            continue
+
         badgeTmp = json.loads(jsonObj)
         badge = badgeTmp['badge']
 

@@ -1,4 +1,0 @@
-[submodule "text-files"]
-	path = text-files
-	url = https://github.com/gman-php/POGOIngameText.git
-	branch = master
