@@ -98,6 +98,7 @@ for i in fileContent:
         if 'type_2' in pokemon:
             pokemonTypes.append(pokemon['type_2'])
             del pokemon['type_2']
+        pokemon['types'] = pokemonTypes
 
         pokemonCategoryKey = 'pokemon_category_{:04d}'.format(pokemonId)
         pokemon['category'] = {'en': ''}
