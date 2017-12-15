@@ -55,6 +55,13 @@ def camelize(underscoreDict):
             camelKey = camelcase(k)
             if isinstance(v, dict):
                 camelDict[camelKey] = camelize(v)
+            elif isinstance(v, list):
+                camelDict[camelKey] = []
+                for listItem in v:
+                    if isinstance(listItem, dict):
+                        camelDict[camelKey].append(camelize(listItem))
+                    else:
+                        camelDict[camelKey].append(listItem)
             else:
                 camelDict[camelKey] = v
 
@@ -223,3 +230,64 @@ with open('out/items.json', 'w') as outfile:
     json.dump(items, outfile)
 with open('out/player-levels.json', 'w') as outfile:
     json.dump(playerLevels, outfile)
+
+with open('out/pokemon-base-stats.csv', 'w') as csvfile:
+    writer = csv.DictWriter(csvfile, fieldnames=['name', 'id', 'hp', 'atk', 'def'])
+    writer.writeheader()
+    for pokemonId, pokemon in pokemons.items():
+        pokemonStats = {
+            'name': pokemon['name']['en'],
+            'id': pokemonId,
+            'hp': pokemon['stats']['baseStamina'],
+            'atk': pokemon['stats']['baseAttack'],
+            'def': pokemon['stats']['baseDefense']
+        }
+        writer.writerow(pokemonStats)
+
+with open('out/pokemon-quick-moves.csv', 'w') as quickCsvfile:
+    with open('out/pokemon-charge-moves.csv', 'w') as chargeCsvfile:
+        quickWriter = csv.DictWriter(quickCsvfile, fieldnames=['id', 'name', 'type', 'power', 'staminaLossScalar', 'durationMs', 'dmgWindow', 'damageWindowStartMs', 'damageWindowEndMs', 'energyDelta'])
+        quickWriter.writeheader()
+        chargeWriter = csv.DictWriter(chargeCsvfile, fieldnames=['id', 'name', 'type', 'power', 'staminaLossScalar', 'healScalar', 'durationMs', 'dmgWindow', 'damageWindowStartMs', 'damageWindowEndMs', 'criticalChance', 'energyDelta'])
+        chargeWriter.writeheader()
+        for moveId, move in moves.items():
+            energyDelta = move.get('energyDelta', 0)
+            moveStats = {
+                'id': moveId,
+                'name': move['name']['en'],
+                'type': move['pokemonType'],
+                'power': move.get('power', 0),
+                'staminaLossScalar': round(move.get('staminaLossScalar', 0), 2),
+                'durationMs': move['durationMs'],
+                'dmgWindow': move['damageWindowStartMs'],
+                'damageWindowStartMs': move['damageWindowEndMs'],
+                'damageWindowEndMs': move['damageWindowStartMs'] + move['damageWindowEndMs'],
+                'energyDelta': (energyDelta*-1 if energyDelta < 0 else energyDelta)
+            }
+
+            # If energy is below 0 (= it costs energy): it's a charge move
+            # Special: Struggle (!33) is the only charge move that has 0 energy consumption :/
+            if energyDelta < 0 or moveId == 133:
+                moveStats['criticalChance'] = int(move.get('criticalChance', 0)*100)
+                moveStats['healScalar'] = round(move.get('healScalar', 0), 2)
+
+                chargeWriter.writerow(moveStats)
+            # If energy is above 0 (= it adds energy): it's a quick move
+            else:
+                quickWriter.writerow(moveStats)
+
+with open('out/pokemon-move-combinations.csv', 'w') as csvfile:
+    writer = csv.DictWriter(csvfile, fieldnames=['name', 'id', 'fast', 'charge'])
+    writer.writeheader()
+    moveCombis = []
+    for pokemonId, pokemon in pokemons.items():
+        pokemonName = pokemon['name']['en']
+        for quickMove in pokemon['quickMoves']:
+            for chargeMove in pokemon['cinematicMoves']:
+                moveCombi = {
+                    'name': pokemonName,
+                    'id': pokemonId,
+                    'fast': quickMove,
+                    'charge': chargeMove
+                }
+                writer.writerow(moveCombi)
