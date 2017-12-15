@@ -232,7 +232,7 @@ with open('out/player-levels.json', 'w') as outfile:
     json.dump(playerLevels, outfile)
 
 with open('out/pokemon-base-stats.csv', 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=['name', 'id', 'hp', 'atk', 'def'])
+    writer = csv.DictWriter(csvfile, fieldnames=['name', 'id', 'hp', 'atk', 'def', 'type1', 'type2'])
     writer.writeheader()
     for pokemonId, pokemon in pokemons.items():
         pokemonStats = {
@@ -240,9 +240,21 @@ with open('out/pokemon-base-stats.csv', 'w') as csvfile:
             'id': pokemonId,
             'hp': pokemon['stats']['baseStamina'],
             'atk': pokemon['stats']['baseAttack'],
-            'def': pokemon['stats']['baseDefense']
+            'def': pokemon['stats']['baseDefense'],
+            'type1': pokemon['types'][0],
+            'type2': (pokemon['types'][1] if len(pokemon['types']) >= 2 else None)
         }
         writer.writerow(pokemonStats)
+
+with open('out/types.csv', 'w') as csvfile:
+    writer = csv.DictWriter(csvfile, fieldnames=['id', 'name'])
+    writer.writeheader()
+    for typeId, type in types.items():
+        typeData = {
+            'id': typeId,
+            'name': type['name']['en']
+        }
+        writer.writerow(typeData)
 
 with open('out/pokemon-quick-moves.csv', 'w') as quickCsvfile:
     with open('out/pokemon-charge-moves.csv', 'w') as chargeCsvfile:
