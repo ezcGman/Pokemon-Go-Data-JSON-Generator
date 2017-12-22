@@ -232,7 +232,7 @@ with open('out/player-levels.json', 'w') as outfile:
     json.dump(playerLevels, outfile)
 
 with open('out/pokemon-base-stats.csv', 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=['name', 'id', 'hp', 'atk', 'def', 'type1', 'type2'])
+    writer = csv.DictWriter(csvfile, fieldnames=['name', 'id', 'hp', 'atk', 'def', 'type1', 'type2', 'legendary'])
     writer.writeheader()
     for pokemonId, pokemon in pokemons.items():
         pokemonStats = {
@@ -242,7 +242,8 @@ with open('out/pokemon-base-stats.csv', 'w') as csvfile:
             'atk': pokemon['stats']['baseAttack'],
             'def': pokemon['stats']['baseDefense'],
             'type1': pokemon['types'][0],
-            'type2': (pokemon['types'][1] if len(pokemon['types']) >= 2 else None)
+            'type2': (pokemon['types'][1] if len(pokemon['types']) >= 2 else None),
+            'legendary': ('Y' if 'rarity' in pokemon and pokemon['rarity'] == 1 else None)
         }
         writer.writerow(pokemonStats)
 
