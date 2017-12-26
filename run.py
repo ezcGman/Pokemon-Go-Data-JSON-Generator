@@ -42,6 +42,12 @@ with open('text-files/general.txt') as csvfile:
         key = row['key']
         del row['key']
         generalTexts[key] = row
+with open('text-files/gymsv2.txt') as csvfile:
+    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
+    for row in reader:
+        key = row['key']
+        del row['key']
+        generalTexts[key] = row
 
 # Read GAME_MASTER file
 with open('GAME_MASTER', mode='rb') as file: # b is important -> binary

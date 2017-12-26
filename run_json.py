@@ -39,6 +39,12 @@ with open('text-files/general.txt') as csvfile:
         key = row['key']
         del row['key']
         generalTexts[key] = row
+with open('text-files/gymsv2.txt') as csvfile:
+    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
+    for row in reader:
+        key = row['key']
+        del row['key']
+        generalTexts[key] = row
 
 # Read GAME_MASTER file
 with open('game_master.json', mode='r') as file:
@@ -232,12 +238,12 @@ with open('out/player-levels.json', 'w') as outfile:
     json.dump(playerLevels, outfile)
 
 with open('out/pokemon-base-stats.csv', 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=['name', 'id', 'hp', 'atk', 'def', 'type1', 'type2', 'legendary'])
+    writer = csv.DictWriter(csvfile, fieldnames=['id', 'name', 'hp', 'atk', 'def', 'type1', 'type2', 'legendary'])
     writer.writeheader()
     for pokemonId, pokemon in pokemons.items():
         pokemonStats = {
-            'name': pokemon['name']['en'],
             'id': pokemonId,
+            'name': pokemon['name']['en'],
             'hp': pokemon['stats']['baseStamina'],
             'atk': pokemon['stats']['baseAttack'],
             'def': pokemon['stats']['baseDefense'],
@@ -290,7 +296,7 @@ with open('out/pokemon-quick-moves.csv', 'w') as quickCsvfile:
                 quickWriter.writerow(moveStats)
 
 with open('out/pokemon-move-combinations.csv', 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=['name', 'id', 'fast', 'charge'])
+    writer = csv.DictWriter(csvfile, fieldnames=['id', 'fast', 'charge'])
     writer.writeheader()
     moveCombis = []
     for pokemonId, pokemon in pokemons.items():
@@ -298,7 +304,6 @@ with open('out/pokemon-move-combinations.csv', 'w') as csvfile:
         for quickMove in pokemon['quickMoves']:
             for chargeMove in pokemon['cinematicMoves']:
                 moveCombi = {
-                    'name': pokemonName,
                     'id': pokemonId,
                     'fast': quickMove,
                     'charge': chargeMove
