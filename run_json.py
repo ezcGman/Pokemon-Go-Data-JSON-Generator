@@ -81,6 +81,7 @@ items = {}
 types = {}
 badges = {}
 playerLevels = {}
+gameSettings = {}
 for i in fileContent:
     if 'move_settings' in i:
         move = i['move_settings']
@@ -214,7 +215,6 @@ for i in fileContent:
     elif 'player_level' in i:
         playerLevel = i['player_level']
 
-        playerLevels = {}
         idx = 1
         for requiredExp in playerLevel['required_experience']:
             playerLevels[idx] = {
@@ -223,6 +223,18 @@ for i in fileContent:
                 'rankNum': playerLevel['rank_num'][idx-1]
             }
             idx += 1
+
+    elif 'battle_settings' in i or 'gym_badge_settings' in i or 'iap_settings' in i or 'pokemon_upgrades' in i or 'quest_settings' in i or 'weather_affinities' in i or 'weather_bonus_settings' in i:
+        # pprint(i.keys())
+        del i['template_id']
+        settingsKey = list(i.keys())[0]
+        if 'battle_settings' in i or 'gym_badge_settings' in i or 'iap_settings' in i or 'pokemon_upgrades' in i or 'weather_bonus_settings' in i:
+            gameSettings[settingsKey] = i[settingsKey]
+        elif 'quest_settings' in i or 'weather_affinities' in i:
+            if settingsKey not in gameSettings:
+                gameSettings[settingsKey] = []
+
+            gameSettings[settingsKey].append(i[settingsKey])
 
 with open('out/pokemon.json', 'w') as outfile:
     json.dump(pokemons, outfile)
@@ -236,6 +248,8 @@ with open('out/items.json', 'w') as outfile:
     json.dump(items, outfile)
 with open('out/player-levels.json', 'w') as outfile:
     json.dump(playerLevels, outfile)
+with open('out/game-settings.json', 'w') as outfile:
+    json.dump(gameSettings, outfile)
 
 with open('out/pokemon-base-stats.csv', 'w') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=['id', 'name', 'hp', 'atk', 'def', 'type1', 'type2', 'legendary'])
