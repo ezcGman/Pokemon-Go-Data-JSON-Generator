@@ -8,7 +8,7 @@ Simple / dirty / hacky script that generates Pokemon, Moves, Types and Items JSO
 
 ## Game Master in JSON format:
 1. Download the Game Master file via the API and place it in the root dir of this repo
-2. Change the 'game_master.json' symlink to point to the downloaded GAME_MASTER file
+2. Change the 'game_master.json' symlink to point to the downloaded Game Master file
 3. ./run_json.py
 
 ## Game Master in binary format (copied from phone):
