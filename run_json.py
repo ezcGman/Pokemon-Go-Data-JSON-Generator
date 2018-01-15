@@ -4,7 +4,7 @@ import json
 import re
 import csv
 from stringcase import camelcase
-from pprint import pprint
+# from pprint import pprint
 
 
 # Read text CSVs
@@ -82,6 +82,7 @@ types = {}
 badges = {}
 playerLevels = {}
 gameSettings = {}
+genderSettings = {}
 for i in fileContent:
     if 'move_settings' in i:
         move = i['move_settings']
@@ -140,6 +141,14 @@ for i in fileContent:
         pokemon = camelize(pokemon)
 
         pokemons[pokemonId] = pokemon
+
+    elif 'gender_settings' in i:
+        gender = pokemon = i['gender_settings']
+        genderSettings[gender['pokemon']] = {
+            'femalePercent': gender['gender'].get('female_percent', 0),
+            'malePercent': gender['gender'].get('male_percent', 0),
+            'genderlessPercent': gender['gender'].get('genderless_percent', 0)
+        }
 
     elif 'item_settings' in i:
         item = i['item_settings']
@@ -225,7 +234,6 @@ for i in fileContent:
             idx += 1
 
     elif 'battle_settings' in i or 'gym_badge_settings' in i or 'iap_settings' in i or 'pokemon_upgrades' in i or 'quest_settings' in i or 'weather_affinities' in i or 'weather_bonus_settings' in i:
-        # pprint(i.keys())
         del i['template_id']
         settingsKey = list(i.keys())[0]
         if 'battle_settings' in i or 'gym_badge_settings' in i or 'iap_settings' in i or 'pokemon_upgrades' in i or 'weather_bonus_settings' in i:
@@ -235,6 +243,18 @@ for i in fileContent:
                 gameSettings[settingsKey] = []
 
             gameSettings[settingsKey].append(i[settingsKey])
+
+    # For debugging
+    elif 'camera' in i or 'move_sequence_settings' in i or 'gender_settings' in i or 'form_settings' in i or 'avatar_customization' in i:
+        a = 'b'
+    else:
+        # pprint(i)
+        c = 'd'
+
+for i in genderSettings:
+    if i in pokemons:
+        pokemons[i]['genderPossibilities'] = genderSettings[i]
+
 
 with open('out/pokemon.json', 'w') as outfile:
     json.dump(pokemons, outfile)
