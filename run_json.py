@@ -9,7 +9,7 @@ from stringcase import camelcase
 
 # Read text CSVs
 pokemonTexts = {}
-with open('text-files/pokemon.txt') as csvfile:
+with open('in/pokemon.txt') as csvfile:
     reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
     for row in reader:
         key = row['key']
@@ -17,7 +17,7 @@ with open('text-files/pokemon.txt') as csvfile:
         pokemonTexts[key] = row
 
 movesTexts = {}
-with open('text-files/moves.txt') as csvfile:
+with open('in/moves.txt') as csvfile:
     reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
     for row in reader:
         key = row['key']
@@ -25,7 +25,7 @@ with open('text-files/moves.txt') as csvfile:
         movesTexts[key] = row
 
 itemsTexts = {}
-with open('text-files/items.txt') as csvfile:
+with open('in/items.txt') as csvfile:
     reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
     for row in reader:
         key = row['key']
@@ -33,18 +33,25 @@ with open('text-files/items.txt') as csvfile:
         itemsTexts[key] = row
 
 generalTexts = {}
-with open('text-files/general.txt') as csvfile:
+with open('in/general.txt') as csvfile:
     reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
     for row in reader:
         key = row['key']
         del row['key']
         generalTexts[key] = row
-with open('text-files/gymsv2.txt') as csvfile:
+with open('in/gymsv2.txt') as csvfile:
     reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
     for row in reader:
         key = row['key']
         del row['key']
         generalTexts[key] = row
+
+# Legacy movesets so far (last updated: 2018-01-18)
+with open('in/legacy-moves.json', mode='r') as file:
+    legacyMoves = json.loads(file.read())
+# Convert str to int idx
+legacyMoves = {int(k):v for k,v in legacyMoves.items()}
+
 
 # Read GAME_MASTER file
 with open('game_master.json', mode='r') as file:
@@ -330,16 +337,52 @@ with open('out/pokemon-quick-moves.csv', 'w') as quickCsvfile:
                 quickWriter.writerow(moveStats)
 
 with open('out/pokemon-move-combinations.csv', 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=['id', 'fast', 'charge'])
+    writer = csv.DictWriter(csvfile, fieldnames=['id', 'fast', 'charge', 'fastIsLegacy', 'chargeIsLegacy'])
     writer.writeheader()
     moveCombis = []
     for pokemonId, pokemon in pokemons.items():
-        pokemonName = pokemon['name']['en']
+        if pokemonId in legacyMoves:
+            pokemon['quickMoves'] = pokemon['quickMoves'] + legacyMoves[pokemonId]['quickMoves']
+            pokemon['cinematicMoves'] = pokemon['cinematicMoves'] + legacyMoves[pokemonId]['cinematicMoves']
+
         for quickMove in pokemon['quickMoves']:
+            fastIsLegacy = 0
+            if pokemonId in legacyMoves and quickMove in legacyMoves[pokemonId]['quickMoves']:
+                fastIsLegacy = 1
+
             for chargeMove in pokemon['cinematicMoves']:
+                chargeIsLegacy = 0
+                if pokemonId in legacyMoves and chargeMove in legacyMoves[pokemonId]['cinematicMoves']:
+                    chargeIsLegacy = 1
                 moveCombi = {
                     'id': pokemonId,
                     'fast': quickMove,
-                    'charge': chargeMove
+                    'charge': chargeMove,
+                    'fastIsLegacy': fastIsLegacy,
+                    'chargeIsLegacy': chargeIsLegacy
                 }
                 writer.writerow(moveCombi)
+
+
+'''
+# Helper snippet to create the in/legacy-moves.json
+with open('in/legacy-moves-in.json', mode='r') as file:
+    legacyMovesJson = json.loads(file.read())
+legacyMovesCsv = []
+with open('in/legacy-moves.csv') as csvfile:
+    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['pokemonId', 'moveId', 'isQuickMove'])
+    for row in reader:
+        legacyMovesCsv.append(row)
+
+for legacyMove in legacyMovesCsv:
+    if legacyMove['isQuickMove'] == "1":
+        legacyMovesJson[legacyMove['pokemonId']]['quickMoves'].append(legacyMove['moveId'])
+    else:
+        legacyMovesJson[legacyMove['pokemonId']]['cinematicMoves'].append(legacyMove['moveId'])
+
+with open('in/legacy-moves.json', 'w') as outfile:
+    json.dump(legacyMovesJson, outfile)
+
+pprint(legacyMovesJson)
+exit(1)
+'''
