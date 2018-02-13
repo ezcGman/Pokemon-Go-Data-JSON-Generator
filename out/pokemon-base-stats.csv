@@ -349,7 +349,7 @@ id,name,hp,atk,def,type1,type2,legendary
 348,Armaldo,150,222,183,6,7,
 349,Feebas,40,29,102,11,,
 350,Milotic,190,192,242,11,,
-351,Castform,140,139,139,1,,
+351,Castform,140,139,139,10,,
 352,Kecleon,120,161,212,1,,
 353,Shuppet,88,138,66,8,,
 354,Banette,128,218,127,8,,
