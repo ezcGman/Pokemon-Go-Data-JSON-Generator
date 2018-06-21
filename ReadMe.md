@@ -3,8 +3,8 @@ Simple / dirty / hacky script that generates Pokemon, Moves, Types and Items JSO
 # Setup
 ## General
 1. Checkout Chrales awesome decrypted asset repo [PogoAssets](https://github.com/ZeChrales/PogoAssets) to the same level as this repo
-2. Generate Python virtual env using 'virtualenv pgodatagen'
-3. Install requirements: 'pgodatagen/bin/pip3.3 install -r requirements.txt'
+2. Generate Python virtual env using 'virtualenv -ppython3.5 pgodatagen'
+3. Install requirements: 'pgodatagen/bin/pip3.5 install -r requirements.txt'
 
 ## Game Master in JSON format:
 1. Download the Game Master file via the API and place it in the root dir of this repo
@@ -14,9 +14,8 @@ Simple / dirty / hacky script that generates Pokemon, Moves, Types and Items JSO
 ## Game Master in binary format (copied from phone):
 1. Download GAME_MASTER file from your phone, located at 'Android/data/com.nianticlabs.pokemongo/files/remote_config_cache' and place it in the root dir of this repo
 2. Change the 'GAME_MASTER' symlink to point to the downloaded GAME_MASTER file
-3. Checkout [POGOProtos](https://github.com/AeonLucid/POGOProtos) somewhere outside this repo
-4. Compile the latest working proto definiton to python using 'protoc --python_out=out base/vX.YY.Z.proto'
-5. Move the generated 'out/base/vX/YY/Z_pb2.py' to the root folder of Pokemon-Go-Data-JSON-Generator and name it 'vX_YY_Z_pb2.py'
+3. Checkout [POGOProtos](https://github.com/Furtif/POGOProtos) (AeonLucids POGOProtos are not maintained anymore) somewhere outside this repo
+4. Change into the checked out folder and compile those proto definitons to python using `./compile.py python`
+5. Move the generated 'out/pogoprotos' folder to the root of Pokemon-Go-Data-JSON-Generator, so the structure looks like this: 'Pokemon-Go-Data-JSON-Generator/pogoprotos/neworking/...'
 6. Go back to Pokemon-Go-Data-JSON-Generator
-7. Edit 'run.py' and change the 'from vX_YY_Z_pb2 import *' line to match the just created one
-8. ./run.py
+8. `./run.py`
