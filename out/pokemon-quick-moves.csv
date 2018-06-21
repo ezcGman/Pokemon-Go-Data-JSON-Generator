@@ -62,3 +62,4 @@ id,name,type,power,staminaLossScalar,durationMs,dmgWindow,damageWindowStartMs,da
 283,Waterfall,11,16.0,0.01,1200,950,1100,2050,8
 287,Yawn,1,0,0.01,1700,1400,1600,3000,15
 291,Present,1,5.0,0.01,1300,1100,1300,2400,20
+297,Smack Down,6,16.0,0.01,1200,800,1100,1900,8
