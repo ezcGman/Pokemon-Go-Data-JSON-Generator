@@ -150,7 +150,8 @@ for i in fileContent:
         pokemons[pokemonId] = pokemon
 
     elif 'gender_settings' in i:
-        gender = pokemon = i['gender_settings']
+        # gender = pokemon = i['gender_settings']
+        gender = i['gender_settings']
         genderSettings[gender['pokemon']] = {
             'femalePercent': gender['gender'].get('female_percent', 0),
             'malePercent': gender['gender'].get('male_percent', 0),
@@ -252,7 +253,7 @@ for i in fileContent:
             gameSettings[settingsKey].append(i[settingsKey])
 
     # For debugging
-    elif 'camera' in i or 'move_sequence_settings' in i or 'gender_settings' in i or 'form_settings' in i or 'avatar_customization' in i:
+    elif 'camera' in i or 'move_sequence_settings' in i or 'form_settings' in i or 'avatar_customization' in i:
         a = 'b'
     else:
         # pprint(i)
