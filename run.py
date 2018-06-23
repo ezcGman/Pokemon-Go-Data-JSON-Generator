@@ -315,17 +315,24 @@ for i in decodedGameMaster.item_templates:
             }
             idx += 1
 
-    elif messageHasField(i, 'battle_settings') or messageHasField(i, 'gym_badge_settings') or messageHasField(i, 'gym_level') or messageHasField(i, 'iap_settings') or messageHasField(i, 'pokemon_upgrades') or messageHasField(i, 'quest_settings') or messageHasField(i, 'weather_affinities') or messageHasField(i, 'weather_bonus_settings') or messageHasField(i, 'encounter_settings'):
+    elif messageHasField(i, 'battle_settings') or messageHasField(i, 'gym_badge_settings') or messageHasField(i, 'gym_level') or messageHasField(i, 'iap_settings') or messageHasField(i, 'pokemon_upgrades') or messageHasField(i, 'quest_settings') or messageHasField(i, 'weather_affinities') or messageHasField(i, 'weather_bonus_settings') or messageHasField(i, 'encounter_settings') or messageHasField(i, 'friendship_milestone_settings'):
         jsonObj = MessageToJson(i)
         settings = json.loads(jsonObj)
 
+        templateId = settings['templateId']
         del(settings['templateId'])
         settingsKey = list(settings.keys())[0]
         if 'battleSettings' in settings or 'gymBadgeSettings' in settings or 'iapSettings' in settings or 'pokemonUpgrades' in settings or 'weatherBonusSettings' in settings:
             gameSettings[settingsKey] = settings[settingsKey]
-        elif 'questSettings' in settings or 'weatherAffinities' in settings:
+        elif 'questSettings' in settings or 'weatherAffinities' in settings or 'friendshipMilestoneSettings' in settings:
+            pprint(templateId)
             if settingsKey not in gameSettings:
                 gameSettings[settingsKey] = []
+
+            if 'friendshipMilestoneSettings' in settings:
+                m = re.search('FRIENDSHIP_LEVEL_([0-9]+)', templateId)
+                friendshipLevel = m.group(1).lower()
+                settings[settingsKey]['friendshipLevel'] = friendshipLevel
 
             gameSettings[settingsKey].append(settings[settingsKey])
         # elif 'gymLevel' in settings:
