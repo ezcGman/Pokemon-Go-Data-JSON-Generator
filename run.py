@@ -60,6 +60,10 @@ with open('in/legacy-moves.json', mode='r') as file:
 # Convert str to int idx
 legacyMoves = {int(k):v for k,v in legacyMoves.items()}
 
+# Form translations
+with open('in/form-translations.json', mode='r') as file:
+    formTranslations = json.loads(file.read())
+
 # Read GAME_MASTER file
 with open('GAME_MASTER', mode='rb') as file: # b is important -> binary
     fileContent = file.read()
@@ -74,6 +78,21 @@ def messageHasField(message, field):
         return False
 
 # Process messages in GAME_MASTER file
+# First go over them and find all forms
+forms = {}
+for i in decodedGameMaster.item_templates:
+    if messageHasField(i, 'form_settings'):
+        if hasattr(i.form_settings, 'forms') and len(i.form_settings.forms) > 0:
+            pokemonId = i.form_settings.pokemon
+
+            jsonObj = MessageToJson(i)
+            formSettings = json.loads(jsonObj)['formSettings']
+
+            if pokemonId not in forms:
+                forms[pokemonId] = []
+            for form in formSettings['forms']:
+                forms[pokemonId].append(form['form'])
+
 moves = {}
 pokemons = {}
 items = {}
@@ -115,6 +134,13 @@ for i in decodedGameMaster.item_templates:
         pokemonId = i.pokemon_settings.pokemon_id
         familyId = i.pokemon_settings.family_id
         encounterType = i.pokemon_settings.encounter.movement_type
+
+        # Every pokemon that has a form (castform, alola, deoxys, ...) also have a no-form entry, which makes NO SENSE: Those mons don't exist without a form!
+        # Even mons that have an alolan form nove have three entries: normal, alolan and one without any form. the last one MAKES NO SENSE!
+        # But Unown only has one entry... no form entry... So the logic does not apply for Unown...
+        # This if will skip the useless entry and only look for the ones with a form
+        if pokemonId != 201 and pokemonId in forms and (not hasattr(i.pokemon_settings, 'form') or i.pokemon_settings.form == 0):
+            continue
 
         quickMoves = []
         for quickMove in i.pokemon_settings.quick_moves:
@@ -159,6 +185,10 @@ for i in decodedGameMaster.item_templates:
 
                 evolutionBranch.append(tmpEvoBranch)
 
+        formId = None
+        if hasattr(i.pokemon_settings, 'form') and i.pokemon_settings.form > 0:
+            formId = i.pokemon_settings.form
+
         jsonObj = MessageToJson(i)
         pokemon = json.loads(jsonObj)['pokemonSettings']
 
@@ -176,7 +206,7 @@ for i in decodedGameMaster.item_templates:
         if pokemonNameKey in pokemonTexts:
             pokemon['name'] = pokemonTexts[pokemonNameKey]
         else:
-            m = re.search('V[0-9]+_POKEMON_(.*)', pokemon['uniqueId'])
+            m = re.search('V[0-9]+_POKEMON_(.*)', pokemonId)
             pokemonName = m.group(1).replace('_', ' ').lower().title()
             if pokemonId == 29:
                 pokemonName += ' ♀'
@@ -185,6 +215,7 @@ for i in decodedGameMaster.item_templates:
 
             pokemon['name'] = {'en': pokemonName}
 
+        pokemonTplName = pokemon['pokemonId']
         pokemon['pokemonId'] = pokemonId
         pokemon['familyId'] = familyId
         pokemon['quickMoves'] = quickMoves
@@ -201,13 +232,31 @@ for i in decodedGameMaster.item_templates:
             pokemon['evolutionIds'] = evolutionIds
         if evolutionBranch is not None:
             pokemon['evolutionBranch'] = evolutionBranch
+        if formId is not None:
+            m = re.search('{:s}_(.*)'.format(pokemonTplName), pokemon['form'])
+            tplFormName = None
+            if m is not None:
+                tplFormName = m.group(1)
+
+            # First check if we have a translation for the full form name (e.g. 'RATTATA_NORMAL')
+            formName = None
+            if pokemon['form'] in formTranslations:
+                formName = formTranslations[pokemon['form']]
+            # If not, check if we have a partial form name (e.g. 'ALOLA' from 'RATTATA_ALOLA')
+            elif tplFormName in formTranslations:
+                formName = formTranslations[tplFormName]
+
+            pokemon['form'] = formName
+            pokemon['pokemonFormId'] = "{:d}-{:d}".format(pokemonId, formId)
 
         pokemon['types'] = pokemonTypes
         del pokemon['type']
         if hasattr(i.pokemon_settings, 'type_2') and i.pokemon_settings.type_2 > 0:
             del pokemon['type2']
 
-        pokemons[pokemonId] = pokemon
+        if pokemonId not in pokemons:
+            pokemons[pokemonId] = []
+        pokemons[pokemonId].append(pokemon)
 
     # CHECKED
     elif messageHasField(i, 'item_settings'):
@@ -325,7 +374,6 @@ for i in decodedGameMaster.item_templates:
         if 'battleSettings' in settings or 'gymBadgeSettings' in settings or 'iapSettings' in settings or 'pokemonUpgrades' in settings or 'weatherBonusSettings' in settings:
             gameSettings[settingsKey] = settings[settingsKey]
         elif 'questSettings' in settings or 'weatherAffinities' in settings or 'friendshipMilestoneSettings' in settings:
-            pprint(templateId)
             if settingsKey not in gameSettings:
                 gameSettings[settingsKey] = []
 
@@ -352,17 +400,8 @@ for i in decodedGameMaster.item_templates:
             'genderlessPercent': genderSetting['gender'].get('genderlessPercent', 0)
         }
 
-    # TODO
-    elif messageHasField(i, 'form_settings'):
-        continue
-        jsonObj = MessageToJson(i)
-        formSettings = json.loads(jsonObj)['formSettings']
-
-        # if 'forms' in formSettings:
-            # pprint(formSettings)
-
-    # Do not process these, they (seem to be) uninteresting / only for UX / rendering purposes
-    elif messageHasField(i, 'move_sequence_settings') or messageHasField(i, 'camera') or messageHasField(i, 'avatar_customization') or messageHasField(i, 'iap_category_display') or messageHasField(i, 'pokemon_scale_settings') or messageHasField(i, 'iap_item_display'):
+    # Do not process these, they (seem to be) uninteresting / only for UX / rendering purposes, or we have them processed already
+    elif messageHasField(i, 'move_sequence_settings') or messageHasField(i, 'camera') or messageHasField(i, 'avatar_customization') or messageHasField(i, 'iap_category_display') or messageHasField(i, 'pokemon_scale_settings') or messageHasField(i, 'iap_item_display') or messageHasField(i, 'form_settings'):
         continue
 
     else:
@@ -376,8 +415,8 @@ for i in decodedGameMaster.item_templates:
 
 for i in genderSettings:
     if i in pokemons:
-        pokemons[i]['genderPossibilities'] = genderSettings[i]
-
+        for j, pokemon in enumerate(pokemons[i]):
+            pokemons[i][j]['genderPossibilities'] = genderSettings[i]
 
 with open('out/pokemon.json', 'w') as outfile:
     json.dump(pokemons, outfile)
@@ -395,20 +434,23 @@ with open('out/game-settings.json', 'w') as outfile:
     json.dump(gameSettings, outfile)
 
 with open('out/pokemon-base-stats.csv', 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=['id', 'name', 'hp', 'atk', 'def', 'type1', 'type2', 'legendary'])
+    writer = csv.DictWriter(csvfile, fieldnames=['id', 'pokemonFormId', 'name', 'form', 'hp', 'atk', 'def', 'type1', 'type2', 'legendary'])
     writer.writeheader()
-    for pokemonId, pokemon in pokemons.items():
-        pokemonStats = {
-            'id': pokemonId,
-            'name': pokemon['name']['en'],
-            'hp': pokemon['stats']['baseStamina'],
-            'atk': pokemon['stats']['baseAttack'],
-            'def': pokemon['stats']['baseDefense'],
-            'type1': pokemon['types'][0],
-            'type2': (pokemon['types'][1] if len(pokemon['types']) >= 2 else None),
-            'legendary': ('Y' if 'rarity' in pokemon and pokemon['rarity'] == 1 else None)
-        }
-        writer.writerow(pokemonStats)
+    for pokemonId, pokemonForms in pokemons.items():
+        for pokemon in pokemonForms:
+            pokemonStats = {
+                'id': pokemonId,
+                'pokemonFormId': (pokemon['pokemonFormId'] if 'pokemonFormId' in pokemon else pokemonId),
+                'name': pokemon['name']['en'],
+                'form': (pokemon['form']['en'] if 'form' in pokemon else None),
+                'hp': pokemon['stats']['baseStamina'],
+                'atk': pokemon['stats']['baseAttack'],
+                'def': pokemon['stats']['baseDefense'],
+                'type1': pokemon['types'][0],
+                'type2': (pokemon['types'][1] if len(pokemon['types']) >= 2 else None),
+                'legendary': ('Y' if 'rarity' in pokemon and pokemon['rarity'] == 1 else None)
+            }
+            writer.writerow(pokemonStats)
 
 with open('out/types.csv', 'w') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=['id', 'name'])
@@ -453,28 +495,30 @@ with open('out/pokemon-quick-moves.csv', 'w') as quickCsvfile:
                 quickWriter.writerow(moveStats)
 
 with open('out/pokemon-move-combinations.csv', 'w') as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=['id', 'fast', 'charge', 'fastIsLegacy', 'chargeIsLegacy'])
+    writer = csv.DictWriter(csvfile, fieldnames=['id', 'pokemonFormId', 'fast', 'charge', 'fastIsLegacy', 'chargeIsLegacy'])
     writer.writeheader()
     moveCombis = []
-    for pokemonId, pokemon in pokemons.items():
-        if pokemonId in legacyMoves:
-            pokemon['quickMoves'] = pokemon['quickMoves'] + legacyMoves[pokemonId]['quickMoves']
-            pokemon['cinematicMoves'] = pokemon['cinematicMoves'] + legacyMoves[pokemonId]['cinematicMoves']
+    for pokemonId, pokemonForms in pokemons.items():
+        for pokemon in pokemonForms:
+            if pokemonId in legacyMoves:
+                pokemon['quickMoves'] = pokemon['quickMoves'] + legacyMoves[pokemonId]['quickMoves']
+                pokemon['cinematicMoves'] = pokemon['cinematicMoves'] + legacyMoves[pokemonId]['cinematicMoves']
 
-        for quickMove in pokemon['quickMoves']:
-            fastIsLegacy = 0
-            if pokemonId in legacyMoves and quickMove in legacyMoves[pokemonId]['quickMoves']:
-                fastIsLegacy = 1
+            for quickMove in pokemon['quickMoves']:
+                fastIsLegacy = 0
+                if pokemonId in legacyMoves and quickMove in legacyMoves[pokemonId]['quickMoves']:
+                    fastIsLegacy = 1
 
-            for chargeMove in pokemon['cinematicMoves']:
-                chargeIsLegacy = 0
-                if pokemonId in legacyMoves and chargeMove in legacyMoves[pokemonId]['cinematicMoves']:
-                    chargeIsLegacy = 1
-                moveCombi = {
-                    'id': pokemonId,
-                    'fast': quickMove,
-                    'charge': chargeMove,
-                    'fastIsLegacy': fastIsLegacy,
-                    'chargeIsLegacy': chargeIsLegacy
-                }
-                writer.writerow(moveCombi)
+                for chargeMove in pokemon['cinematicMoves']:
+                    chargeIsLegacy = 0
+                    if pokemonId in legacyMoves and chargeMove in legacyMoves[pokemonId]['cinematicMoves']:
+                        chargeIsLegacy = 1
+                    moveCombi = {
+                        'id': pokemonId,
+                        'pokemonFormId': (pokemon['pokemonFormId'] if 'pokemonFormId' in pokemon else pokemonId),
+                        'fast': quickMove,
+                        'charge': chargeMove,
+                        'fastIsLegacy': fastIsLegacy,
+                        'chargeIsLegacy': chargeIsLegacy
+                    }
+                    writer.writerow(moveCombi)
