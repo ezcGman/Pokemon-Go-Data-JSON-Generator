@@ -136,10 +136,10 @@ for i in decodedGameMaster.item_templates:
         encounterType = i.pokemon_settings.encounter.movement_type
 
         # Every pokemon that has a form (castform, alola, deoxys, ...) also have a no-form entry, which makes NO SENSE: Those mons don't exist without a form!
-        # Even mons that have an alolan form nove have three entries: normal, alolan and one without any form. the last one MAKES NO SENSE!
-        # But Unown only has one entry... no form entry... So the logic does not apply for Unown...
+        # Even mons that have an alolan form now have three entries: normal, alolan and one without any form. the last one MAKES NO SENSE!
+        # But Unown and Spinda only has one entry... no form entry... So the logic does not apply for Unown...
         # This if will skip the useless entry and only look for the ones with a form
-        if pokemonId != 201 and pokemonId in forms and (not hasattr(i.pokemon_settings, 'form') or i.pokemon_settings.form == 0):
+        if pokemonId not in (201, 327) and pokemonId in forms and (not hasattr(i.pokemon_settings, 'form') or i.pokemon_settings.form == 0):
             continue
 
         quickMoves = []
@@ -364,14 +364,14 @@ for i in decodedGameMaster.item_templates:
             }
             idx += 1
 
-    elif messageHasField(i, 'battle_settings') or messageHasField(i, 'gym_badge_settings') or messageHasField(i, 'gym_level') or messageHasField(i, 'iap_settings') or messageHasField(i, 'pokemon_upgrades') or messageHasField(i, 'quest_settings') or messageHasField(i, 'weather_affinities') or messageHasField(i, 'weather_bonus_settings') or messageHasField(i, 'encounter_settings') or messageHasField(i, 'friendship_milestone_settings'):
+    elif messageHasField(i, 'battle_settings') or messageHasField(i, 'gym_badge_settings') or messageHasField(i, 'gym_level') or messageHasField(i, 'iap_settings') or messageHasField(i, 'pokemon_upgrades') or messageHasField(i, 'quest_settings') or messageHasField(i, 'weather_affinities') or messageHasField(i, 'weather_bonus_settings') or messageHasField(i, 'encounter_settings') or messageHasField(i, 'friendship_milestone_settings') or messageHasField(i, 'lucky_pokemon_settings'):
         jsonObj = MessageToJson(i)
         settings = json.loads(jsonObj)
 
         templateId = settings['templateId']
         del(settings['templateId'])
         settingsKey = list(settings.keys())[0]
-        if 'battleSettings' in settings or 'gymBadgeSettings' in settings or 'iapSettings' in settings or 'pokemonUpgrades' in settings or 'weatherBonusSettings' in settings:
+        if 'battleSettings' in settings or 'gymBadgeSettings' in settings or 'iapSettings' in settings or 'pokemonUpgrades' in settings or 'weatherBonusSettings' in settings or 'luckyPokemonSettings' in settings:
             gameSettings[settingsKey] = settings[settingsKey]
         elif 'questSettings' in settings or 'weatherAffinities' in settings or 'friendshipMilestoneSettings' in settings:
             if settingsKey not in gameSettings:
