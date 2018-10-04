@@ -130,3 +130,4 @@ id,name,type,power,staminaLossScalar,healScalar,durationMs,dmgWindow,damageWindo
 296,Frenzy Plant,12,100.0,0.01,0,2600,2145,2550,4695,0,50
 298,Blast Burn,10,110.0,0.01,0,3300,2750,3200,5950,0,50
 299,Hydro Cannon,11,90.0,0.06,0,1900,500,1600,2100,5,50
+300,Last Resort,1,90.0,0.06,0,2900,2700,2850,5550,5,50

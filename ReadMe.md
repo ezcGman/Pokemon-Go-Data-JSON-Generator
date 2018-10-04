@@ -19,3 +19,12 @@ Simple / dirty / hacky script that generates Pokemon, Moves, Types and Items JSO
 5. Move the generated 'out/pogoprotos' folder to the root of Pokemon-Go-Data-JSON-Generator, so the structure looks like this: 'Pokemon-Go-Data-JSON-Generator/pogoprotos/neworking/...'
 6. Go back to Pokemon-Go-Data-JSON-Generator
 8. `./run.py`
+
+# Legacy Moveset Helper Changelog
+Last change: 2018-10-04:
+- MewTwo legacy moves
+
+Change: 2018-09-17
+- All community days up to Eevee
+- Snorlax Research Breakthrough
+- Bird days

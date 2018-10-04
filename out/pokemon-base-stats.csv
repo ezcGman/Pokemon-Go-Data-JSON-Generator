@@ -405,7 +405,7 @@ id,pokemonFormId,name,form,hp,atk,def,type1,type2,legendary
 383,383,Groudon,,182,270,251,5,,Y
 384,384,Rayquaza,,191,284,170,16,3,Y
 385,385,Jirachi,,200,210,210,9,14,
-386,386-34,Deoxys,Attack,1,1,1,14,,
-386,386-35,Deoxys,Defense,1,1,1,14,,
-386,386-33,Deoxys,Normal,1,1,1,14,,
-386,386-36,Deoxys,Speed,1,1,1,14,,
+386,386-34,Deoxys,Attack,100,414,46,14,,
+386,386-35,Deoxys,Defense,100,144,330,14,,
+386,386-33,Deoxys,Normal,100,345,115,14,,
+386,386-36,Deoxys,Speed,100,230,218,14,,
