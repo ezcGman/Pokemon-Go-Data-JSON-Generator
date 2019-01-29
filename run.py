@@ -13,6 +13,7 @@ from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import SerializeToJsonError
 import csv
 from pprint import pprint
+from copy import deepcopy
 
 
 # Read text CSVs
@@ -83,6 +84,24 @@ def extractFreindshipLevel(extractFrom):
 
     return friendshipLevel
 
+# From https://stackoverflow.com/questions/38987/how-to-merge-two-dictionaries-in-a-single-expression
+def mergeDicts(x, y):
+    z = {}
+
+    if isinstance(x, dict) and isinstance(y, dict):
+        overlappingKeys = x.keys() & y.keys()
+        for key in overlappingKeys:
+            z[key] = mergeDicts(x[key], y[key])
+        for key in x.keys() - overlappingKeys:
+            z[key] = deepcopy(x[key])
+        for key in y.keys() - overlappingKeys:
+            z[key] = deepcopy(y[key])
+    else:
+        z = x if x is not None and y is None else y
+
+    return z
+
+
 # Process messages in GAME_MASTER file
 # First go over them and find all forms
 forms = {}
@@ -100,6 +119,8 @@ for i in decodedGameMaster.item_templates:
                 forms[pokemonId].append(form['form'])
 
 moves = {}
+combatMoveModifiers = {}
+combatMoves = {}
 pokemons = {}
 items = {}
 types = {}
@@ -126,8 +147,39 @@ for i in decodedGameMaster.item_templates:
 
         move['movementId'] = moveId
         move['pokemonType'] = moveType
+        move['energyDelta'] = move.get('energyDelta', 0)
 
         moves[moveId] = move
+
+    elif messageHasField(i, 'combat_move'):
+        moveId = i.combat_move.unique_id
+        moveType = i.combat_move.type
+
+        jsonObj = MessageToJson(i)
+        move = json.loads(jsonObj)['combatMove']
+
+        moveNameKey = 'move_name_{:04d}'.format(moveId)
+        if moveNameKey in movesTexts:
+            move['name'] = movesTexts[moveNameKey]
+        else:
+            # m = re.search('V[0-9]+_MOVE_(.*)', move['uniqueId'])
+            # moveName = m.group(1).replace('_FAST', '').replace('_', ' ').lower().title()
+            moveName = move['uniqueId'].replace('_FAST', '').replace('_', ' ').lower().title()
+            move['name'] = {'en': moveName}
+
+        move['movementId'] = moveId
+        move['pokemonType'] = moveType
+        move['energyDelta'] = move.get('energyDelta', 0)
+
+        # If it's a quick move, 'durationTurns' should be there, but it's missing if it's 1. So add it, but only for quick moves
+        # It's a quick move if energyDelta is > 0 or it's move ID 242 (Transform), which does not add any energy
+        if move['energyDelta'] > 0 or moveId == 242:
+            move['durationTurns'] = move.get('durationTurns', 0)
+
+        del move['uniqueId']
+        del move['type']
+
+        combatMoveModifiers[moveId] = move
 
     # CHECKED
     # WHERE IS LEGENDARY???
@@ -197,6 +249,7 @@ for i in decodedGameMaster.item_templates:
 
         jsonObj = MessageToJson(i)
         pokemon = json.loads(jsonObj)['pokemonSettings']
+        pokemonTplName = pokemon['pokemonId']
 
         pokemonCategoryKey = 'pokemon_category_{:04d}'.format(pokemonId)
         pokemon['category'] = {'en': ''}
@@ -212,16 +265,10 @@ for i in decodedGameMaster.item_templates:
         if pokemonNameKey in pokemonTexts:
             pokemon['name'] = pokemonTexts[pokemonNameKey]
         else:
-            m = re.search('V[0-9]+_POKEMON_(.*)', pokemonId)
-            pokemonName = m.group(1).replace('_', ' ').lower().title()
-            if pokemonId == 29:
-                pokemonName += ' ♀'
-            elif pokemonId == 32:
-                pokemonName += ' ♂'
-
+            m = re.search('V[0-9]+_POKEMON_(.*)', pokemonTplName)
+            pokemonName = pokemonTplName.replace('_male', '♂').replace('_female', '♀').replace('_', ' ').lower().title()
             pokemon['name'] = {'en': pokemonName}
 
-        pokemonTplName = pokemon['pokemonId']
         pokemon['pokemonId'] = pokemonId
         pokemon['familyId'] = familyId
         pokemon['quickMoves'] = quickMoves
@@ -251,6 +298,8 @@ for i in decodedGameMaster.item_templates:
             # If not, check if we have a partial form name (e.g. 'ALOLA' from 'RATTATA_ALOLA')
             elif tplFormName in formTranslations:
                 formName = formTranslations[tplFormName]
+            else:
+                formName = {'en': tplFormName.replace('_', ' ').lower().title()}
 
             pokemon['form'] = formName
             pokemon['pokemonFormId'] = "{:d}-{:d}".format(pokemonId, formId)
@@ -424,10 +473,19 @@ for i in genderSettings:
         for j, pokemon in enumerate(pokemons[i]):
             pokemons[i][j]['genderPossibilities'] = genderSettings[i]
 
+# Merge moves and combat move modifiers
+combatMoves = mergeDicts(moves, combatMoveModifiers)
+# Todo: Delete these keys in all items:
+# del damageWindowEndMs
+# del damageWindowStartMs
+# del durationMs
+
 with open('out/pokemon.json', 'w') as outfile:
     json.dump(pokemons, outfile)
 with open('out/moves.json', 'w') as outfile:
     json.dump(moves, outfile)
+with open('out/combat-moves.json', 'w') as outfile:
+    json.dump(combatMoves, outfile)
 with open('out/types.json', 'w') as outfile:
     json.dump(types, outfile)
 with open('out/badges.json', 'w') as outfile:
@@ -470,9 +528,9 @@ with open('out/types.csv', 'w') as csvfile:
 
 with open('out/pokemon-quick-moves.csv', 'w') as quickCsvfile:
     with open('out/pokemon-charge-moves.csv', 'w') as chargeCsvfile:
-        quickWriter = csv.DictWriter(quickCsvfile, fieldnames=['id', 'name', 'type', 'power', 'staminaLossScalar', 'durationMs', 'dmgWindow', 'damageWindowStartMs', 'damageWindowEndMs', 'energyDelta'])
+        quickWriter = csv.DictWriter(quickCsvfile, fieldnames=['id', 'name', 'type', 'power', 'durationMs', 'energyDelta'])
         quickWriter.writeheader()
-        chargeWriter = csv.DictWriter(chargeCsvfile, fieldnames=['id', 'name', 'type', 'power', 'staminaLossScalar', 'healScalar', 'durationMs', 'dmgWindow', 'damageWindowStartMs', 'damageWindowEndMs', 'criticalChance', 'energyDelta'])
+        chargeWriter = csv.DictWriter(chargeCsvfile, fieldnames=['id', 'name', 'type', 'power', 'durationMs', 'criticalChance', 'energyDelta'])
         chargeWriter.writeheader()
         for moveId, move in moves.items():
             energyDelta = move.get('energyDelta', 0)
@@ -481,23 +539,48 @@ with open('out/pokemon-quick-moves.csv', 'w') as quickCsvfile:
                 'name': move['name']['en'],
                 'type': move['pokemonType'],
                 'power': move.get('power', 0),
-                'staminaLossScalar': round(move.get('staminaLossScalar', 0), 2),
                 'durationMs': move['durationMs'],
-                'dmgWindow': move['damageWindowStartMs'],
-                'damageWindowStartMs': move['damageWindowEndMs'],
-                'damageWindowEndMs': move['damageWindowStartMs'] + move['damageWindowEndMs'],
                 'energyDelta': (energyDelta*-1 if energyDelta < 0 else energyDelta)
             }
 
             # If energy is below 0 (= it costs energy): it's a charge move
-            # Special: Struggle (!33) is the only charge move that has 0 energy consumption :/
+            # Special: Struggle (133) is the only charge move that has 0 energy consumption :/
             if energyDelta < 0 or moveId == 133:
                 moveStats['criticalChance'] = int(move.get('criticalChance', 0)*100)
-                moveStats['healScalar'] = round(move.get('healScalar', 0), 2)
 
                 chargeWriter.writerow(moveStats)
             # If energy is above 0 (= it adds energy): it's a quick move
+            # Special: Transform (242) is the only quick move that adds 0 energy :/
             else:
+                quickWriter.writerow(moveStats)
+
+with open('out/combat-quick-moves.csv', 'w') as cQuickCsvfile:
+    with open('out/combat-charge-moves.csv', 'w') as cChargeCsvfile:
+        quickWriter = csv.DictWriter(cQuickCsvfile, fieldnames=['id', 'name', 'type', 'power', 'energyDelta', 'durationTurns'])
+        quickWriter.writeheader()
+        chargeWriter = csv.DictWriter(cChargeCsvfile, fieldnames=['id', 'name', 'type', 'power', 'energyDelta', 'criticalChance'])
+        chargeWriter.writeheader()
+        for moveId, move in combatMoves.items():
+            energyDelta = move.get('energyDelta', 0)
+            moveStats = {
+                'id': moveId,
+                'name': move['name']['en'],
+                'type': move['pokemonType'],
+                'power': move.get('power', 0),
+                'energyDelta': (energyDelta*-1 if energyDelta < 0 else energyDelta)
+            }
+
+            # If energy is below 0 (= it costs energy): it's a charge move
+            # Special: Struggle (133) is the only charge move that has 0 energy consumption :/
+            if energyDelta < 0 or moveId == 133:
+                moveStats['criticalChance'] = int(move.get('criticalChance', 0)*100)
+
+                chargeWriter.writerow(moveStats)
+            # If energy is above 0 (= it adds energy): it's a quick move
+            # Special: Transform (242) is the only quick move that adds 0 energy :/
+            else:
+                moveStats['durationTurns'] = move['durationTurns']
+
                 quickWriter.writerow(moveStats)
 
 with open('out/pokemon-move-combinations.csv', 'w') as csvfile:

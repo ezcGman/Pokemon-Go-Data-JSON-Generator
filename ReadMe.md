@@ -21,10 +21,18 @@ Simple / dirty / hacky script that generates Pokemon, Moves, Types and Items JSO
 8. `./run.py`
 
 # Legacy Moveset Helper Changelog
-Last change: 2018-10-04:
-- MewTwo legacy moves
+Last change, 2019-01-29:
+- Hoenn Event: Breloom
 
-Change: 2018-09-17
+Change, 2018-11-15:
+- November Community Day: Totodile
+
+Change, 2018-11-15:
+- October Community Day: Beldum
+- November Community Day: Cyndaquill
+
+Change, 2018-09-17:
+- MewTwo legacy moves
 - All community days up to Eevee
 - Snorlax Research Breakthrough
 - Bird days
