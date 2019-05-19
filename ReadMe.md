@@ -21,15 +21,23 @@ Simple / dirty / hacky script that generates Pokemon, Moves, Types and Items JSO
 8. `./run.py`
 
 # Legacy Moveset Helper Changelog
-Last change, 2019-01-29:
+Last change, 2019-04-10:
+- April Community Day: Bagon/Salamence (Outrage)
+- May Community Day: Torchic/Blaziken (Blast Burn)
+
+Change, 2019-04-10:
+- February Community Day: Swinub/Mamoswine
+- March Community Day: Treecko/Sceptile
+
+Change, 2019-01-29:
 - Hoenn Event: Breloom
 
 Change, 2018-11-15:
-- November Community Day: Totodile
+- January Community Day: Totodile/Feraligatr
 
 Change, 2018-11-15:
-- October Community Day: Beldum
-- November Community Day: Cyndaquill
+- October Community Day: Beldum/Metagross
+- November Community Day: Cyndaquil/Typhlosion
 
 Change, 2018-09-17:
 - MewTwo legacy moves
