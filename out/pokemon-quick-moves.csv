@@ -1,65 +1,77 @@
-id,name,type,power,durationMs,energyDelta
-200,Fury Cutter,7,3.0,400,6
-201,Bug Bite,7,5.0,500,6
-202,Bite,17,6.0,500,4
-203,Sucker Punch,17,7.0,700,8
-204,Dragon Breath,16,6.0,500,4
-205,Thunder Shock,13,5.0,600,8
-206,Spark,13,6.0,700,9
-207,Low Kick,2,6.0,600,6
-208,Karate Chop,2,8.0,800,10
-209,Ember,10,10.0,1000,10
-210,Wing Attack,3,8.0,800,9
-211,Peck,3,10.0,1000,10
-212,Lick,8,5.0,500,6
-213,Shadow Claw,8,9.0,700,6
-214,Vine Whip,12,7.0,600,6
-215,Razor Leaf,12,13.0,1000,7
-216,Mud Shot,5,5.0,600,7
-217,Ice Shard,15,12.0,1200,12
-218,Frost Breath,15,10.0,900,8
-219,Quick Attack,1,8.0,800,10
-220,Scratch,1,6.0,500,4
-221,Tackle,1,5.0,500,5
-222,Pound,1,7.0,600,6
-223,Cut,1,5.0,500,5
-224,Poison Jab,4,10.0,800,7
-225,Acid,4,9.0,800,8
-226,Psycho Cut,14,5.0,600,8
-227,Rock Throw,6,12.0,900,7
-228,Metal Claw,9,8.0,700,7
-229,Bullet Punch,9,9.0,900,10
-230,Water Gun,11,5.0,500,5
-231,Splash,11,0,1730,20
-232,Water Gun,11,10.0,1000,6
-233,Mud-Slap,5,15.0,1400,12
-234,Zen Headbutt,14,12.0,1100,10
-235,Confusion,14,20.0,1600,15
-236,Poison Sting,4,5.0,600,7
-237,Bubble,11,12.0,1200,14
-238,Feint Attack,17,10.0,900,9
-239,Steel Wing,9,11.0,800,6
-240,Fire Fang,10,11.0,900,8
-241,Rock Smash,2,15.0,1300,10
-242,Transform,1,0,2230,0
-243,Counter,2,12.0,900,8
-244,Powder Snow,15,6.0,1000,15
-249,Charge Beam,13,8.0,1100,15
-250,Volt Switch,13,20.0,2300,25
-253,Dragon Tail,16,15.0,1100,9
-255,Air Slash,3,14.0,1200,10
-260,Infestation,7,10.0,1100,14
-261,Struggle Bug,7,15.0,1500,15
-263,Astonish,8,8.0,1100,14
-264,Hex,8,10.0,1200,15
-266,Iron Tail,9,15.0,1100,7
-269,Fire Spin,10,14.0,1100,10
-271,Bullet Seed,12,8.0,1100,14
-274,Extrasensory,14,12.0,1100,12
-278,Snarl,17,12.0,1100,12
-281,Hidden Power,1,15.0,1500,15
-282,Take Down,1,8.0,1200,10
-283,Waterfall,11,16.0,1200,8
-287,Yawn,1,0,1700,15
-291,Present,1,5.0,1300,20
-297,Smack Down,6,16.0,1200,8
+id,name-en,name-ja,name-fr,name-es,name-de,name-it,name-ko,name-zh-tw,name-pt-br,type,power,durationMs,energyDelta
+200,Fury Cutter,れんぞくぎり,Taillade,Corte Furia,Zornklinge,Tagliofuria,연속자르기,連斬,Cortador de Fúria,7,3.0,400,6
+201,Bug Bite,むしくい,Piqûre,Picadura,Käferbiss,Coleomorso,벌레먹음,蟲咬,Picada,7,5.0,500,6
+202,Bite,かみつく,Morsure,Mordisco,Biss,Morso,물기,咬住,Mordida,17,6.0,500,4
+203,Sucker Punch,ふいうち,Coup Bas,Golpe Bajo,Tiefschlag,Sbigoattacco,기습,突襲,Soco Enganador,17,7.0,700,8
+204,Dragon Breath,りゅうのいぶき,Draco-Souffle,Dragoaliento,Feuerodem,Dragospiro,용의숨결,龍息,Sopro do Dragão,16,6.0,500,4
+205,Thunder Shock,でんきショック,Éclair,Impactrueno,Donnerschock,Tuonoshock,전기쇼크,電擊,Trovoada de Choques,13,5.0,600,8
+206,Spark,スパーク,Étincelle,Chispa,Funkensprung,Scintilla,스파크,電光,Faísca,13,6.0,700,9
+207,Low Kick,けたぐり,Balayage,Patada Baja,Fußkick,Colpo Basso,안다리걸기,踢倒,Rasteira,2,6.0,600,6
+208,Karate Chop,からてチョップ,Poing Karaté,Golpe Kárate,Karateschlag,Colpokarate,태권당수,空手劈,Golpe de Caratê,2,8.0,800,10
+209,Ember,ひのこ,Flammèche,Ascuas,Glut,Braciere,불꽃세례,火花,Brasa,10,10.0,1000,10
+210,Wing Attack,つばさでうつ,Cru-Ailes,Ataque Ala,Flügelschlag,Attacco d’Ala,날개치기,翅膀攻擊,Ataque de Asa,3,8.0,800,9
+211,Peck,つつく,Picpic,Picotazo,Pikser,Beccata,쪼기,啄,Bicada,3,10.0,1000,10
+212,Lick,したでなめる,Léchouille,Lengüetazo,Schlecker,Leccata,핥기,舌舔,Lambida,8,5.0,500,6
+213,Shadow Claw,シャドークロー,Griffe Ombre,Garra Umbría,Dunkelklaue,Ombrartigli,섀도크루,暗影爪,Garra Sombria,8,9.0,700,6
+214,Vine Whip,つるのムチ,Fouet Lianes,Látigo Cepa,Rankenhieb,Frustata,덩굴채찍,藤鞭,Chicote de Vinha,12,7.0,600,6
+215,Razor Leaf,はっぱカッター,Tranch’Herbe,Hoja Afilada,Rasierblatt,Foglielama,잎날가르기,飛葉快刀,Folha Navalha,12,13.0,1000,7
+216,Mud Shot,マッドショット,Tir de Boue,Disparo Lodo,Lehmschuss,Colpodifango,머드숏,泥巴射擊,Tiro de Lama,5,5.0,600,7
+217,Ice Shard,こおりのつぶて,Éclats Glace,Canto Helado,Eissplitter,Geloscheggia,얼음뭉치,冰礫,Caco de Gelo,15,12.0,1200,12
+218,Frost Breath,こおりのいぶき,Souffle Glacé,Vaho Gélido,Eisesodem,Alitogelido,얼음숨결,冰息,Respiração de Gelo,15,10.0,900,8
+219,Quick Attack,でんこうせっか,Vive-Attaque,Ataque Rápido,Ruckzuckhieb,Attacco Rapido,전광석화,電光一閃,Ataque Rápido,1,8.0,800,10
+220,Scratch,ひっかく,Griffe,Arañazo,Kratzer,Graffio,할퀴기,抓,Arranhão,1,6.0,500,4
+221,Tackle,たいあたり,Charge,Placaje,Tackle,Azione,몸통박치기,撞擊,Investida,1,5.0,500,5
+222,Pound,はたく,Écras’Face,Destructor,Klaps,Botta,막치기,拍擊,Pancada,1,7.0,600,6
+223,Cut,いあいぎり,Coupe,Corte,Zerschneider,Taglio,풀베기,居合斬,Cortar,1,5.0,500,5
+224,Poison Jab,どくづき,Direct Toxik,Puya Nociva,Gifthieb,Velenpuntura,독찌르기,毒擊,Golpe Envenenado,4,10.0,800,7
+225,Acid,ようかいえき,Acide,Ácido,Säure,Acido,용해액,溶解液,Ácido,4,9.0,800,8
+226,Psycho Cut,サイコカッター,Coupe Psycho,Psicocorte,Psychoklinge,Psicotaglio,사이코커터,精神利刃,Corte Psíquico,14,5.0,600,8
+227,Rock Throw,いわおとし,Jet-Pierres,Lanzarrocas,Steinwurf,Sassata,돌떨구기,落石,Lançamento de Rocha,6,12.0,900,7
+228,Metal Claw,メタルクロー,Griffe Acier,Garra Metal,Metallklaue,Ferrartigli,메탈크로우,金屬爪,Garra de Metal,9,8.0,700,7
+229,Bullet Punch,バレットパンチ,Pisto-Poing,Puño Bala,Patronenhieb,Pugnoscarica,불릿펀치,子彈拳,Soco Projétil,9,9.0,900,10
+230,Water Gun,みずでっぽう,Pistolet à O,Pistola Agua,Aquaknarre,Pistolacqua,물대포,水槍,Revólver d'Água,11,5.0,500,5
+231,Splash,はねる,Trempette,Salpicadura,Platscher,Splash,튀어오르기,躍起,Borrifada,11,0,1730,20
+232,Water Gun,みずでっぽう,Pistolet à O,Pistola Agua,Aquaknarre,Pistolacqua,물대포,水槍,Revólver d'Água,11,10.0,1000,6
+233,Mud-Slap,どろかけ,Coud’Boue,Bofetón Lodo,Lehmschelle,Fangosberla,진흙뿌리기,擲泥,Tapa de Lama,5,18.0,1400,12
+234,Zen Headbutt,しねんのずつき,Psykoud’Boul,Cabezazo Zen,Zen-Kopfstoß,Cozzata Zen,사념의박치기,意念頭錘,Cabeçada Zen,14,12.0,1100,10
+235,Confusion,ねんりき,Choc Mental,Confusión,Konfusion,Confusione,염동력,念力,Confusão,14,20.0,1600,15
+236,Poison Sting,どくばり,Dard-Venin,Picotazo Veneno,Giftstachel,Velenospina,독침,毒針,Ferrão Venenoso,4,5.0,600,7
+237,Bubble,あわ,Écume,Burbuja,Blubber,Bolla,거품,泡沫,Bolha,11,12.0,1200,14
+238,Feint Attack,だましうち,Feinte,Finta,Finte,Finta,속여때리기,出奇一擊,Ataque Dissimulado,17,10.0,900,9
+239,Steel Wing,はがねのつばさ,Ailes d’Acier,Ala de Acero,Stahlflügel,Alacciaio,강철날개,鋼翼,Asa de Aço,9,11.0,800,6
+240,Fire Fang,ほのおのキバ,Crocs Feu,Colmillo Ígneo,Feuerzahn,Rogodenti,불꽃엄니,火焰牙,Presas de Fogo,10,12.0,900,8
+241,Rock Smash,いわくだき,Éclate-Roc,Golpe Roca,Zertrümmerer,Spaccaroccia,바위깨기,碎岩,Esmagamento de Pedras,2,15.0,1300,10
+242,Transform,へんしん,Morphing,Transformación,Wandler,Trasformazione,변신,變身,Transformação,1,0,2230,0
+243,Counter,カウンター,Riposte,Contraataque,Konter,Contrattacco,카운터,雙倍奉還,Contra-atacar,2,12.0,900,8
+244,Powder Snow,こなゆき,Poudreuse,Nieve Polvo,Pulverschnee,Polneve,눈싸라기,細雪,Neve em Pó,15,6.0,1000,15
+249,Charge Beam,チャージビーム,Rayon Chargé,Rayo Carga,Ladestrahl,Raggioscossa,차지빔,充電光束,Carga de Raio,13,8.0,1100,15
+250,Volt Switch,ボルトチェンジ,Change Éclair,Voltiocambio,Voltwechsel,Invertivolt,볼트체인지,伏特替換,Troca Elétrica,13,14.0,1600,21
+253,Dragon Tail,ドラゴンテール,Draco-Queue,Cola Dragón,Drachenrute,Codadrago,드래곤테일,龍尾,Cauda do Dragão,16,15.0,1100,9
+255,Air Slash,エアスラッシュ,Lame d’Air,Tajo Aéreo,Luftschnitt,Eterelama,에어슬래시,空氣斬,Golpe de Ar,3,14.0,1200,10
+260,Infestation,まとわりつく,Harcèlement,Acoso,Plage,Assillo,엉겨붙기,死纏爛打,Infestação,7,10.0,1100,14
+261,Struggle Bug,むしのていこう,Survinsecte,Estoicismo,Käfertrutz,Entomoblocco,벌레의저항,蟲之抵抗,Ira de Inseto,7,15.0,1500,15
+263,Astonish,おどろかす,Étonnement,Impresionar,Erstauner,Sgomento,놀래키기,驚嚇,Abismar,8,8.0,1100,14
+264,Hex,たたりめ,Châtiment,Infortunio,Bürde,Sciagura,병상첨병,禍不單行,Feitiço,8,10.0,1200,15
+266,Iron Tail,アイアンテール,Queue de Fer,Cola Férrea,Eisenschweif,Codacciaio,아이언테일,鐵尾,Cauda de Ferro,9,15.0,1100,7
+269,Fire Spin,ほのおのうず,Danse Flammes,Giro Fuego,Feuerwirbel,Turbofuoco,회오리불꽃,火焰旋渦,Chama Furacão,10,14.0,1100,10
+271,Bullet Seed,タネマシンガン,Balle Graine,Semilladora,Kugelsaat,Semitraglia,기관총,種子機關槍,Projétil de Semente,12,8.0,1100,14
+274,Extrasensory,じんつうりき,Extrasenseur,Paranormal,Sondersensor,Extrasenso,신통력,神通力,Extrassensorial,14,12.0,1100,12
+278,Snarl,バークアウト,Aboiement,Alarido,Standpauke,Urlorabbia,바크아웃,大聲咆哮,Rosnado,17,12.0,1100,14
+281,Hidden Power,めざめるパワー,Puissance Cachée,Poder Oculto,Kraftreserve,Introforza,잠재파워,覺醒力量,Poder Oculto,1,15.0,1500,15
+282,Take Down,とっしん,Bélier,Derribo,Bodycheck,Riduttore,돌진,猛撞,Desmantelar,1,8.0,1200,10
+283,Waterfall,たきのぼり,Cascade,Cascada,Kaskade,Cascata,폭포오르기,攀瀑,Cachoeira,11,16.0,1200,8
+287,Yawn,あくび,Bâillement,Bostezo,Gähner,Sbadiglio,하품,哈欠,Bocejo,1,0,1700,15
+291,Present,プレゼント,Cadeau,Presente,Geschenk,Regalino,프레젠트,禮物,Presente,1,5.0,1300,20
+297,Smack Down,うちおとす,Anti-Air,Antiaéreo,Katapult,Abbattimento,떨어뜨리기,擊落,Derrubada,6,16.0,1200,8
+306,Lunge,とびかかる,Furie-Bond,Plancha,Anfallen,Assalto,덤벼들기,猛撲,Estocada,7,0,2900,0
+307,Crush Claw,ブレイククロー,Éclate Griffe,Garra Brutal,Zermalmklaue,Tritartigli,브레이크크루,撕裂爪,Garra Esmagadora,1,0,1900,0
+313,Leech Life,きゅうけつ,Vampirisme,Chupavidas,Blutsauger,Sanguisuga,흡혈,吸血,Suga-vidas,7,0,2500,0
+314,Drain Punch,ドレインパンチ,Vampi-Poing,Puño Drenaje,Ableithieb,Assorbipugno,드레인펀치,吸取拳,Soco Dreno,2,0,2400,0
+315,Shadow Bone,シャドーボーン,Os Ombre,Hueso Sombrío,Schattenknochen,Ossotetro,섀도본,暗影之骨,Osso Sombrio,8,0,2800,0
+318,Razor Shell,シェルブレード,Coqui-Lame,Concha Filo,Kalkklinge,Conchilama,셸블레이드,貝殼刃,Concha Navalha,11,0,1300,0
+320,Charm,あまえる,Charme,Encanto,Charme,Fascino,애교부리기,撒嬌,Encantar,18,20.0,1500,11
+325,Lock-On,ロックオン,Verrouillage,Fijar Blanco,Zielschuss,Localizza,록온,鎖定,Mirar,1,1.0,300,6
+326,Thunder Fang,かみなりのキバ,Crocs Éclair,Colmillo Rayo,Donnerzahn,Fulmindenti,번개엄니,雷電牙,Presa Trovejante,13,12.0,1200,16
+327,Ice Fang,こおりのキバ,Crocs Givre,Colmillo Hielo,Eiszahn,Gelodenti,얼음엄니,冰凍牙,Presa de Gelo,15,12.0,1500,20
+328,Horn Drill,つのドリル,Empal'Korne,Perforador,Hornbohrer,Perforcorno,뿔드릴,角鑽,Chifre Broca,1,0,1900,0
+329,Fissure,じわれ,Abîme,Fisura,Geofissur,Abisso,땅가르기,地裂,Fissura,5,0,2800,0

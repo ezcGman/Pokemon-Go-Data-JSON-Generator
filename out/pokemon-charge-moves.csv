@@ -1,134 +1,154 @@
-id,name,type,power,durationMs,criticalChance,energyDelta
-13,Wrap,1,60.0,2900,5,33
-14,Hyper Beam,1,150.0,3800,5,100
-16,Dark Pulse,17,80.0,3000,5,50
-18,Sludge,4,50.0,2100,5,33
-20,Vice Grip,1,35.0,1900,5,33
-21,Flame Wheel,10,60.0,2700,5,50
-22,Megahorn,7,90.0,2200,5,100
-24,Flamethrower,10,70.0,2200,5,50
-26,Dig,5,100.0,4700,5,50
-28,Cross Chop,2,50.0,1500,25,50
-30,Psybeam,14,70.0,3200,5,50
-31,Earthquake,5,120.0,3600,5,100
-32,Stone Edge,6,100.0,2300,50,100
-33,Ice Punch,15,50.0,1900,5,33
-34,Heart Stamp,14,40.0,1900,5,33
-35,Discharge,13,65.0,2500,5,33
-36,Flash Cannon,9,100.0,2700,5,100
-38,Drill Peck,3,60.0,2300,5,33
-39,Ice Beam,15,90.0,3300,5,50
-40,Blizzard,15,130.0,3100,5,100
-42,Heat Wave,10,95.0,3000,5,100
-45,Aerial Ace,3,55.0,2400,5,33
-46,Drill Run,5,80.0,2800,25,50
-47,Petal Blizzard,12,110.0,2600,5,100
-48,Mega Drain,12,25.0,2600,5,50
-49,Bug Buzz,7,90.0,3700,5,50
-50,Poison Fang,4,35.0,1700,5,33
-51,Night Slash,17,50.0,2200,25,33
-53,Bubble Beam,11,45.0,1900,5,33
-54,Submission,2,60.0,2200,5,50
-56,Low Sweep,2,40.0,1900,5,33
-57,Aqua Jet,11,45.0,2600,5,33
-58,Aqua Tail,11,50.0,1900,5,33
-59,Seed Bomb,12,55.0,2100,5,33
-60,Psyshock,14,65.0,2700,5,33
-62,Ancient Power,6,70.0,3500,5,33
-63,Rock Tomb,6,70.0,3200,25,50
-64,Rock Slide,6,80.0,2700,5,50
-65,Power Gem,6,80.0,2900,5,50
-66,Shadow Sneak,8,50.0,2900,5,33
-67,Shadow Punch,8,40.0,1700,5,33
-69,Ominous Wind,8,50.0,2300,5,33
-70,Shadow Ball,8,100.0,3000,5,50
-72,Magnet Bomb,9,70.0,2800,5,33
-74,Iron Head,9,60.0,1900,5,50
-75,Parabolic Charge,13,25.0,2800,5,50
-77,Thunder Punch,13,45.0,1800,5,33
-78,Thunder,13,100.0,2400,5,100
-79,Thunderbolt,13,80.0,2500,5,50
-80,Twister,16,45.0,2800,5,33
-82,Dragon Pulse,16,90.0,3600,5,50
-83,Dragon Claw,16,50.0,1700,25,33
-84,Disarming Voice,18,70.0,3900,5,33
-85,Draining Kiss,18,60.0,2600,5,50
-86,Dazzling Gleam,18,100.0,3500,5,50
-87,Moonblast,18,130.0,3900,5,100
-88,Play Rough,18,90.0,2900,5,50
-89,Cross Poison,4,40.0,1500,25,33
-90,Sludge Bomb,4,80.0,2300,5,50
-91,Sludge Wave,4,110.0,3200,5,100
-92,Gunk Shot,4,130.0,3100,5,100
-94,Bone Club,5,40.0,1600,5,33
-95,Bulldoze,5,80.0,3500,5,50
-96,Mud Bomb,5,55.0,2300,5,33
-99,Signal Beam,7,75.0,2900,5,50
-100,X-Scissor,7,45.0,1600,5,33
-101,Flame Charge,10,70.0,3800,5,33
-102,Flame Burst,10,70.0,2600,5,50
-103,Fire Blast,10,140.0,4200,5,100
-104,Brine,11,60.0,2300,5,50
-105,Water Pulse,11,70.0,3200,5,50
-106,Scald,11,80.0,3700,5,50
-107,Hydro Pump,11,130.0,3300,5,100
-108,Psychic,14,100.0,2800,5,100
-109,Psystrike,14,100.0,4400,5,50
-111,Icy Wind,15,60.0,3300,5,33
-114,Giga Drain,12,50.0,3900,5,100
-115,Fire Punch,10,55.0,2200,5,33
-116,Solar Beam,12,180.0,4900,5,100
-117,Leaf Blade,12,70.0,2400,25,33
-118,Power Whip,12,90.0,2600,0,50
-121,Air Cutter,3,60.0,2700,25,50
-122,Hurricane,3,110.0,2700,5,100
-123,Brick Break,2,40.0,1600,25,33
-125,Swift,1,60.0,2800,5,50
-126,Horn Attack,1,40.0,1850,5,33
-127,Stomp,1,55.0,1700,5,50
-129,Hyper Fang,1,80.0,2500,5,50
-131,Body Slam,1,50.0,1900,5,33
-132,Rest,1,50.0,1900,0,33
-133,Struggle,1,35.0,2200,0,0
-134,Scald,11,50.0,4700,5,100
-135,Hydro Pump,11,90.0,4500,5,100
-136,Wrap,1,25.0,2900,5,33
-137,Wrap,1,25.0,2900,5,33
-245,Close Combat,2,100.0,2300,5,100
-246,Dynamic Punch,2,90.0,2700,5,50
-247,Focus Blast,2,140.0,3500,5,100
-248,Aurora Beam,15,80.0,3550,5,50
-251,Wild Charge,13,90.0,2600,5,50
-252,Zap Cannon,13,140.0,3700,5,100
-254,Avalanche,15,90.0,2700,5,50
-256,Brave Bird,3,90.0,2000,5,100
-257,Sky Attack,3,80.0,2000,5,50
-258,Sand Tomb,5,80.0,4000,5,50
-259,Rock Blast,6,50.0,2100,5,33
-262,Silver Wind,7,70.0,3700,5,33
-265,Night Shade,8,60.0,2600,5,50
-267,Gyro Ball,9,80.0,3300,5,50
-268,Heavy Slam,9,70.0,2100,5,50
-270,Overheat,10,160.0,4000,5,100
-272,Grass Knot,12,90.0,2600,5,50
-273,Energy Ball,12,90.0,3900,5,50
-275,Future Sight,14,120.0,2700,5,100
-276,Mirror Coat,14,60.0,2600,5,50
-277,Outrage,16,110.0,3900,5,50
-279,Crunch,17,70.0,3200,5,33
-280,Foul Play,17,70.0,2000,5,50
-284,Surf,11,65.0,1700,0,50
-285,Draco Meteor,16,150.0,3600,0,100
-286,Doom Desire,9,80.0,1700,0,50
-288,Psycho Boost,14,70.0,4000,0,50
-289,Origin Pulse,11,130.0,1700,0,100
-290,Precipice Blades,5,130.0,1700,0,100
-292,Weather Ball,10,60.0,1600,0,33
-293,Weather Ball,15,60.0,1600,0,33
-294,Weather Ball,6,60.0,1600,0,33
-295,Weather Ball,11,60.0,1600,0,33
-296,Frenzy Plant,12,100.0,2600,0,50
-298,Blast Burn,10,110.0,3300,0,50
-299,Hydro Cannon,11,90.0,1900,5,50
-300,Last Resort,1,90.0,2900,5,50
-301,Meteor Mash,9,100.0,2600,5,50
+id,name-en,name-ja,name-fr,name-es,name-de,name-it,name-ko,name-zh-tw,name-pt-br,type,power,durationMs,criticalChance,energyDelta
+13,Wrap,まきつく,Ligotage,Constricción,Wickel,Avvolgibotta,김밥말이,緊束,Embrulho,1,60.0,2900,5,33
+14,Hyper Beam,はかいこうせん,Ultralaser,Hiperrayo,Hyperstrahl,Iper Raggio,파괴광선,破壞光線,Hiper-raio,1,150.0,3800,5,100
+16,Dark Pulse,あくのはどう,Vibrobscur,Pulso Umbrío,Finsteraura,Neropulsar,악의파동,惡之波動,Pulso Sombrio,17,80.0,3000,5,50
+18,Sludge,ヘドロこうげき,Détritus,Residuos,Schlammbad,Fango,오물공격,污泥攻擊,Ataque de Lama,4,50.0,2100,5,33
+20,Vise Grip,はさむ,Force Poigne,Agarre,Klammer,Presa,찝기,夾住,Agarramento Compressor,1,35.0,1900,5,33
+21,Flame Wheel,かえんぐるま,Roue de Feu,Rueda Fuego,Flammenrad,Ruotafuoco,화염자동차,火焰輪,Roda de Fogo,10,60.0,2700,5,50
+22,Megahorn,メガホーン,Mégacorne,Megacuerno,Vielender,Megacorno,메가폰,超級角擊,Megachifre,7,110.0,2200,5,100
+24,Flamethrower,かえんほうしゃ,Lance-Flammes,Lanzallamas,Flammenwurf,Lanciafiamme,화염방사,噴射火焰,Lança-chamas,10,70.0,2200,5,50
+26,Dig,あなをほる,Tunnel,Excavar,Schaufler,Fossa,구멍파기,挖洞,Cavar,5,100.0,4700,5,50
+28,Cross Chop,クロスチョップ,Coup Croix,Tajo Cruzado,Kreuzhieb,Incrocolpo,크로스촙,十字劈,Golpe Cruzado,2,50.0,1500,25,50
+30,Psybeam,サイケこうせん,Rafale Psy,Psicorrayo,Psystrahl,Psicoraggio,환상빔,幻象光線,Feixe Psíquico,14,70.0,3200,5,50
+31,Earthquake,じしん,Séisme,Terremoto,Erdbeben,Terremoto,지진,地震,Terremoto,5,140.0,3600,5,100
+32,Stone Edge,ストーンエッジ,Lame de Roc,Roca Afilada,Steinkante,Pietrataglio,스톤에지,尖石攻擊,Gume de Pedra,6,100.0,2300,50,100
+33,Ice Punch,れいとうパンチ,Poing Glace,Puño Hielo,Eishieb,Gelopugno,냉동펀치,冰凍拳,Soco de Gelo,15,50.0,1900,5,33
+34,Heart Stamp,ハートスタンプ,Crève-Cœur,Arrumaco,Herzstempel,Cuorestampo,하트스탬프,愛心印章,Estampa de Coração,14,40.0,1900,5,33
+35,Discharge,ほうでん,Coup d’Jus,Chispazo,Ladungsstoß,Scarica,방전,放電,Descarga,13,65.0,2500,5,33
+36,Flash Cannon,ラスターカノン,Luminocanon,Foco Resplandor,Lichtkanone,Cannonflash,러스터캐논,加農光炮,Canhão de Flash,9,100.0,2700,5,100
+38,Drill Peck,ドリルくちばし,Bec Vrille,Pico Taladro,Bohrschnabel,Perforbecco,회전부리,啄鑽,Bico Broca,3,60.0,2300,5,33
+39,Ice Beam,れいとうビーム,Laser Glace,Rayo Hielo,Eisstrahl,Geloraggio,냉동빔,冰凍光束,Raio Congelante,15,90.0,3300,5,50
+40,Blizzard,ふぶき,Blizzard,Ventisca,Blizzard,Bora,눈보라,暴風雪,Nevasca,15,130.0,3100,5,100
+42,Heat Wave,ねっぷう,Canicule,Onda Ígnea,Hitzewelle,Ondacalda,열풍,熱風,Onda de Calor,10,95.0,3000,5,100
+45,Aerial Ace,つばめがえし,Aéropique,Golpe Aéreo,Aero-Ass,Aeroassalto,제비반환,燕返,Ás dos Ares,3,55.0,2400,5,33
+46,Drill Run,ドリルライナー,Tunnelier,Taladradora,Schlagbohrer,Giravvita,드릴라이너,直衝鑽,Furação,5,80.0,2800,25,50
+47,Petal Blizzard,はなふぶき,Tempête Florale,Tormenta Floral,Blütenwirbel,Fiortempesta,꽃보라,落英繽紛,Nevasca de Pétalas,12,110.0,2600,5,100
+48,Mega Drain,メガドレイン,Méga-Sangsue,Megaagotar,Megasauger,Megassorbimento,메가드레인,超級吸取,Megadreno,12,25.0,2600,5,50
+49,Bug Buzz,むしのさざめき,Bourdon,Zumbido,Käfergebrumm,Ronzio,벌레의야단법석,蟲鳴,Zumbido de Inseto,7,90.0,3700,5,50
+50,Poison Fang,どくどくのキバ,Crochet Venin,Colmillo Veneno,Giftzahn,Velenodenti,독엄니,劇毒牙,Presa Venenosa,4,35.0,1700,5,33
+51,Night Slash,つじぎり,Tranche-Nuit,Tajo Umbrío,Nachthieb,Nottesferza,깜짝베기,暗襲要害,Talho Noturno,17,50.0,2200,25,33
+53,Bubble Beam,バブルこうせん,Bulles d’O,Rayo Burbuja,Blubbstrahl,Bollaraggio,거품광선,泡沫光線,Jato de Bolhas,11,45.0,1900,5,33
+54,Submission,じごくぐるま,Sacrifice,Sumisión,Überroller,Sottomissione,지옥의바퀴,地獄翻滾,Submissão,2,60.0,2200,5,50
+56,Low Sweep,ローキック,Balayette,Puntapié,Fußtritt,Calciobasso,로킥,下盤踢,Movimento Baixo,2,40.0,1900,5,33
+57,Aqua Jet,アクアジェット,Aqua-Jet,Acua Jet,Wasserdüse,Acquagetto,아쿠아제트,水流噴射,Aqua Jato,11,45.0,2600,5,33
+58,Aqua Tail,アクアテール,Hydro-Queue,Acua Cola,Nassschweif,Idrondata,아쿠아테일,水流尾,Aqua Cauda,11,50.0,1900,5,33
+59,Seed Bomb,タネばくだん,Canon Graine,Bomba Germen,Samenbomben,Semebomba,씨폭탄,種子炸彈,Bomba de Sementes,12,55.0,2100,5,33
+60,Psyshock,サイコショック,Choc Psy,Psicocarga,Psychoschock,Psicoshock,사이코쇼크,精神衝擊,Choque Psíquico,14,65.0,2700,5,33
+62,Ancient Power,げんしのちから,Pouvoir Antique,Poder Pasado,Antik-Kraft,Forzantica,원시의힘,原始之力,Poder Ancestral,6,70.0,3500,5,33
+63,Rock Tomb,がんせきふうじ,Tomberoche,Tumba Rocas,Felsgrab,Rocciotomba,암석봉인,岩石封鎖,Tumba de Rochas,6,70.0,3200,25,50
+64,Rock Slide,いわなだれ,Éboulement,Avalancha,Steinhagel,Frana,스톤샤워,岩崩,Deslize de Pedras,6,80.0,2700,5,50
+65,Power Gem,パワージェム,Rayon Gemme,Joya de Luz,Juwelenkraft,Gemmoforza,파워젬,力量寶石,Gema Poderosa,6,80.0,2900,5,50
+66,Shadow Sneak,かげうち,Ombre Portée,Sombra Vil,Schattenstoß,Furtivombra,야습,影子偷襲,Furtividade nas Sombras,8,50.0,2900,5,33
+67,Shadow Punch,シャドーパンチ,Poing Ombre,Puño Sombra,Finsterfaust,Pugnodombra,섀도펀치,暗影拳,Soco Sombrio,8,40.0,1700,5,33
+69,Ominous Wind,あやしいかぜ,Vent Mauvais,Viento Aciago,Unheilböen,Funestovento,괴상한바람,奇異之風,Vento Ominoso,8,50.0,2300,5,33
+70,Shadow Ball,シャドーボール,Ball’Ombre,Bola Sombra,Spukball,Palla Ombra,섀도볼,暗影球,Bola Sombria,8,100.0,3000,5,50
+72,Magnet Bomb,マグネットボム,Bombe Aimant,Bomba Imán,Magnetbombe,Bombagnete,마그넷봄,磁鐵炸彈,Bomba Ímã,9,70.0,2800,5,33
+74,Iron Head,アイアンヘッド,Tête de Fer,Cabeza de Hierro,Eisenschädel,Metaltestata,아이언헤드,鐵頭,Cabeça de Ferro,9,60.0,1900,5,50
+75,Parabolic Charge,パラボラチャージ,Parabocharge,Carga Parábola,Parabolladung,Caricaparabola,파라볼라차지,拋物面充電,Ataque Parabólico,13,25.0,2800,5,50
+77,Thunder Punch,かみなりパンチ,Poing Éclair,Puño Trueno,Donnerschlag,Tuonopugno,번개펀치,雷電拳,Soco Trovoada,13,45.0,1800,5,33
+78,Thunder,かみなり,Fatal-Foudre,Trueno,Donner,Tuono,번개,打雷,Trovão,13,100.0,2400,5,100
+79,Thunderbolt,１０まんボルト,Tonnerre,Rayo,Donnerblitz,Fulmine,10만볼트,十萬伏特,Relâmpago,13,80.0,2500,5,50
+80,Twister,たつまき,Ouragan,Ciclón,Windhose,Tornado,회오리,龍捲風,Twister,16,45.0,2800,5,33
+82,Dragon Pulse,りゅうのはどう,Draco-Choc,Pulso Dragón,Drachenpuls,Dragopulsar,용의파동,龍之波動,Pulso do Dragão,16,90.0,3600,5,50
+83,Dragon Claw,ドラゴンクロー,Draco-Griffe,Garra Dragón,Drachenklaue,Dragartigli,드래곤크루,龍爪,Garra de Dragão,16,50.0,1700,25,33
+84,Disarming Voice,チャームボイス,Voix Enjôleuse,Voz Cautivadora,Säuselstimme,Incantavoce,차밍보이스,魅惑之聲,Voz Desarmante,18,70.0,3900,5,33
+85,Draining Kiss,ドレインキッス,Vampibaiser,Beso Drenaje,Diebeskuss,Assorbibacio,드레인키스,吸取之吻,Beijo Drenante,18,60.0,2600,5,50
+86,Dazzling Gleam,マジカルシャイン,Éclat Magique,Brillo Mágico,Zauberschein,Magibrillio,매지컬샤인,魔法閃耀,Clarão Deslumbrante,18,100.0,3500,5,50
+87,Moonblast,ムーンフォース,Pouvoir Lunaire,Fuerza Lunar,Mondgewalt,Forza Lunare,문포스,月亮之力,Explosão Lunar,18,130.0,3900,5,100
+88,Play Rough,じゃれつく,Câlinerie,Carantoña,Knuddler,Carineria,치근거리기,嬉鬧,Jogo Duro,18,90.0,2900,5,50
+89,Cross Poison,クロスポイズン,Poison Croix,Veneno X,Giftstreich,Velenocroce,크로스포이즌,十字毒刃,Corte-veneno,4,40.0,1500,25,33
+90,Sludge Bomb,ヘドロばくだん,Bombe Beurk,Bomba Lodo,Matschbombe,Fangobomba,오물폭탄,污泥炸彈,Bomba de Lodo,4,80.0,2300,5,50
+91,Sludge Wave,ヘドロウェーブ,Cradovague,Onda Tóxica,Schlammwoge,Fangonda,오물웨이브,污泥波,Onda de Lama,4,110.0,3200,5,100
+92,Gunk Shot,ダストシュート,Détricanon,Lanzamugre,Mülltreffer,Sporcolancio,더스트슈트,垃圾射擊,Tiro de Sujeira,4,130.0,3100,5,100
+94,Bone Club,ホネこんぼう,Massd’Os,Hueso Palo,Knochenkeule,Ossoclava,뼈다귀치기,骨棒,Bastão de Osso,5,40.0,1600,5,33
+95,Bulldoze,じならし,Piétisol,Terratemblor,Dampfwalze,Battiterra,땅고르기,重踏,Tremor,5,80.0,3500,5,50
+96,Mud Bomb,どろばくだん,Boue-Bombe,Bomba Fango,Schlammbombe,Pantanobomba,진흙폭탄,泥巴炸彈,Bomba de Lama,5,55.0,2300,5,33
+99,Signal Beam,シグナルビーム,Rayon Signal,Doble Rayo,Ampelleuchte,Segnoraggio,시그널빔,信號光束,Feixe Sinalizador,7,75.0,2900,5,50
+100,X-Scissor,シザークロス,Plaie Croix,Tijera X,Kreuzschere,Forbice X,시저크로스,十字剪,Tesoura X,7,45.0,1600,5,33
+101,Flame Charge,ニトロチャージ,Nitrocharge,Nitrocarga,Nitroladung,Nitrocarica,니트로차지,蓄能焰襲,Ataque de Chamas,10,70.0,3800,5,33
+102,Flame Burst,はじけるほのお,Rebondifeu,Pirotecnia,Funkenflug,Pirolancio,불꽃튀기기,烈焰濺射,Rajada de Chamas,10,70.0,2600,5,50
+103,Fire Blast,だいもんじ,Déflagration,Llamarada,Feuersturm,Fuocobomba,불대문자,大字爆炎,Rajada de Fogo,10,140.0,4200,5,100
+104,Brine,しおみず,Saumure,Salmuera,Lake,Acquadisale,소금물,鹽水,Salmoura,11,60.0,2300,5,50
+105,Water Pulse,みずのはどう,Vibraqua,Hidropulso,Aquawelle,Idropulsar,물의파동,水之波動,Pulso d'Água,11,70.0,3200,5,50
+106,Scald,ねっとう,Ébullition,Escaldar,Siedewasser,Idrovampata,열탕,熱水,Escaldada,11,80.0,3700,5,50
+107,Hydro Pump,ハイドロポンプ,Hydrocanon,Hidrobomba,Hydropumpe,Idropompa,하이드로펌프,水炮,Jato d'Água,11,130.0,3300,5,100
+108,Psychic,サイコキネシス,Psyko,Psíquico,Psychokinese,Psichico,사이코키네시스,精神強念,Psíquico,14,90.0,2800,5,50
+109,Psystrike,サイコブレイク,Frappe Psy,Onda Mental,Psychostoß,Psicobotta,사이코브레이크,精神擊破,Golpe Psíquico,14,90.0,2300,5,50
+111,Icy Wind,こごえるかぜ,Vent Glace,Viento Hielo,Eissturm,Ventogelato,얼다바람,冰凍之風,Vento Congelante,15,60.0,3300,5,33
+114,Giga Drain,ギガドレイン,Giga-Sangsue,Gigadrenado,Gigasauger,Gigassorbimento,기가드레인,終極吸取,Gigadreno,12,50.0,3900,5,100
+115,Fire Punch,ほのおのパンチ,Poing Feu,Puño Fuego,Feuerschlag,Fuocopugno,불꽃펀치,火焰拳,Soco de Fogo,10,55.0,2200,5,33
+116,Solar Beam,ソーラービーム,Lance-Soleil,Rayo Solar,Solarstrahl,Solarraggio,솔라빔,日光束,Raio Solar,12,180.0,4900,5,100
+117,Leaf Blade,リーフブレード,Lame Feuille,Hoja Aguda,Laubklinge,Fendifoglia,리프블레이드,葉刃,Lâmina de Folha,12,70.0,2400,25,33
+118,Power Whip,パワーウィップ,Mégafouet,Latigazo,Blattgeißel,Vigorcolpo,파워휩,強力鞭打,Chicote Poderoso,12,90.0,2600,0,50
+121,Air Cutter,エアカッター,Tranch’Air,Aire Afilado,Windschnitt,Aerasoio,에어컷터,空氣利刃,Cortador de Ar,3,60.0,2700,25,50
+122,Hurricane,ぼうふう,Vent Violent,Vendaval,Orkan,Tifone,폭풍,暴風,Furacão,3,110.0,2700,5,100
+123,Brick Break,かわらわり,Casse-Brique,Demolición,Durchbruch,Breccia,깨트리다,劈瓦,Quebra-telha,2,40.0,1600,25,33
+125,Swift,スピードスター,Météores,Rapidez,Sternschauer,Comete,스피드스타,高速星星,Ataque Veloz,1,60.0,2800,5,50
+126,Horn Attack,つのでつく,Koud’Korne,Cornada,Hornattacke,Incornata,뿔찌르기,角撞,Ataque de Chifre,1,40.0,1850,5,33
+127,Stomp,ふみつけ,Écrasement,Pisotón,Stampfer,Pestone,짓밟기,踩踏,Pisotear,1,55.0,1700,5,50
+129,Hyper Fang,ひっさつまえば,Croc de Mort,Hipercolmillo,Hyperzahn,Iperzanna,필살앞니,必殺門牙,Hiperpresa,1,80.0,2500,5,50
+131,Body Slam,のしかかり,Plaquage,Golpe Cuerpo,Bodyslam,Corposcontro,누르기,泰山壓頂,Pancada Corporal,1,50.0,1900,5,33
+132,Rest,ねむる,Repos,Descanso,Erholung,Riposo,잠자기,睡覺,Descansar,1,50.0,1900,0,33
+133,Struggle,わるあがき,Lutte,Combate,Verzweifler,Scontro,발버둥,掙扎,Insistência,1,35.0,2200,0,0
+134,Scald,ねっとう,Ébullition,Escaldar,Siedewasser,Idrovampata,열탕,熱水,Escaldada,11,50.0,4700,5,100
+135,Hydro Pump,ハイドロポンプ,Hydrocanon,Hidrobomba,Hydropumpe,Idropompa,하이드로펌프,水炮,Jato d'Água,11,90.0,4500,5,100
+136,Wrap,まきつく,Ligotage,Constricción,Wickel,Avvolgibotta,김밥말이,緊束,Embrulho,1,25.0,2900,5,33
+137,Wrap,まきつく,Ligotage,Constricción,Wickel,Avvolgibotta,김밥말이,緊束,Embrulho,1,25.0,2900,5,33
+245,Close Combat,インファイト,Close Combat,A Bocajarro,Nahkampf,Zuffa,인파이트,近身戰,Corpo-a-corpo,2,100.0,2300,5,100
+246,Dynamic Punch,ばくれつパンチ,Dynamo-Poing,Puño Dinámico,Wuchtschlag,Dinamipugno,폭발펀치,爆裂拳,Soco Dinâmico,2,90.0,2700,5,50
+247,Focus Blast,きあいだま,Exploforce,Onda Certera,Fokusstoß,Focalcolpo,기합구슬,真氣彈,Explosão Focalizada,2,140.0,3500,5,100
+248,Aurora Beam,オーロラビーム,Onde Boréale,Rayo Aurora,Aurorastrahl,Raggiaurora,오로라빔,極光束,Raio Aurora,15,80.0,3550,5,50
+251,Wild Charge,ワイルドボルト,Éclair Fou,Voltio Cruel,Stromstoß,Sprizzalampo,와일드볼트,瘋狂伏特,Ataque Selvagem,13,90.0,2600,5,50
+252,Zap Cannon,でんじほう,Élecanon,Electrocañón,Blitzkanone,Falcecannone,전자포,電磁炮,Canhão Zap,13,140.0,3700,5,100
+254,Avalanche,ゆきなだれ,Avalanche,Alud,Lawine,Slavina,눈사태,雪崩,Avalanche,15,90.0,2700,5,50
+256,Brave Bird,ブレイブバード,Rapace,Pájaro Osado,Sturzflug,Baldeali,브레이브버드,勇鳥猛攻,Pássaro Bravo,3,90.0,2000,5,100
+257,Sky Attack,ゴッドバード,Piqué,Ataque Aéreo,Himmelsfeger,Aeroattacco,불새,神鳥猛擊,Ataque do Céu,3,80.0,2000,5,50
+258,Sand Tomb,すなじごく,Tourbi-Sable,Bucle Arena,Sandgrab,Sabbiotomba,모래지옥,流沙地獄,Fosso de Areia,5,60.0,4000,5,33
+259,Rock Blast,ロックブラスト,Boule Roc,Pedrada,Felswurf,Cadutamassi,락블레스트,岩石爆擊,Explosão de Rocha,6,50.0,2100,5,33
+262,Silver Wind,ぎんいろのかぜ,Vent Argenté,Viento Plata,Silberhauch,Ventargenteo,은빛바람,銀色旋風,Vento Prateado,7,70.0,3700,5,33
+265,Night Shade,ナイトヘッド,Ombre Nocturne,Tinieblas,Nachtnebel,Ombra Notturna,나이트헤드,黑夜魔影,Sombra Noturna,8,60.0,2600,5,50
+267,Gyro Ball,ジャイロボール,Gyroballe,Giro Bola,Gyroball,Vortexpalla,자이로볼,陀螺球,Girobola,9,80.0,3300,5,50
+268,Heavy Slam,ヘビーボンバー,Tacle Lourd,Cuerpo Pesado,Rammboss,Pesobomba,헤비봄버,重磅衝撞,Golpe Pesado,9,70.0,2100,5,50
+270,Overheat,オーバーヒート,Surchauffe,Sofoco,Hitzekoller,Vampata,오버히트,過熱,Superaquecimento,10,160.0,4000,5,100
+272,Grass Knot,くさむすび,Nœud Herbe,Hierba Lazo,Strauchler,Laccioerboso,풀묶기,打草結,Nó de Grama,12,90.0,2600,5,50
+273,Energy Ball,エナジーボール,Éco-Sphère,Energibola,Energieball,Energipalla,에너지볼,能量球,Bola de Energia,12,90.0,3900,5,50
+275,Future Sight,みらいよち,Prescience,Premonición,Seher,Divinazione,미래예지,預知未來,Visão do Futuro,14,120.0,2700,5,100
+276,Mirror Coat,ミラーコート,Voile Miroir,Manto Espejo,Spiegelcape,Specchiovelo,미러코트,鏡面反射,Casaco Espelhado,14,60.0,2600,5,50
+277,Outrage,げきりん,Colère,Enfado,Wutanfall,Oltraggio,역린,逆麟,Ultraje,16,110.0,3900,5,50
+279,Crunch,かみくだく,Mâchouille,Triturar,Knirscher,Sgranocchio,깨물어부수기,咬碎,Mastigada,17,70.0,3200,5,33
+280,Foul Play,イカサマ,Tricherie,Juego Sucio,Schmarotzer,Ripicca,속임수,欺詐,Jogo Sujo,17,70.0,2000,5,50
+284,Surf,なみのり,Surf,Surf,Surfer,Surf,파도타기,衝浪,Surfar,11,65.0,1700,0,50
+285,Draco Meteor,りゅうせいぐん,Draco-Météore,Cometa Draco,Draco Meteor,Dragobolide,용성군,流星群,Meteoro do Dragão,16,150.0,3600,0,100
+286,Doom Desire,はめつのねがい,Carnareket,Deseo Oculto,Kismetwunsch,Obbliderio,파멸의소원,破滅之願,Desejo Cruel,9,70.0,1700,0,33
+288,Psycho Boost,サイコブースト,Psycho-Boost,Psicoataque,Psyschub,Psicoslancio,사이코부스트,精神突進,Impulso Psíquico,14,70.0,4000,0,50
+289,Origin Pulse,こんげんのはどう,Onde Originelle,Pulso Primigenio,Ursprungswoge,Primopulsar,근원의파동,根源波動,Pulso Original,11,130.0,1700,0,100
+290,Precipice Blades,だんがいのつるぎ,Lame Pangéenne,Filo del Abismo,Abgrundsklinge,Spade Telluriche,단애의칼,斷崖之劍,Lâmina Abissal,5,130.0,1700,0,100
+292,Weather Ball,ウェザーボール,Ball’Météo,Meteorobola,Meteorologe,Palla Clima,웨더볼,氣象球,Esfera Climática,10,60.0,1600,0,33
+293,Weather Ball,ウェザーボール,Ball’Météo,Meteorobola,Meteorologe,Palla Clima,웨더볼,氣象球,Esfera Climática,15,60.0,1600,0,33
+294,Weather Ball,ウェザーボール,Ball’Météo,Meteorobola,Meteorologe,Palla Clima,웨더볼,氣象球,Esfera Climática,1,60.0,1600,0,33
+295,Weather Ball,ウェザーボール,Ball’Météo,Meteorobola,Meteorologe,Palla Clima,웨더볼,氣象球,Esfera Climática,11,60.0,1600,0,33
+296,Frenzy Plant,ハードプラント,Végé-Attaque,Planta Feroz,Flora-Statue,Radicalbero,하드플랜트,瘋狂植物,Planta Mortal,12,100.0,2600,0,50
+298,Blast Burn,ブラストバーン,Rafale Feu,Anillo Ígneo,Lohekanonade,Incendio,블러스트번,爆炸烈焰,Queimadura Explosiva,10,110.0,3300,0,50
+299,Hydro Cannon,ハイドロカノン,Hydroblast,Hidrocañón,Aquahaubitze,Idrocannone,하이드로캐논,加農水砲,Hidro Canhão,11,90.0,1900,5,50
+300,Last Resort,とっておき,Dernier Recours,Última Baza,Zuflucht,Ultimascelta,뒀다쓰기,珍藏,Último Recurso,1,90.0,2900,5,50
+301,Meteor Mash,コメットパンチ,Poing Météore,Puño Meteoro,Sternenhieb,Meteorpugno,코멧펀치,彗星拳,Meteoro Esmagador,9,100.0,2600,5,50
+302,Skull Bash,ロケットずつき,Coud'Krâne,Cabezazo,Schädelwumme,Capocciata,로케트박치기,火箭頭錘,Quebra-crânio,1,130.0,3100,0,100
+303,Acid Spray,アシッドボム,Bombe Acide,Bomba Ácida,Säurespeier,Acidobomba,애시드봄,酸液炸彈,Spray Ácido,4,20.0,3000,0,50
+304,Earth Power,だいちのちから,Telluriforce,Tierra Viva,Erdkräfte,Geoforza,대지의힘,大地之力,Poder da Terra,5,100.0,3600,0,50
+305,Crabhammer,クラブハンマー,Pince-Masse,Martillazo,Krabbhammer,Martellata,찝게햄머,蟹鉗錘,Martelo Caranguejo,11,85.0,1900,0,50
+308,Octazooka,オクタンほう,Octazooka,Pulpocañón,Octazooka,Octazooka,대포무노포,章魚桶炮,Polvo-canhão,11,50.0,2300,0,50
+309,Mirror Shot,ミラーショット,Miroi-Tir,Disparo Espejo,Spiegelsalve,Cristalcolpo,미러숏,鏡光射擊,Tiro no Espelho,9,50.0,2400,0,33
+310,Superpower,ばかぢから,Surpuissance,Fuerza Bruta,Kraftkoloss,Troppoforte,엄청난힘,蠻力,Superpoder,2,85.0,3000,0,50
+311,Fell Stinger,とどめばり,Dard Mortel,Aguijón Letal,Stachelfinale,Pungiglione,마지막일침,致命針刺,Ferrão Letal,7,50.0,2200,0,33
+312,Leaf Tornado,グラスミキサー,Phytomixeur,Ciclón de Hojas,Grasmixer,Vorticerba,그래스믹서,青草攪拌器,Tornado de Folhas,12,45.0,3100,0,33
+316,Muddy Water,だくりゅう,Ocroupi,Agua Lodosa,Lehmbrühe,Fanghiglia,탁류,濁流,Água Barrenta,11,50.0,2200,0,33
+317,Blaze Kick,ブレイズキック,Pied Brûleur,Patada Ígnea,Feuerfeger,Calciardente,브레이즈킥,火焰踢,Chute Labareda,10,45.0,1200,0,33
+319,Power-Up Punch,グロウパンチ,Poing Boost,Puño Incremento,Steigerungshieb,Crescipugno,그로우펀치,增強拳,Soco Empoderador,2,50.0,2000,0,33
+321,Giga Impact,ギガインパクト,Giga Impact,Gigaimpacto,Gigastoß,Gigaimpatto,기가임팩트,終極衝擊,Gigaimpacto,1,200.0,4700,0,100
+322,Frustration,やつあたり,Frustration,Frustración,Frustration,Frustrazione,화풀이,遷怒,Frustração,1,10.0,2000,0,33
+323,Return,おんがえし,Retour,Retribución,Rückkehr,Ritorno,은혜갚기,報恩,Retorno,1,35.0,700,0,33
+324,Synchronoise,シンクロノイズ,Synchropeine,Sincrorruido,Synchrolärm,Sincrumore,싱크로노이즈,同步干擾,Barulho Sincronizado,14,80.0,2600,0,50
+330,Sacred Sword,せいなるつるぎ,Lame Sainte,Espada Santa,Sanctoklinge,Spadasolenne,성스러운칼,聖劍,Espada Sagrada,2,55.0,1200,0,33
+331,Flying Press,フライングプレス,Flying Press,Plancha Voladora,Flying Press,Schiacciatuffo,플라잉프레스,飛身重壓,Aperto Voador,2,110.0,2300,0,50
+332,Aura Sphere,はどうだん,Aurasphère,Esfera Aural,Aurasphäre,Forzasfera,파동탄,波導彈,Aura Esférica,2,90.0,1800,0,50
+334,Rock Wrecker,Rock Wrecker,Rock Wrecker,Rock Wrecker,Rock Wrecker,Rock Wrecker,Rock Wrecker,Rock Wrecker,Rock Wrecker,6,110.0,3600,0,50

@@ -1,8 +1,9 @@
 #!pgodatagen/bin/python
 
 import json
-
+import re
 import csv
+
 from pprint import pprint
 from collections import OrderedDict
 
@@ -31,10 +32,10 @@ for legacyMove in legacyMovesCsv:
         }
     if legacyMove['isQuickMove'] == "1":
         if legacyMove['moveId'] not in legacyMoves[legacyMove['pokemonId']]['quickMoves']:
-            legacyMoves[legacyMove['pokemonId']]['quickMoves'].append(legacyMove['moveId'])
+            legacyMoves[legacyMove['pokemonId']]['quickMoves'].append(int(legacyMove['moveId']))
     else:
         if legacyMove['moveId'] not in legacyMoves[legacyMove['pokemonId']]['cinematicMoves']:
-            legacyMoves[legacyMove['pokemonId']]['cinematicMoves'].append(legacyMove['moveId'])
+            legacyMoves[legacyMove['pokemonId']]['cinematicMoves'].append(int(legacyMove['moveId']))
 
 legacyMoves = OrderedDict(sorted(legacyMoves.items(), key=lambda t: int(t[0])))
 
@@ -42,54 +43,46 @@ with open('in/legacy-moves.json', 'w') as outfile:
     json.dump(legacyMoves, outfile)
 
 
-featureGen3Texts = {}
-with open('in/feature-gen3.txt') as csvfile:
-    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
-    for row in reader:
-        key = row['key']
-        del row['key']
-        # There are some empty strings in there sometimes... drop them
-        if None in row:
-            del row[None]
-        featureGen3Texts[key] = row
+languages = ['en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br']
+translations = {}
+for langKey in languages:
+    f = open("in/translations-{:s}.raw.txt".format(langKey), 'r')
+    translations[langKey] = {}
+    for line in f:
+        # m = re.search(pattern=r'string Key = \"(.*?)\"\n.*?string Translation = \"(.*?)\"', string=line, flags=re.MULTILINE)
+        mKey = re.search(r'string Key = \"(.*?)\"', line)
+        if mKey is not None:
+            mValue = re.search(r'string Translation = \"(.*?)\"', f.readline())
+            if mValue is not None:
+                translations[langKey][mKey.group(1)] = mValue.group(1)
 
-generalTexts = {}
-with open('in/general.txt') as csvfile:
-    reader = csv.DictReader(csvfile, dialect='excel-tab', fieldnames=['key', 'en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br'])
-    for row in reader:
-        key = row['key']
-        del row['key']
-        generalTexts[key] = row
+    translations[langKey] = OrderedDict(sorted(translations[langKey].items()))
+    with open("in/translations-{:s}.txt".format(langKey), 'w') as outfile:
+        json.dump(translations[langKey], outfile)
 
 defaultEmptyText = {'en': ''}
-formTranslations = {
-    'NORMAL': featureGen3Texts['form_normal'],
-    'SUNNY': featureGen3Texts['form_sun'],
-    'RAINY': featureGen3Texts['form_rain'],
-    'SNOWY': featureGen3Texts['form_snow'],
-    'ALOLA': generalTexts['alola_pokedex_header'],
-    'ATTACK': featureGen3Texts['form_attack'],
-    'DEFENSE': featureGen3Texts['form_defense'],
-    'SPEED': featureGen3Texts['form_speed'],
-    'RATTATA_NORMAL': defaultEmptyText,
-    'RATICATE_NORMAL': defaultEmptyText,
-    'RAICHU_NORMAL': defaultEmptyText,
-    'SANDSHREW_NORMAL': defaultEmptyText,
-    'SANDSLASH_NORMAL': defaultEmptyText,
-    'VULPIX_NORMAL': defaultEmptyText,
-    'NINETALES_NORMAL': defaultEmptyText,
-    'DIGLETT_NORMAL': defaultEmptyText,
-    'DUGTRIO_NORMAL': defaultEmptyText,
-    'MEOWTH_NORMAL': defaultEmptyText,
-    'PERSIAN_NORMAL': defaultEmptyText,
-    'GEODUDE_NORMAL': defaultEmptyText,
-    'GRAVELER_NORMAL': defaultEmptyText,
-    'GOLEM_NORMAL': defaultEmptyText,
-    'GRIMER_NORMAL': defaultEmptyText,
-    'MUK_NORMAL': defaultEmptyText,
-    'EXEGGUTOR_NORMAL': defaultEmptyText,
-    'MAROWAK_NORMAL': defaultEmptyText
+formTranslationKeys = {
+    # For whatever reason, there is no "form_alola", but this stupid key... so copy it for convienance:
+    'form_alola': 'alola_pokedex_header',
+    'CASTFORM_RAINY': 'form_rain',
+    'CASTFORM_SNOWY': 'form_snow',
+    'CASTFORM_SUNNY': 'form_sun',
+    'BURMY_PLANT': 'form_plant_cloak',
+    'BURMY_SANDY': 'form_sandy_cloak',
+    'BURMY_TRASH': 'form_trash_cloak',
+    'WORMADAM_PLANT': 'form_plant_cloak',
+    'WORMADAM_SANDY': 'form_sandy_cloak',
+    'WORMADAM_TRASH': 'form_trash_cloak',
+    'CHERRIM_SUNNY': 'form_sunshine'
 }
+formTranslations = {}
+for targetKey, origKey in formTranslationKeys.items():
+    for langKey in languages:
+        if targetKey not in formTranslations:
+            formTranslations[targetKey] = {}
+        formTranslations[targetKey][langKey] = translations[langKey][origKey]
+
+formTranslations = OrderedDict(sorted(formTranslations.items()))
 
 with open('in/form-translations.json', 'w') as outfile:
     json.dump(formTranslations, outfile)

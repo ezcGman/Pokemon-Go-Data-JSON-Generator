@@ -12,12 +12,12 @@ id,name,type,power,energyDelta,durationTurns
 210,Wing Attack,3,5.0,7,1
 211,Peck,3,6.0,5,1
 212,Lick,8,3.0,3,0
-213,Shadow Claw,8,6.0,7,1
+213,Shadow Claw,8,6.0,8,1
 214,Vine Whip,12,5.0,8,1
-215,Razor Leaf,12,8.0,4,1
+215,Razor Leaf,12,11.0,4,1
 216,Mud Shot,5,3.0,9,1
-217,Ice Shard,15,8.0,10,2
-218,Frost Breath,15,6.0,5,1
+217,Ice Shard,15,9.0,10,2
+218,Frost Breath,15,7.0,5,1
 219,Quick Attack,1,5.0,7,1
 220,Scratch,1,4.0,2,0
 221,Tackle,1,3.0,2,0
@@ -32,20 +32,19 @@ id,name,type,power,energyDelta,durationTurns
 230,Water Gun,11,3.0,3,0
 231,Splash,11,0,12,3
 232,Water Gun,11,6.0,4,1
-233,Mud-Slap,5,9.0,8,2
+233,Mud-Slap,5,11.0,8,2
 234,Zen Headbutt,14,8.0,6,2
-235,Confusion,14,12.0,12,3
+235,Confusion,14,16.0,12,3
 236,Poison Sting,4,3.0,6,1
 237,Bubble,11,8.0,11,2
 238,Feint Attack,17,6.0,6,1
 239,Steel Wing,9,7.0,5,1
-240,Fire Fang,10,7.0,5,1
+240,Fire Fang,10,8.0,5,1
 241,Rock Smash,2,9.0,7,2
-242,Transform,1,0,0,2
 243,Counter,2,8.0,7,1
 244,Powder Snow,15,4.0,8,1
 249,Charge Beam,13,5.0,11,2
-250,Volt Switch,13,12.0,10,4
+250,Volt Switch,13,12.0,16,3
 253,Dragon Tail,16,9.0,10,2
 255,Air Slash,3,9.0,9,2
 260,Infestation,7,6.0,11,2
@@ -54,12 +53,16 @@ id,name,type,power,energyDelta,durationTurns
 264,Hex,8,6.0,11,2
 266,Iron Tail,9,9.0,6,2
 269,Fire Spin,10,9.0,10,2
-271,Bullet Seed,12,5.0,11,2
+271,Bullet Seed,12,5.0,13,2
 274,Extrasensory,14,8.0,10,2
-278,Snarl,17,8.0,10,2
+278,Snarl,17,5.0,13,2
 281,Hidden Power,1,9.0,8,2
 282,Take Down,1,5.0,8,2
-283,Waterfall,11,10.0,8,2
+283,Waterfall,11,12.0,8,2
 287,Yawn,1,0,12,3
 291,Present,1,3.0,12,2
-297,Smack Down,6,10.0,8,2
+297,Smack Down,6,12.0,8,2
+320,Charm,18,16.0,6,2
+325,Lock-On,1,1.0,5,0
+326,Thunder Fang,13,8.0,5,1
+327,Ice Fang,15,8.0,5,1

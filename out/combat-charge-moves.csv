@@ -3,16 +3,16 @@ id,name,type,power,energyDelta,criticalChance
 14,Hyper Beam,1,150.0,80,5
 16,Dark Pulse,17,80.0,50,5
 18,Sludge,4,50.0,40,5
-20,Vice Grip,1,40.0,40,5
+20,Vise Grip,1,40.0,40,5
 21,Flame Wheel,10,60.0,55,5
-22,Megahorn,7,90.0,55,5
-24,Flamethrower,10,70.0,50,5
+22,Megahorn,7,100.0,55,5
+24,Flamethrower,10,90.0,55,5
 26,Dig,5,100.0,80,5
 28,Cross Chop,2,50.0,35,25
 30,Psybeam,14,70.0,60,5
 31,Earthquake,5,120.0,65,5
 32,Stone Edge,6,100.0,55,50
-33,Ice Punch,15,50.0,40,5
+33,Ice Punch,15,55.0,40,5
 34,Heart Stamp,14,40.0,40,5
 35,Discharge,13,65.0,45,5
 36,Flash Cannon,9,110.0,65,5
@@ -26,34 +26,34 @@ id,name,type,power,energyDelta,criticalChance
 48,Mega Drain,12,25.0,55,5
 49,Bug Buzz,7,90.0,60,5
 50,Poison Fang,4,40.0,35,5
-51,Night Slash,17,50.0,40,25
-53,Bubble Beam,11,45.0,40,5
+51,Night Slash,17,50.0,35,25
+53,Bubble Beam,11,25.0,40,5
 54,Submission,2,60.0,50,5
 56,Low Sweep,2,40.0,40,5
 57,Aqua Jet,11,45.0,45,5
 58,Aqua Tail,11,50.0,35,5
 59,Seed Bomb,12,55.0,40,5
-60,Psyshock,14,65.0,45,5
-62,Ancient Power,6,70.0,45,5
+60,Psyshock,14,70.0,45,5
+62,Ancient Power,6,45.0,45,5
 63,Rock Tomb,6,70.0,60,25
 64,Rock Slide,6,80.0,45,5
 65,Power Gem,6,80.0,60,5
 66,Shadow Sneak,8,50.0,45,5
 67,Shadow Punch,8,40.0,35,5
-69,Ominous Wind,8,50.0,40,5
+69,Ominous Wind,8,45.0,45,5
 70,Shadow Ball,8,100.0,55,5
 72,Magnet Bomb,9,70.0,45,5
-74,Iron Head,9,60.0,50,5
+74,Iron Head,9,70.0,50,5
 75,Parabolic Charge,13,25.0,55,5
-77,Thunder Punch,13,45.0,35,5
+77,Thunder Punch,13,55.0,40,5
 78,Thunder,13,100.0,60,5
-79,Thunderbolt,13,80.0,45,5
+79,Thunderbolt,13,90.0,55,5
 80,Twister,16,45.0,45,5
 82,Dragon Pulse,16,90.0,60,5
 83,Dragon Claw,16,50.0,35,25
 84,Disarming Voice,18,70.0,45,5
 85,Draining Kiss,18,60.0,55,5
-86,Dazzling Gleam,18,100.0,70,5
+86,Dazzling Gleam,18,110.0,70,5
 87,Moonblast,18,130.0,70,5
 88,Play Rough,18,90.0,60,5
 89,Cross Poison,4,40.0,35,25
@@ -72,8 +72,8 @@ id,name,type,power,energyDelta,criticalChance
 105,Water Pulse,11,70.0,60,5
 106,Scald,11,80.0,60,5
 107,Hydro Pump,11,130.0,75,5
-108,Psychic,14,100.0,70,5
-109,Psystrike,14,100.0,55,5
+108,Psychic,14,90.0,55,5
+109,Psystrike,14,90.0,45,5
 111,Icy Wind,15,60.0,45,5
 114,Giga Drain,12,50.0,80,5
 115,Fire Punch,10,55.0,40,5
@@ -87,14 +87,15 @@ id,name,type,power,energyDelta,criticalChance
 126,Horn Attack,1,40.0,35,5
 127,Stomp,1,55.0,40,5
 129,Hyper Fang,1,80.0,50,5
-131,Body Slam,1,50.0,35,5
+131,Body Slam,1,60.0,35,5
 132,Rest,1,50.0,35,0
 133,Struggle,1,35.0,100,0
 134,Scald,11,50.0,80,5
 135,Hydro Pump,11,90.0,80,5
 136,Wrap,1,25.0,45,5
 137,Wrap,1,25.0,45,5
-245,Close Combat,2,100.0,60,5
+242,Transform,1,0,0,0
+245,Close Combat,2,100.0,45,5
 246,Dynamic Punch,2,90.0,50,5
 247,Focus Blast,2,150.0,75,5
 248,Aurora Beam,15,80.0,60,5
@@ -103,32 +104,60 @@ id,name,type,power,energyDelta,criticalChance
 254,Avalanche,15,90.0,45,5
 256,Brave Bird,3,90.0,55,5
 257,Sky Attack,3,80.0,45,5
-258,Sand Tomb,5,80.0,60,5
+258,Sand Tomb,5,25.0,40,5
 259,Rock Blast,6,50.0,40,5
-262,Silver Wind,7,70.0,45,5
+262,Silver Wind,7,45.0,45,5
 265,Night Shade,8,60.0,55,5
 267,Gyro Ball,9,80.0,60,5
 268,Heavy Slam,9,70.0,50,5
-270,Overheat,10,150.0,80,5
+270,Overheat,10,130.0,55,5
 272,Grass Knot,12,90.0,50,5
-273,Energy Ball,12,90.0,60,5
+273,Energy Ball,12,90.0,55,5
 275,Future Sight,14,120.0,65,5
 276,Mirror Coat,14,60.0,55,5
 277,Outrage,16,110.0,60,5
 279,Crunch,17,70.0,45,5
 280,Foul Play,17,70.0,45,5
 284,Surf,11,65.0,40,0
-285,Draco Meteor,16,150.0,75,0
-286,Doom Desire,9,80.0,35,0
-288,Psycho Boost,14,70.0,40,0
+285,Draco Meteor,16,150.0,65,0
+286,Doom Desire,9,75.0,40,0
+288,Psycho Boost,14,70.0,35,0
 289,Origin Pulse,11,130.0,60,0
 290,Precipice Blades,5,130.0,60,0
 292,Weather Ball,10,60.0,35,0
 293,Weather Ball,15,60.0,35,0
-294,Weather Ball,6,60.0,35,0
+294,Weather Ball,1,60.0,35,0
 295,Weather Ball,11,60.0,35,0
 296,Frenzy Plant,12,100.0,45,0
 298,Blast Burn,10,110.0,50,0
-299,Hydro Cannon,11,90.0,40,5
+299,Hydro Cannon,11,80.0,40,5
 300,Last Resort,1,90.0,55,5
 301,Meteor Mash,9,100.0,50,5
+302,Skull Bash,1,130.0,75,0
+303,Acid Spray,4,20.0,50,0
+304,Earth Power,5,90.0,55,0
+305,Crabhammer,11,75.0,50,0
+306,Lunge,7,0,0,0
+307,Crush Claw,1,0,0,0
+308,Octazooka,11,50.0,50,0
+309,Mirror Shot,9,35.0,35,0
+310,Superpower,2,85.0,40,0
+311,Fell Stinger,7,20.0,35,0
+312,Leaf Tornado,12,45.0,40,0
+313,Leech Life,7,0,0,0
+314,Drain Punch,2,0,0,0
+315,Shadow Bone,8,0,0,0
+316,Muddy Water,11,35.0,35,0
+317,Blaze Kick,10,55.0,40,0
+318,Razor Shell,11,0,0,0
+319,Power-Up Punch,2,20.0,35,0
+321,Giga Impact,1,150.0,80,0
+322,Frustration,1,10.0,70,0
+323,Return,1,130.0,70,0
+324,Synchronoise,14,80.0,50,0
+328,Horn Drill,1,0,0,0
+329,Fissure,5,0,0,0
+330,Sacred Sword,2,60.0,35,0
+331,Flying Press,2,90.0,40,0
+332,Aura Sphere,2,100.0,55,0
+334,Rock Wrecker,6,110.0,50,0
