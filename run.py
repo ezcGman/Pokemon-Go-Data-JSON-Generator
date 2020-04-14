@@ -2,13 +2,27 @@
 
 import json
 import re
-
 import csv
-from pprint import pprint
 from copy import deepcopy
+import argparse
+# from pprint import pprint
 
 from game_master_reader import GameMasterReader
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument('format', nargs='?', default='json', choices=['json', 'protobuf'], help="Which format of GAME MASTER to parse")
+parser.add_argument('version', nargs='?', type=int, default=2, choices=[1, 2], help="Which version to parse")
+cmdline_args = parser.parse_args()
+
+gmformat = cmdline_args.format
+gmVersion = cmdline_args.version
+
+
+# Open the GAMER MASTER file
+gmFile = open("GAME_MASTER-v{:d}.{:s}".format(gmVersion, gmformat.lower()), mode=('rb' if gmformat == 'protobuf' else 'r'))
+gameMasterReader = GameMasterReader(gmFile, gmformat, "v{:d}".format(gmVersion))
+decodedGameMaster = gameMasterReader.parse()
 
 # Read translations
 translations = {}
@@ -30,13 +44,6 @@ with open('in/legacy-moves.json', mode='r') as file:
     legacyMoves = json.loads(file.read())
 # Convert str to int idx
 legacyMoves = {int(k):v for k,v in legacyMoves.items()}
-
-# Open the GAMER MASTER file
-# gmFile = open('GAME_MASTER', mode='rb')
-# gmFile = open('GAME_MASTER-v1-final.json', mode='r')
-gmFile = open('GAME_MASTER-v2-latest.json', mode='r')
-gameMasterReader = GameMasterReader(gmFile, "json", "v2")
-decodedGameMaster = gameMasterReader.parse()
 
 
 def extractFreindshipLevel(extractFrom):
