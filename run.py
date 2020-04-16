@@ -370,21 +370,21 @@ combatMoves = mergeDicts(moves, combatMoveModifiers)
 # del durationMs
 
 with open('out/pokemon.json', 'w') as outfile:
-    json.dump(pokemons, outfile)
+    json.dump(pokemons, outfile, sort_keys=True)
 with open('out/moves.json', 'w') as outfile:
-    json.dump(moves, outfile)
+    json.dump(moves, outfile, sort_keys=True)
 with open('out/combat-moves.json', 'w') as outfile:
-    json.dump(combatMoves, outfile)
+    json.dump(combatMoves, outfile, sort_keys=True)
 with open('out/types.json', 'w') as outfile:
-    json.dump(types, outfile)
+    json.dump(types, outfile, sort_keys=True)
 with open('out/badges.json', 'w') as outfile:
-    json.dump(badges, outfile)
+    json.dump(badges, outfile, sort_keys=True)
 with open('out/items.json', 'w') as outfile:
-    json.dump(items, outfile)
+    json.dump(items, outfile, sort_keys=True)
 with open('out/player-levels.json', 'w') as outfile:
-    json.dump(playerLevels, outfile)
+    json.dump(playerLevels, outfile, sort_keys=True)
 # with open('out/game-settings.json', 'w') as outfile:
-    # json.dump(gameSettings, outfile)
+    # json.dump(gameSettings, outfile, sort_keys=True)
 
 with open('out/pokemon-base-stats.csv', 'w') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=['id', 'pokemonFormId', 'name-en', 'name-ja', 'name-fr', 'name-es', 'name-de', 'name-it', 'name-ko', 'name-zh-tw', 'name-pt-br', 'form', 'hp', 'atk', 'def', 'type1', 'type2', 'legendary', 'mythical'])
