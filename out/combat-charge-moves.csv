@@ -34,13 +34,13 @@ id,name,type,power,energyDelta,criticalChance
 58,Aqua Tail,11,50.0,35,5
 59,Seed Bomb,12,55.0,40,5
 60,Psyshock,14,70.0,45,5
-62,Ancient Power,6,45.0,45,5
+62,Ancient Power,6,70.0,45,5
 63,Rock Tomb,6,70.0,60,25
 64,Rock Slide,6,80.0,45,5
 65,Power Gem,6,80.0,60,5
 66,Shadow Sneak,8,50.0,45,5
 67,Shadow Punch,8,40.0,35,5
-69,Ominous Wind,8,45.0,45,5
+69,Ominous Wind,8,50.0,40,5
 70,Shadow Ball,8,100.0,55,5
 72,Magnet Bomb,9,70.0,45,5
 74,Iron Head,9,70.0,50,5
@@ -106,13 +106,13 @@ id,name,type,power,energyDelta,criticalChance
 257,Sky Attack,3,80.0,45,5
 258,Sand Tomb,5,25.0,40,5
 259,Rock Blast,6,50.0,40,5
-262,Silver Wind,7,45.0,45,5
+262,Silver Wind,7,70.0,45,5
 265,Night Shade,8,60.0,55,5
 267,Gyro Ball,9,80.0,60,5
 268,Heavy Slam,9,70.0,50,5
 270,Overheat,10,130.0,55,5
 272,Grass Knot,12,90.0,50,5
-273,Energy Ball,12,90.0,55,5
+273,Energy Ball,12,90.0,60,5
 275,Future Sight,14,120.0,65,5
 276,Mirror Coat,14,60.0,55,5
 277,Outrage,16,110.0,60,5
@@ -157,7 +157,6 @@ id,name,type,power,energyDelta,criticalChance
 324,Synchronoise,14,80.0,50,0
 328,Horn Drill,1,0,0,0
 329,Fissure,5,0,0,0
-330,Sacred Sword,2,60.0,35,0
-331,Flying Press,2,90.0,40,0
+331,Flying Press,2,110.0,50,0
 332,Aura Sphere,2,100.0,55,0
 334,Rock Wrecker,6,110.0,50,0

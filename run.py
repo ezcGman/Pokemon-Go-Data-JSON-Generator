@@ -46,7 +46,7 @@ with open('in/legacy-moves.json', mode='r') as file:
 legacyMoves = {int(k):v for k,v in legacyMoves.items()}
 
 
-def extractFreindshipLevel(extractFrom):
+def extractFriendshipLevel(extractFrom):
     m = re.search('FRIENDSHIP_LEVEL_([0-9]+)', extractFrom)
     friendshipLevel = m.group(1).lower()
 
@@ -120,7 +120,6 @@ gameSettings = {}
 genderSettings = {}
 playerLevels = {}
 for i in decodedGameMaster:
-    # CHECKED
     if 'moveSettings' in i:
         move = i['moveSettings']
         move['moveId'] = move['movementId']
@@ -162,7 +161,6 @@ for i in decodedGameMaster:
 
         combatMoveModifiers[move['moveId']] = move
 
-    # CHECKED
     elif 'pokemonSettings' in i:
         pokemon = i['pokemonSettings']
         pokemonId = pokemon['pokemonId']
@@ -255,7 +253,6 @@ for i in decodedGameMaster:
 
         items[item['itemId']] = item
 
-    # CHECKED
     elif 'typeEffective' in i:
         typeEffective = i['typeEffective']
         typeEffective['typeId'] = typeEffective['attackType']
@@ -274,7 +271,6 @@ for i in decodedGameMaster:
 
         types[typeEffective['typeId']] = typeEffective
 
-    # CHECKED
     elif 'badgeSettings' in i:
         badge = i['badgeSettings']
         badge['badgeId'] = badge['badgeType']
@@ -303,24 +299,6 @@ for i in decodedGameMaster:
 
         badges[badge['badgeId']] = badge
 
-    # CHECKED
-    elif 'playerLevel' in i:
-        playerLevels = i['playerLevel']
-
-        playerLevels['levels'] = {}
-        idx = 1
-        for requiredExp in playerLevels['requiredExperience']:
-            playerLevels['levels'][idx] = {
-                'requiredExperience': requiredExp,
-                'cpMultiplier': playerLevels['cpMultiplier'][idx-1],
-                'rankNum': playerLevels['rankNum'][idx-1]
-            }
-            idx += 1
-
-        del playerLevels['requiredExperience']
-        del playerLevels['cpMultiplier']
-        del playerLevels['rankNum']
-
     elif 'genderSettings' in i:
         genderSetting = i['genderSettings']
 
@@ -330,32 +308,46 @@ for i in decodedGameMaster:
             'genderlessPercent': genderSetting['gender'].get('genderlessPercent', 0)
         }
 
-    # TODO
-    elif 'battleSettings' in i or 'gymBadgeSettings' in i or 'gymLevel' in i or 'iapSettings' in i or 'pokemonUpgrades' in i or 'questSettings' in i or 'weatherAffinities' in i or 'weatherBonusSettings' in i or 'encounterSettings' in i or 'friendshipMilestoneSettings' in i or 'luckyPokemonSettings' in i or 'exRaidSettings' in i:
-        continue
-        jsonObj = MessageToJson(i)
-        settings = json.loads(jsonObj)
+    # TODO: 'gymLevel'
+    elif 'battleSettings' in i or 'gymBadgeSettings' in i or 'gymLevel' in i or 'iapSettings' in i or 'pokemonUpgrades' in i or 'questSettings' in i or 'weatherAffinities' in i or 'weatherBonusSettings' in i or 'encounterSettings' in i or 'friendshipMilestoneSettings' in i or 'luckyPokemonSettings' in i or 'exRaidSettings' in i or 'combatStatStageSettings' in i or 'combatSettings' in i or 'backgroundModeSettings' in i or 'partyRecommendationSettings' in i or 'onboardingV2Settings' in i or 'combatLeagueSettings' in i or 'playerLevel' in i:
+        templateId = i['templateId']
+        del(i['templateId'])
+        settingsKey = list(i.keys())[0]
 
-        templateId = settings['templateId']
-        del(settings['templateId'])
-        settingsKey = list(settings.keys())[0]
-        if settingsKey in ['battleSettings', 'gymBadgeSettings', 'iapSettings', 'pokemonUpgrades', 'weatherBonusSettings', 'luckyPokemonSettings', 'exRaidSettings']:
-            if settingsKey == 'exRaidSettings':
-                settings[settingsKey]['minimumExRaidShareLevel'] = extractFreindshipLevel(settings[settingsKey]['minimumExRaidShareLevel'])
-            gameSettings[settingsKey] = settings[settingsKey]
-        elif settingsKey in ['questSettings', 'weatherAffinities', 'friendshipMilestoneSettings']:
+        dictSettings = ['battleSettings', 'gymBadgeSettings', 'iapSettings', 'pokemonUpgrades', 'weatherBonusSettings', 'luckyPokemonSettings', 'exRaidSettings', 'encounterSettings', 'combatStatStageSettings', 'combatSettings', 'backgroundModeSettings', 'partyRecommendationSettings', 'onboardingV2Settings', 'combatLeagueSettings']
+        listSettingsKeyMap = {'questSettings': 'questType', 'weatherAffinities': 'weatherCondition', 'friendshipMilestoneSettings': 'friendshipLevel'}
+        if settingsKey in dictSettings:
+            gameSettings[settingsKey] = i[settingsKey]
+        elif settingsKey in listSettingsKeyMap.keys():
             if settingsKey not in gameSettings:
-                gameSettings[settingsKey] = []
+                gameSettings[settingsKey] = {}
 
             if settingsKey == 'friendshipMilestoneSettings':
-                settings[settingsKey]['friendshipLevel'] = extractFreindshipLevel(templateId)
+                i[settingsKey]['friendshipLevel'] = extractFriendshipLevel(templateId)
 
-            gameSettings[settingsKey].append(settings[settingsKey])
-        # elif 'gymLevel' in settings:
-            # TODO
-        # elif 'encounterSettings' in settings:
-            # TODO
+            gameSettings[settingsKey][i[settingsKey][listSettingsKeyMap[settingsKey]]] = i[settingsKey]
+        elif 'playerLevel' in i:
+            playerLevels = i['playerLevel']
 
+            playerLevels['levels'] = {}
+            idx = 1
+            for requiredExp in playerLevels['requiredExperience']:
+                playerLevels['levels'][idx] = {
+                    'requiredExperience': requiredExp,
+                    'cpMultiplier': playerLevels['cpMultiplier'][idx-1],
+                    'rankNum': playerLevels['rankNum'][idx-1]
+                }
+                idx += 1
+
+            del playerLevels['requiredExperience']
+            del playerLevels['cpMultiplier']
+            del playerLevels['rankNum']
+
+            gameSettings['playerLevel'] = playerLevels
+        # elif 'gymLevel' in i:
+            # pprint(i)
+            # exit(1)
+            # TODO
 
 for i in genderSettings:
     if i in pokemons:
@@ -383,8 +375,8 @@ with open('out/items.json', 'w') as outfile:
     json.dump(items, outfile, sort_keys=True)
 with open('out/player-levels.json', 'w') as outfile:
     json.dump(playerLevels, outfile, sort_keys=True)
-# with open('out/game-settings.json', 'w') as outfile:
-    # json.dump(gameSettings, outfile, sort_keys=True)
+with open('out/game-settings.json', 'w') as outfile:
+    json.dump(gameSettings, outfile, sort_keys=True)
 
 with open('out/pokemon-base-stats.csv', 'w') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=['id', 'pokemonFormId', 'name-en', 'name-ja', 'name-fr', 'name-es', 'name-de', 'name-it', 'name-ko', 'name-zh-tw', 'name-pt-br', 'form', 'hp', 'atk', 'def', 'type1', 'type2', 'legendary', 'mythical'])

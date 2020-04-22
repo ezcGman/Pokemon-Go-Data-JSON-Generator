@@ -56,6 +56,7 @@ class GameMasterReader:
 
         itemTemplates = []
         for i in decodedGameMaster.item_templates:
+            # Pokemon
             if self.messageHasField(i, 'pokemon_settings'):
                 # The next section until the MessageToJson() call is done to force the translation of constants to their int vals
                 # MessageToJson() translates constants to strings, so the field 'uniqueId' would not have intval 1 for Bulbasaur,
@@ -151,6 +152,7 @@ class GameMasterReader:
                 itemTemplates.append(pokemon)
                 # pprint(pokemon)
 
+            # Gender possibilities per pokemon, nobody knows why that is not part of 'pokemon_settings'
             elif self.messageHasField(i, 'gender_settings'):
                 pokemonId = i.gender_settings.pokemon
 
@@ -163,6 +165,7 @@ class GameMasterReader:
                 itemTemplates.append(genderSetting)
                 # pprint(genderSetting)
 
+            # Forms
             elif self.messageHasField(i, 'form_settings'):
                 forms = None
                 if hasattr(i.form_settings, 'forms') and len(i.form_settings.forms) > 0:
@@ -183,6 +186,7 @@ class GameMasterReader:
                 itemTemplates.append(formSetting)
                 # pprint(formSetting)
 
+            # Types
             elif self.messageHasField(i, 'type_effective'):
                 typeId = i.type_effective.attack_type
 
@@ -195,6 +199,7 @@ class GameMasterReader:
                 itemTemplates.append(typeEffective)
                 # pprint(typeEffective)
 
+            # Moves
             elif self.messageHasField(i, 'move_settings'):
                 animationId = i.move_settings.animation_id
                 moveId = i.move_settings.movement_id
@@ -218,6 +223,7 @@ class GameMasterReader:
                 itemTemplates.append(move)
                 # pprint(move)
 
+            # Combat moves
             elif self.messageHasField(i, 'combat_move'):
                 moveId = i.combat_move.unique_id
                 moveType = i.combat_move.type
@@ -235,6 +241,7 @@ class GameMasterReader:
                 itemTemplates.append(move)
                 # pprint(move)
 
+            # Items
             elif self.messageHasField(i, 'item_settings'):
                 itemId = i.item_settings.item_id
                 itemCategory = i.item_settings.category
@@ -242,39 +249,37 @@ class GameMasterReader:
 
                 jsonObj = MessageToJson(i)
                 item = json.loads(jsonObj)
-                item['item'] = item['itemSettings'].copy()
-                del item['itemSettings']
 
-                item['item']['itemName'] = item['item']['itemId']
+                item['itemSettings']['itemName'] = item['itemSettings']['itemId']
 
-                if item['item']['itemId'] == itemId:
+                if item['itemSettings']['itemId'] == itemId:
                     print("Unknown item: (templateId: '{:s}', itemId: '{:d}')".format(i.template_id, itemId))
-                item['item']['itemId'] = itemId
-                item['item']['categoryName'] = item['item']['category']
-                item['item']['category'] = itemCategory
-                item['item']['itemTypeName'] = item['item']['itemType']
-                item['item']['itemType'] = itemType
+                item['itemSettings']['itemId'] = itemId
+                item['itemSettings']['categoryName'] = item['itemSettings']['category']
+                item['itemSettings']['category'] = itemCategory
+                item['itemSettings']['itemTypeName'] = item['itemSettings']['itemType']
+                item['itemSettings']['itemType'] = itemType
 
                 itemTemplates.append(item)
                 # pprint(item)
 
+            # Badges
             elif self.messageHasField(i, 'badge_settings'):
                 badgeId = i.badge_settings.badge_type
 
                 jsonObj = MessageToJson(i)
                 badge = json.loads(jsonObj)
-                badge['badge'] = badge['badgeSettings'].copy()
-                del badge['badgeSettings']
 
-                badge['badge']['badgeTypeName'] = badge['badge']['badgeType']
+                badge['badgeSettings']['badgeTypeName'] = badge['badgeSettings']['badgeType']
 
-                if badge['badge']['badgeType'] == badgeId:
+                if badge['badgeSettings']['badgeType'] == badgeId:
                     print("Unknown badge: (templateId: '{:s}', badgeId: '{:d}')".format(i.template_id, badgeId))
-                badge['badge']['badgeType'] = badgeId
+                badge['badgeSettings']['badgeType'] = badgeId
 
                 itemTemplates.append(badge)
                 # pprint(badge)
 
+            # Weather affinities
             elif self.messageHasField(i, 'weather_affinities'):
                 pokemonTypes = [ pokemonType for pokemonType in i.weather_affinities.pokemon_type ]
                 weatherCondition = i.weather_affinities.weather_condition
@@ -290,6 +295,7 @@ class GameMasterReader:
                 itemTemplates.append(weatherAffinity)
                 # pprint(weatherAffinity)
 
+            # Ex Raid Settings
             elif self.messageHasField(i, 'ex_raid_settings'):
                 minShareLvl = i.ex_raid_settings.minimum_ex_raid_share_level
 
@@ -302,6 +308,7 @@ class GameMasterReader:
                 itemTemplates.append(exRaidSettings)
                 # pprint(exRaidSettings)
 
+            # Friendship levels
             elif self.messageHasField(i, 'friendship_milestone_settings'):
                 unlockedTradings = [ unlockedTrading for unlockedTrading in i.friendship_milestone_settings.unlocked_trading ]
 
@@ -314,6 +321,7 @@ class GameMasterReader:
                 itemTemplates.append(friendshipMilestone)
                 # pprint(friendshipMilestone)
 
+            # Daily quests
             elif self.messageHasField(i, 'quest_settings'):
                 questType = i.quest_settings.quest_type
 
@@ -326,18 +334,52 @@ class GameMasterReader:
                 itemTemplates.append(quest)
                 # pprint(quest)
 
-            elif self.messageHasField(i, 'iap_item_display'):
-                category = i.iap_item_display.category
+            # Battle party recommendation settings
+            elif self.messageHasField(i, 'party_recommendation_settings'):
+                theMode = i.party_recommendation_settings.mode
 
                 jsonObj = MessageToJson(i)
-                iapItemDisplay = json.loads(jsonObj)
+                partySettings = json.loads(jsonObj)
 
-                iapItemDisplay['iapItemDisplay']['categoryName'] = iapItemDisplay['iapItemDisplay']['category']
-                iapItemDisplay['iapItemDisplay']['category'] = category
+                partySettings['partyRecommendationSettings']['modeName'] = partySettings['partyRecommendationSettings']['mode']
+                partySettings['partyRecommendationSettings']['mode'] = theMode
 
-                itemTemplates.append(iapItemDisplay)
-                # pprint(iapItemDisplay)
+                itemTemplates.append(partySettings)
+                # pprint(partySettings)
 
+            # Whitelist of Pokemon allowed to be transferred to "Pokemon Let's Go" games on Nintendo Switch
+            elif self.messageHasField(i, 'beluga_pokemon_whitelist'):
+                costumesAllowed = [ costumeAllowed for targetType in i.camera.target_type ]
+                additionalPokemonAllowed = [ additionalPokemon for targetType in i.camera.target_type ]
+
+                jsonObj = MessageToJson(i)
+                belugaPokemonWhitelist = json.loads(jsonObj)
+
+                belugaPokemonWhitelist['belugaPokemonWhitelist']['costumesAllowedNames'] = belugaPokemonWhitelist['belugaPokemonWhitelist']['costumesAllowed']
+                belugaPokemonWhitelist['belugaPokemonWhitelist']['costumesAllowed'] = costumesAllowed
+                belugaPokemonWhitelist['belugaPokemonWhitelist']['additionalPokemonAllowedNames'] = belugaPokemonWhitelist['belugaPokemonWhitelist']['additionalPokemonAllowed']
+                belugaPokemonWhitelist['belugaPokemonWhitelist']['additionalPokemonAllowed'] = additionalPokemonAllowed
+
+                itemTemplates.append(belugaPokemonWhitelist)
+                # pprint(belugaPokemonWhitelist)
+
+            # Moves Smeargles can learn
+            elif self.messageHasField(i, 'smeargle_moves_settings'):
+                cinematicMoves = [ cinematicMove for cinematicMove in i.smeargle_moves_settings.cinematic_moves ]
+                quickMoves = [ quickMove for quickMove in i.smeargle_moves_settings.quick_moves ]
+
+                jsonObj = MessageToJson(i)
+                smeargleMoves = json.loads(jsonObj)
+
+                smeargleMoves['smeargleMovesSettings']['cinematicMoveNames'] = smeargleMoves['smeargleMovesSettings']['cinematicMoves']
+                smeargleMoves['smeargleMovesSettings']['cinematicMoves'] = cinematicMoves
+                smeargleMoves['smeargleMovesSettings']['quickMoveNames'] = smeargleMoves['smeargleMovesSettings']['quickMoves']
+                smeargleMoves['smeargleMovesSettings']['quickMoves'] = quickMoves
+
+                itemTemplates.append(smeargleMoves)
+                # pprint(smeargleMoves)
+
+            # Avatar clothes / items available in store
             elif self.messageHasField(i, 'avatar_customization'):
                 avatarType = None
                 if hasattr(i.avatar_customization, 'avatar_type') and i.avatar_customization.avatar_type > 0:
@@ -365,6 +407,33 @@ class GameMasterReader:
                 itemTemplates.append(avatarCustomization)
                 # pprint(avatarCustomization)
 
+            # Not sure what this is
+            elif self.messageHasField(i, 'onboarding_v2_settings'):
+                pokedexIds = [ pokedexId for pokedexId in i.onboarding_v2_settings.pokedex_id ]
+
+                jsonObj = MessageToJson(i)
+                v2Settings = json.loads(jsonObj)
+
+                v2Settings['onboardingV2Settings']['pokedexName'] = v2Settings['onboardingV2Settings']['pokedexId']
+                v2Settings['onboardingV2Settings']['pokedexId'] = pokedexIds
+
+                itemTemplates.append(v2Settings)
+                # pprint(v2Settings)
+
+            # Out of interest
+            elif self.messageHasField(i, 'iap_item_display'):
+                category = i.iap_item_display.category
+
+                jsonObj = MessageToJson(i)
+                iapItemDisplay = json.loads(jsonObj)
+
+                iapItemDisplay['iapItemDisplay']['categoryName'] = iapItemDisplay['iapItemDisplay']['category']
+                iapItemDisplay['iapItemDisplay']['category'] = category
+
+                itemTemplates.append(iapItemDisplay)
+                # pprint(iapItemDisplay)
+
+            # Out of interest
             elif self.messageHasField(i, 'camera'):
                 interpolations = [ interpolation for interpolation in i.camera.interpolation ]
                 targetTypes = [ targetType for targetType in i.camera.target_type ]
@@ -380,6 +449,7 @@ class GameMasterReader:
                 itemTemplates.append(camera)
                 # pprint(camera)
 
+            # Out of interest
             elif self.messageHasField(i, 'pokemon_scale_settings'):
                 pokemonScaleMode = None
                 if hasattr(i.pokemon_scale_settings, 'pokemon_scale_mode') and i.pokemon_scale_settings.pokemon_scale_mode > 0:
@@ -395,6 +465,7 @@ class GameMasterReader:
                 itemTemplates.append(scaleSetting)
                 # pprint(scaleSetting)
 
+            # Out of interest
             elif self.messageHasField(i, 'iap_category_display'):
                 category = i.iap_category_display.category
 
@@ -407,130 +478,65 @@ class GameMasterReader:
                 itemTemplates.append(iapCategoryDisplay)
                 # pprint(iapCategoryDisplay)
 
-            elif self.messageHasField(i, 'beluga_pokemon_whitelist'):
-                costumesAllowed = [ costumeAllowed for targetType in i.camera.target_type ]
-                additionalPokemonAllowed = [ additionalPokemon for targetType in i.camera.target_type ]
-
-                jsonObj = MessageToJson(i)
-                belugaPokemonWhitelist = json.loads(jsonObj)
-
-                belugaPokemonWhitelist['belugaPokemonWhitelist']['costumesAllowedNames'] = belugaPokemonWhitelist['belugaPokemonWhitelist']['costumesAllowed']
-                belugaPokemonWhitelist['belugaPokemonWhitelist']['costumesAllowed'] = costumesAllowed
-                belugaPokemonWhitelist['belugaPokemonWhitelist']['additionalPokemonAllowedNames'] = belugaPokemonWhitelist['belugaPokemonWhitelist']['additionalPokemonAllowed']
-                belugaPokemonWhitelist['belugaPokemonWhitelist']['additionalPokemonAllowed'] = additionalPokemonAllowed
-
-                itemTemplates.append(belugaPokemonWhitelist)
-                # pprint(belugaPokemonWhitelist)
-
-            # YES, capital 'S'!!!
-            elif self.messageHasField(i, 'buddy_activity_Settings'):
-                activity = i.buddy_activity_Settings.activity
-                activityCategory = i.buddy_activity_Settings.activity_category
-
-                jsonObj = MessageToJson(i)
-                buddyActivity = json.loads(jsonObj)
-
-                buddyActivity['buddyActivitySettings']['activityName'] = buddyActivity['buddyActivitySettings']['activity']
-                buddyActivity['buddyActivitySettings']['activity'] = activity
-                buddyActivity['buddyActivitySettings']['activityCategoryName'] = buddyActivity['buddyActivitySettings']['activityCategory']
-                buddyActivity['buddyActivitySettings']['activityCategory'] = activityCategory
-
-                itemTemplates.append(buddyActivity)
-                # pprint(buddyActivity)
-
-            elif self.messageHasField(i, 'buddy_activity_category_settings'):
-                activityCategory = i.buddy_activity_category_settings.activity_category
-
-                jsonObj = MessageToJson(i)
-                buddyActivityCategory = json.loads(jsonObj)
-
-                buddyActivityCategory['buddyActivityCategorySettings']['activityCategoryName'] = buddyActivityCategory['buddyActivityCategorySettings']['activityCategory']
-                buddyActivityCategory['buddyActivityCategorySettings']['activityCategory'] = activityCategory
-
-                itemTemplates.append(buddyActivityCategory)
-                # pprint(buddyActivityCategory)
-
-            elif self.messageHasField(i, 'buddy_level_settings'):
-                level = i.buddy_level_settings.level
-                unlockedTraits = None
-                if hasattr(i.buddy_level_settings, 'unlocked_traits') and len(i.buddy_level_settings.unlocked_traits) > 0:
-                    unlockedTraits = [ unlockedTrait for unlockedTrait in i.buddy_level_settings.unlocked_traits ]
-
-                jsonObj = MessageToJson(i)
-                buddyLevel = json.loads(jsonObj)
-
-                buddyLevel['buddyLevelSettings']['levelName'] = buddyLevel['buddyLevelSettings']['level']
-                buddyLevel['buddyLevelSettings']['level'] = level
-                if unlockedTraits is not None:
-                    buddyLevel['buddyLevelSettings']['unlockedTraitNames'] = buddyLevel['buddyLevelSettings']['unlockedTraits']
-                    buddyLevel['buddyLevelSettings']['unlockedTraits'] = unlockedTraits
-
-                itemTemplates.append(buddyLevel)
-                # pprint(buddyLevel)
-
-            elif self.messageHasField(i, 'combat_type'):
-                theType = i.combat_type.type
-
-                jsonObj = MessageToJson(i)
-                combatType = json.loads(jsonObj)
-
-                combatType['combatType']['typeName'] = combatType['combatType']['type']
-                combatType['combatType']['type'] = theType
-
-                itemTemplates.append(combatType)
-                # pprint(combatType)
-
-            elif self.messageHasField(i, 'onboarding_v2_settings'):
-                pokedexIds = [ pokedexId for pokedexId in i.onboarding_v2_settings.pokedex_id ]
-
-                jsonObj = MessageToJson(i)
-                v2Settings = json.loads(jsonObj)
-
-                v2Settings['onboardingV2Settings']['pokedexName'] = v2Settings['onboardingV2Settings']['pokedexId']
-                v2Settings['onboardingV2Settings']['pokedexId'] = pokedexIds
-
-                itemTemplates.append(v2Settings)
-                # pprint(v2Settings)
-
-            elif self.messageHasField(i, 'party_recommendation_settings'):
-                theMode = i.party_recommendation_settings.mode
-
-                jsonObj = MessageToJson(i)
-                partySettings = json.loads(jsonObj)
-
-                partySettings['partyRecommendationSettings']['modeName'] = partySettings['partyRecommendationSettings']['mode']
-                partySettings['partyRecommendationSettings']['mode'] = theMode
-
-                itemTemplates.append(partySettings)
-                # pprint(partySettings)
-
-            elif self.messageHasField(i, 'smeargle_moves_settings'):
-                cinematicMoves = [ cinematicMove for cinematicMove in i.smeargle_moves_settings.cinematic_moves ]
-                quickMoves = [ quickMove for quickMove in i.smeargle_moves_settings.quick_moves ]
-
-                jsonObj = MessageToJson(i)
-                smeargleMoves = json.loads(jsonObj)
-
-                smeargleMoves['smeargleMovesSettings']['cinematicMoveNames'] = smeargleMoves['smeargleMovesSettings']['cinematicMoves']
-                smeargleMoves['smeargleMovesSettings']['cinematicMoves'] = cinematicMoves
-                smeargleMoves['smeargleMovesSettings']['quickMoveNames'] = smeargleMoves['smeargleMovesSettings']['quickMoves']
-                smeargleMoves['smeargleMovesSettings']['quickMoves'] = quickMoves
-
-                itemTemplates.append(smeargleMoves)
-                # pprint(smeargleMoves)
-
-            # TODO
+            # Combat leagues (e.g. great, ultra, etc.) settings
             elif self.messageHasField(i, 'combat_league'):
-                itemTemplates.append(json.loads(MessageToJson(i)))
-                # pprint(i)
+                bannedPokemon = None
+                if hasattr(i.combat_league, 'banned_pokemon') and len(i.combat_league.banned_pokemon) > 0:
+                    bannedPokemon = [ bannedPoke for bannedPoke in i.combat_league.banned_pokemon ]
+                unlockConditions = None
+                if hasattr(i.combat_league, 'unlock_condition') and len(i.combat_league.unlock_condition) > 0:
+                    unlockConditions = i.combat_league.unlock_condition
+                pokemonConditions = None
+                if hasattr(i.combat_league, 'pokemon_condition') and len(i.combat_league.pokemon_condition) > 0:
+                    pokemonConditions = i.combat_league.pokemon_condition
+                badgeType = i.combat_league.badge_type
 
-            # TODO
+                jsonObj = MessageToJson(i)
+                combatLeague = json.loads(jsonObj)
+
+                if bannedPokemon is not None:
+                    combatLeague['combatLeague']['bannedPokemonNames'] = combatLeague['combatLeague']['bannedPokemon']
+                    combatLeague['combatLeague']['bannedPokemon'] = bannedPokemon
+                if unlockConditions is not None:
+                    # Note: There is a slight chance that the order of the list after converting it to JSON has changed! So there is the possibility of a bug here!
+                    for j, unlockCondition in enumerate(unlockConditions):
+                        combatLeague['combatLeague']['unlockCondition'][j]['typeName'] = combatLeague['combatLeague']['unlockCondition'][j]['type']
+                        combatLeague['combatLeague']['unlockCondition'][j]['type'] = unlockCondition.type
+                if pokemonConditions is not None:
+                    # Note: There is a slight chance that the order of the list after converting it to JSON has changed! So there is the possibility of a bug here!
+                    for j, pokemonCondition in enumerate(pokemonConditions):
+                        combatLeague['combatLeague']['pokemonCondition'][j]['typeName'] = combatLeague['combatLeague']['pokemonCondition'][j]['type']
+                        combatLeague['combatLeague']['pokemonCondition'][j]['type'] = pokemonCondition.type
+                combatLeague['combatLeague']['badgeTypeName'] = combatLeague['combatLeague']['badgeType']
+                combatLeague['combatLeague']['badgeType'] = badgeType
+
+                itemTemplates.append(combatLeague)
+                # pprint(combatLeague)
+
+            # The three trainers with their lineup for each combat league
             elif self.messageHasField(i, 'combat_npc_trainer'):
-                itemTemplates.append(json.loads(MessageToJson(i)))
-                # pprint(i)
+                availablePokemon = None
+                if hasattr(i.combat_npc_trainer, 'available_pokemon') and len(i.combat_npc_trainer.available_pokemon) > 0:
+                    availablePokemon = i.combat_npc_trainer.available_pokemon
+
+                jsonObj = MessageToJson(i)
+                combatNpcTrainer = json.loads(jsonObj)
+
+                if availablePokemon is not None:
+                    # Note: There is a slight chance that the order of the list after converting it to JSON has changed! So there is the possibility of a bug here!
+                    for j, availablePoke in enumerate(availablePokemon):
+                        combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonTypeName'] = combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonType']
+                        combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonType'] = availablePoke.pokemon_type
+
+                        if hasattr(availablePoke, 'pokemon_display') and hasattr(availablePoke.pokemon_display, 'form') and availablePoke.pokemon_display.form > 0:
+                            combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonDisplay']['formName'] = combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonDisplay']['form']
+                            combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonDisplay']['form'] = availablePoke.pokemon_display.form
+
+                itemTemplates.append(combatNpcTrainer)
+                # pprint(combatNpcTrainer)
 
             else:
-                # Currently these: 'background_mode_settings', 'battle_settings', 'buddy_encounter_cameo_settings', 'invasion_npc_display_settings', 'combat_league_settings', 'buddy_swap_settings', 'combat_competitive_season_settings', 'combat_ranking_proto_settings', 'combat_settings', 'combat_stat_stage_settings', 'encounter_settings', 'gym_badge_settings', 'gym_level', 'iap_settings', 'lucky_pokemon_settings', 'player_level', 'pokecoin_purchase_display_gmt', 'pokemon_upgrades', 'combat_npc_personality', 'vs_seeker_client_settings', 'weather_bonus_settings', 'adventure_sync_v2_gmt', 'move_sequence_settings'
+                # Currently these: 'background_mode_settings', 'battle_settings', 'combat_league_settings', 'combat_settings', 'combat_stat_stage_settings', 'encounter_settings', 'gym_badge_settings', 'gym_level', 'iap_settings', 'lucky_pokemon_settings', 'player_level', 'pokecoin_purchase_display_gmt', 'pokemon_upgrades', 'combat_npc_personality', 'weather_bonus_settings', 'adventure_sync_v2_gmt', 'move_sequence_settings'
                 itemTemplates.append(json.loads(MessageToJson(i)))
 
         return itemTemplates
