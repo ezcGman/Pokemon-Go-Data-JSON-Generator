@@ -109,6 +109,10 @@ for i in decodedGameMaster:
 
             forms[pokemonId] = [ pokeForm['form'] for pokeForm in form['forms'] ]
 
+singleTplSettings = ['battleSettings', 'gymBadgeSettings', 'iapSettings', 'pokemonUpgrades', 'weatherBonusSettings', 'luckyPokemonSettings', 'exRaidSettings', 'encounterSettings', 'combatStatStageSettings', 'combatSettings', 'backgroundModeSettings', 'partyRecommendationSettings', 'onboardingV2Settings', 'combatLeagueSettings', 'buddyEncounterCameoSettings', 'buddyHungerSettings', 'buddySwapSettings', 'buddyWalkSettings', 'combatCompetitiveSeasonSettings', 'combatRankingProtoSettings', 'platypusRolloutSettings', 'vsSeekerClientSettings']
+singleTplSpecialSettings = ['playerLevel', 'gymLevel', 'pokestopInvasionAvailabilitySettings']
+multiTplSettingsKeyMap = {'questSettings': 'questType', 'weatherAffinities': 'weatherCondition', 'friendshipMilestoneSettings': 'friendshipLevel'}
+
 moves = {}
 combatMoveModifiers = {}
 combatMoves = {}
@@ -309,23 +313,21 @@ for i in decodedGameMaster:
         }
 
     # TODO: 'gymLevel'
-    elif 'battleSettings' in i or 'gymBadgeSettings' in i or 'gymLevel' in i or 'iapSettings' in i or 'pokemonUpgrades' in i or 'questSettings' in i or 'weatherAffinities' in i or 'weatherBonusSettings' in i or 'encounterSettings' in i or 'friendshipMilestoneSettings' in i or 'luckyPokemonSettings' in i or 'exRaidSettings' in i or 'combatStatStageSettings' in i or 'combatSettings' in i or 'backgroundModeSettings' in i or 'partyRecommendationSettings' in i or 'onboardingV2Settings' in i or 'combatLeagueSettings' in i or 'playerLevel' in i:
+    elif any(y in singleTplSettings + singleTplSpecialSettings + list(multiTplSettingsKeyMap.keys()) for y in i):
         templateId = i['templateId']
         del(i['templateId'])
         settingsKey = list(i.keys())[0]
 
-        dictSettings = ['battleSettings', 'gymBadgeSettings', 'iapSettings', 'pokemonUpgrades', 'weatherBonusSettings', 'luckyPokemonSettings', 'exRaidSettings', 'encounterSettings', 'combatStatStageSettings', 'combatSettings', 'backgroundModeSettings', 'partyRecommendationSettings', 'onboardingV2Settings', 'combatLeagueSettings']
-        listSettingsKeyMap = {'questSettings': 'questType', 'weatherAffinities': 'weatherCondition', 'friendshipMilestoneSettings': 'friendshipLevel'}
-        if settingsKey in dictSettings:
+        if settingsKey in singleTplSettings:
             gameSettings[settingsKey] = i[settingsKey]
-        elif settingsKey in listSettingsKeyMap.keys():
+        elif settingsKey in multiTplSettingsKeyMap.keys():
             if settingsKey not in gameSettings:
                 gameSettings[settingsKey] = {}
 
             if settingsKey == 'friendshipMilestoneSettings':
                 i[settingsKey]['friendshipLevel'] = extractFriendshipLevel(templateId)
 
-            gameSettings[settingsKey][i[settingsKey][listSettingsKeyMap[settingsKey]]] = i[settingsKey]
+            gameSettings[settingsKey][i[settingsKey][multiTplSettingsKeyMap[settingsKey]]] = i[settingsKey]
         elif 'playerLevel' in i:
             playerLevels = i['playerLevel']
 
@@ -344,10 +346,18 @@ for i in decodedGameMaster:
             del playerLevels['rankNum']
 
             gameSettings['playerLevel'] = playerLevels
+        # TODO
         # elif 'gymLevel' in i:
             # pprint(i)
             # exit(1)
-            # TODO
+        elif 'pokestopInvasionAvailabilitySettings' in i:
+            if 'pokestopInvasionAvailabilitySettings' not in gameSettings:
+                gameSettings['pokestopInvasionAvailabilitySettings'] = {}
+
+            m = re.search('INVASION_AVAILABILITY_SETTINGS_(.*)', templateId)
+            dayName = m.group(1)
+
+            gameSettings['pokestopInvasionAvailabilitySettings'][dayName] = i['pokestopInvasionAvailabilitySettings']
 
 for i in genderSettings:
     if i in pokemons:

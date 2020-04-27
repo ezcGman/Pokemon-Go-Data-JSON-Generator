@@ -3,21 +3,43 @@ from google.protobuf.json_format import MessageToJson
 from google.protobuf.json_format import SerializeToJsonError
 
 # Needed for JSON parsing
+from pogoprotos.data.player.player_avatar_type_pb2 import *
+from pogoprotos.data.avatar.avatar_customization_unlock_type_pb2 import *
+from pogoprotos.data.avatar.slot_pb2 import *
 from pogoprotos.enums.badge_type_pb2 import *
+from pogoprotos.enums.battle_hub_section_pb2 import *
+from pogoprotos.enums.battle_hub_subsection_pb2 import *
+from pogoprotos.enums.buddy.buddy_activity_pb2 import *
+from pogoprotos.enums.buddy.buddy_activity_category_pb2 import *
+from pogoprotos.enums.buddy.buddy_animation_pb2 import *
+from pogoprotos.enums.buddy.buddy_emotion_level_pb2 import *
+from pogoprotos.enums.buddy.buddy_level_pb2 import *
 from pogoprotos.enums.buddy_size_pb2 import *
+from pogoprotos.enums.buddy.buddy_trait_pb2 import *
+from pogoprotos.enums.camera_interpolation_pb2 import *
+from pogoprotos.enums.camera_target_pb2 import *
+from pogoprotos.enums.condition_type_pb2 import *
+from pogoprotos.enums.costume_pb2 import *
 from pogoprotos.enums.form_pb2 import *
+from pogoprotos.enums.friendship_level_milestone_pb2 import *
+from pogoprotos.enums.iap_item_category_pb2 import *
+from pogoprotos.enums.party_recommendation_mode_pb2 import *
 from pogoprotos.enums.pokemon_anim_pb2 import *
 from pogoprotos.enums.pokemon_id_pb2 import *
 from pogoprotos.enums.pokemon_family_id_pb2 import *
 from pogoprotos.enums.pokemon_move_pb2 import *
 from pogoprotos.enums.pokemon_movement_type_pb2 import *
 from pogoprotos.enums.pokemon_rarity_pb2 import *
+from pogoprotos.enums.pokemon_scale_mode_pb2 import *
+from pogoprotos.enums.pokemon_trading_type_pb2 import *
 from pogoprotos.enums.pokemon_type_pb2 import *
+from pogoprotos.enums.quest_type_pb2 import *
+from pogoprotos.enums.weather_condition_pb2 import *
 from pogoprotos.inventory.item.item_id_pb2 import *
 
-# from pprint import pprint
 import json
 import re
+from pprint import pprint
 
 
 class GameMasterReader:
@@ -295,19 +317,6 @@ class GameMasterReader:
                 itemTemplates.append(weatherAffinity)
                 # pprint(weatherAffinity)
 
-            # Ex Raid Settings
-            elif self.messageHasField(i, 'ex_raid_settings'):
-                minShareLvl = i.ex_raid_settings.minimum_ex_raid_share_level
-
-                jsonObj = MessageToJson(i)
-                exRaidSettings = json.loads(jsonObj)
-
-                exRaidSettings['exRaidSettings']['minimumExRaidShareLevelName'] = exRaidSettings['exRaidSettings']['minimumExRaidShareLevel']
-                exRaidSettings['exRaidSettings']['minimumExRaidShareLevel'] = minShareLvl
-
-                itemTemplates.append(exRaidSettings)
-                # pprint(exRaidSettings)
-
             # Friendship levels
             elif self.messageHasField(i, 'friendship_milestone_settings'):
                 unlockedTradings = [ unlockedTrading for unlockedTrading in i.friendship_milestone_settings.unlocked_trading ]
@@ -321,6 +330,19 @@ class GameMasterReader:
                 itemTemplates.append(friendshipMilestone)
                 # pprint(friendshipMilestone)
 
+            # Ex Raid Settings
+            elif self.messageHasField(i, 'ex_raid_settings'):
+                minShareLvl = i.ex_raid_settings.minimum_ex_raid_share_level
+
+                jsonObj = MessageToJson(i)
+                exRaidSettings = json.loads(jsonObj)
+
+                exRaidSettings['exRaidSettings']['minimumExRaidShareLevelName'] = exRaidSettings['exRaidSettings']['minimumExRaidShareLevel']
+                exRaidSettings['exRaidSettings']['minimumExRaidShareLevel'] = minShareLvl
+
+                itemTemplates.append(exRaidSettings)
+                # pprint(exRaidSettings)
+
             # Daily quests
             elif self.messageHasField(i, 'quest_settings'):
                 questType = i.quest_settings.quest_type
@@ -331,8 +353,7 @@ class GameMasterReader:
                 quest['questSettings']['questTypeName'] = quest['questSettings']['questType']
                 quest['questSettings']['questType'] = questType
 
-                itemTemplates.append(quest)
-                # pprint(quest)
+                # itemTemplates.append(quest)
 
             # Battle party recommendation settings
             elif self.messageHasField(i, 'party_recommendation_settings'):
@@ -347,10 +368,67 @@ class GameMasterReader:
                 itemTemplates.append(partySettings)
                 # pprint(partySettings)
 
+            # Combat leagues (e.g. great, ultra, etc.) settings
+            elif self.messageHasField(i, 'combat_league'):
+                bannedPokemon = None
+                if hasattr(i.combat_league, 'banned_pokemon') and len(i.combat_league.banned_pokemon) > 0:
+                    bannedPokemon = [ bannedPoke for bannedPoke in i.combat_league.banned_pokemon ]
+                unlockConditions = None
+                if hasattr(i.combat_league, 'unlock_condition') and len(i.combat_league.unlock_condition) > 0:
+                    unlockConditions = i.combat_league.unlock_condition
+                pokemonConditions = None
+                if hasattr(i.combat_league, 'pokemon_condition') and len(i.combat_league.pokemon_condition) > 0:
+                    pokemonConditions = i.combat_league.pokemon_condition
+                badgeType = i.combat_league.badge_type
+
+                jsonObj = MessageToJson(i)
+                combatLeague = json.loads(jsonObj)
+
+                if bannedPokemon is not None:
+                    combatLeague['combatLeague']['bannedPokemonNames'] = combatLeague['combatLeague']['bannedPokemon']
+                    combatLeague['combatLeague']['bannedPokemon'] = bannedPokemon
+                if unlockConditions is not None:
+                    # Note: There is a slight chance that the order of the list after converting it to JSON has changed! So there is the possibility of a bug here!
+                    for j, unlockCondition in enumerate(unlockConditions):
+                        combatLeague['combatLeague']['unlockCondition'][j]['typeName'] = combatLeague['combatLeague']['unlockCondition'][j]['type']
+                        combatLeague['combatLeague']['unlockCondition'][j]['type'] = unlockCondition.type
+                if pokemonConditions is not None:
+                    # Note: There is a slight chance that the order of the list after converting it to JSON has changed! So there is the possibility of a bug here!
+                    for j, pokemonCondition in enumerate(pokemonConditions):
+                        combatLeague['combatLeague']['pokemonCondition'][j]['typeName'] = combatLeague['combatLeague']['pokemonCondition'][j]['type']
+                        combatLeague['combatLeague']['pokemonCondition'][j]['type'] = pokemonCondition.type
+                combatLeague['combatLeague']['badgeTypeName'] = combatLeague['combatLeague']['badgeType']
+                combatLeague['combatLeague']['badgeType'] = badgeType
+
+                itemTemplates.append(combatLeague)
+                # pprint(combatLeague)
+
+            # The three trainers with their lineup for each combat league
+            elif self.messageHasField(i, 'combat_npc_trainer'):
+                availablePokemon = None
+                if hasattr(i.combat_npc_trainer, 'available_pokemon') and len(i.combat_npc_trainer.available_pokemon) > 0:
+                    availablePokemon = i.combat_npc_trainer.available_pokemon
+
+                jsonObj = MessageToJson(i)
+                combatNpcTrainer = json.loads(jsonObj)
+
+                if availablePokemon is not None:
+                    # Note: There is a slight chance that the order of the list after converting it to JSON has changed! So there is the possibility of a bug here!
+                    for j, availablePoke in enumerate(availablePokemon):
+                        combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonTypeName'] = combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonType']
+                        combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonType'] = availablePoke.pokemon_type
+
+                        if hasattr(availablePoke, 'pokemon_display') and hasattr(availablePoke.pokemon_display, 'form') and availablePoke.pokemon_display.form > 0:
+                            combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonDisplay']['formName'] = combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonDisplay']['form']
+                            combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonDisplay']['form'] = availablePoke.pokemon_display.form
+
+                itemTemplates.append(combatNpcTrainer)
+                # pprint(combatNpcTrainer)
+
             # Whitelist of Pokemon allowed to be transferred to "Pokemon Let's Go" games on Nintendo Switch
             elif self.messageHasField(i, 'beluga_pokemon_whitelist'):
-                costumesAllowed = [ costumeAllowed for targetType in i.camera.target_type ]
-                additionalPokemonAllowed = [ additionalPokemon for targetType in i.camera.target_type ]
+                costumesAllowed = [ costumeAllowed for costumeAllowed in i.beluga_pokemon_whitelist.costumes_allowed ]
+                additionalPokemonAllowed = [ additionalPokemon for additionalPokemon in i.beluga_pokemon_whitelist.additional_pokemon_allowed ]
 
                 jsonObj = MessageToJson(i)
                 belugaPokemonWhitelist = json.loads(jsonObj)
@@ -414,11 +492,24 @@ class GameMasterReader:
                 jsonObj = MessageToJson(i)
                 v2Settings = json.loads(jsonObj)
 
-                v2Settings['onboardingV2Settings']['pokedexName'] = v2Settings['onboardingV2Settings']['pokedexId']
+                v2Settings['onboardingV2Settings']['pokedexNames'] = v2Settings['onboardingV2Settings']['pokedexId']
                 v2Settings['onboardingV2Settings']['pokedexId'] = pokedexIds
 
                 itemTemplates.append(v2Settings)
                 # pprint(v2Settings)
+
+            # Out of interest
+            elif self.messageHasField(i, 'iap_category_display'):
+                category = i.iap_category_display.category
+
+                jsonObj = MessageToJson(i)
+                iapCategoryDisplay = json.loads(jsonObj)
+
+                iapCategoryDisplay['iapCategoryDisplay']['categoryName'] = iapCategoryDisplay['iapCategoryDisplay']['category']
+                iapCategoryDisplay['iapCategoryDisplay']['category'] = category
+
+                itemTemplates.append(iapCategoryDisplay)
+                # pprint(iapCategoryDisplay)
 
             # Out of interest
             elif self.messageHasField(i, 'iap_item_display'):
@@ -465,76 +556,6 @@ class GameMasterReader:
                 itemTemplates.append(scaleSetting)
                 # pprint(scaleSetting)
 
-            # Out of interest
-            elif self.messageHasField(i, 'iap_category_display'):
-                category = i.iap_category_display.category
-
-                jsonObj = MessageToJson(i)
-                iapCategoryDisplay = json.loads(jsonObj)
-
-                iapCategoryDisplay['iapCategoryDisplay']['categoryName'] = iapCategoryDisplay['iapCategoryDisplay']['category']
-                iapCategoryDisplay['iapCategoryDisplay']['category'] = category
-
-                itemTemplates.append(iapCategoryDisplay)
-                # pprint(iapCategoryDisplay)
-
-            # Combat leagues (e.g. great, ultra, etc.) settings
-            elif self.messageHasField(i, 'combat_league'):
-                bannedPokemon = None
-                if hasattr(i.combat_league, 'banned_pokemon') and len(i.combat_league.banned_pokemon) > 0:
-                    bannedPokemon = [ bannedPoke for bannedPoke in i.combat_league.banned_pokemon ]
-                unlockConditions = None
-                if hasattr(i.combat_league, 'unlock_condition') and len(i.combat_league.unlock_condition) > 0:
-                    unlockConditions = i.combat_league.unlock_condition
-                pokemonConditions = None
-                if hasattr(i.combat_league, 'pokemon_condition') and len(i.combat_league.pokemon_condition) > 0:
-                    pokemonConditions = i.combat_league.pokemon_condition
-                badgeType = i.combat_league.badge_type
-
-                jsonObj = MessageToJson(i)
-                combatLeague = json.loads(jsonObj)
-
-                if bannedPokemon is not None:
-                    combatLeague['combatLeague']['bannedPokemonNames'] = combatLeague['combatLeague']['bannedPokemon']
-                    combatLeague['combatLeague']['bannedPokemon'] = bannedPokemon
-                if unlockConditions is not None:
-                    # Note: There is a slight chance that the order of the list after converting it to JSON has changed! So there is the possibility of a bug here!
-                    for j, unlockCondition in enumerate(unlockConditions):
-                        combatLeague['combatLeague']['unlockCondition'][j]['typeName'] = combatLeague['combatLeague']['unlockCondition'][j]['type']
-                        combatLeague['combatLeague']['unlockCondition'][j]['type'] = unlockCondition.type
-                if pokemonConditions is not None:
-                    # Note: There is a slight chance that the order of the list after converting it to JSON has changed! So there is the possibility of a bug here!
-                    for j, pokemonCondition in enumerate(pokemonConditions):
-                        combatLeague['combatLeague']['pokemonCondition'][j]['typeName'] = combatLeague['combatLeague']['pokemonCondition'][j]['type']
-                        combatLeague['combatLeague']['pokemonCondition'][j]['type'] = pokemonCondition.type
-                combatLeague['combatLeague']['badgeTypeName'] = combatLeague['combatLeague']['badgeType']
-                combatLeague['combatLeague']['badgeType'] = badgeType
-
-                itemTemplates.append(combatLeague)
-                # pprint(combatLeague)
-
-            # The three trainers with their lineup for each combat league
-            elif self.messageHasField(i, 'combat_npc_trainer'):
-                availablePokemon = None
-                if hasattr(i.combat_npc_trainer, 'available_pokemon') and len(i.combat_npc_trainer.available_pokemon) > 0:
-                    availablePokemon = i.combat_npc_trainer.available_pokemon
-
-                jsonObj = MessageToJson(i)
-                combatNpcTrainer = json.loads(jsonObj)
-
-                if availablePokemon is not None:
-                    # Note: There is a slight chance that the order of the list after converting it to JSON has changed! So there is the possibility of a bug here!
-                    for j, availablePoke in enumerate(availablePokemon):
-                        combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonTypeName'] = combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonType']
-                        combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonType'] = availablePoke.pokemon_type
-
-                        if hasattr(availablePoke, 'pokemon_display') and hasattr(availablePoke.pokemon_display, 'form') and availablePoke.pokemon_display.form > 0:
-                            combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonDisplay']['formName'] = combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonDisplay']['form']
-                            combatNpcTrainer['combatNpcTrainer']['availablePokemon'][j]['pokemonDisplay']['form'] = availablePoke.pokemon_display.form
-
-                itemTemplates.append(combatNpcTrainer)
-                # pprint(combatNpcTrainer)
-
             else:
                 # Currently these: 'background_mode_settings', 'battle_settings', 'combat_league_settings', 'combat_settings', 'combat_stat_stage_settings', 'encounter_settings', 'gym_badge_settings', 'gym_level', 'iap_settings', 'lucky_pokemon_settings', 'player_level', 'pokecoin_purchase_display_gmt', 'pokemon_upgrades', 'combat_npc_personality', 'weather_bonus_settings', 'adventure_sync_v2_gmt', 'move_sequence_settings'
                 itemTemplates.append(json.loads(MessageToJson(i)))
@@ -564,6 +585,7 @@ class GameMasterReader:
                 itemTemplates.append(i["data"])
 
         for i in itemTemplates:
+            ### Already in v1 ###
             if 'pokemonSettings' in i:
                 pokemon = i['pokemonSettings']
 
@@ -574,18 +596,19 @@ class GameMasterReader:
                     except ValueError:
                         print("Unknown pokemon buddy size: (templateId: '{:s}', buddySizeName: '{:s}')".format(i['templateId'], pokemon['buddySize']))
 
-                if 'cinematicMoves' in pokemon:
-                    pokemon['cinematicMoveNames'] = pokemon['cinematicMoves']
-                    cinematicMoves = []
-                    for cinematicMove in pokemon['cinematicMoves']:
-                        cinematicMoveId = None
-                        try:
-                            cinematicMoves.append(PokemonMove.Value(cinematicMove))
-                        except ValueError:
-                            # Already logged in "move" case
-                            # print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], cinematicMove))
-                            cinematicMoves.append(cinematicMove)
-                    pokemon['cinematicMoves'] = cinematicMoves
+                pokemonMovesKeyMap = {'quickMoves': 'quickMoveNames', 'cinematicMoves': 'cinematicMoveNames'}
+                for pokemonMovesKey in pokemonMovesKeyMap.keys():
+                    if pokemonMovesKey in pokemon:
+                        pokemon[pokemonMovesKeyMap[pokemonMovesKey]] = pokemon[pokemonMovesKey]
+                        moveList = []
+                        for theMove in pokemon[pokemonMovesKey]:
+                            try:
+                                moveList.append(PokemonMove.Value(theMove))
+                            except ValueError:
+                                # Already logged in "move" case
+                                # print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], theMove))
+                                moveList.append(theMove)
+                        pokemon[pokemonMovesKey] = moveList
 
                 if 'movementType' in pokemon['encounter']:
                     pokemon['encounter']['movementTypeName'] = pokemon['encounter']['movementType']
@@ -598,7 +621,6 @@ class GameMasterReader:
                     pokemon['evolutionNames'] = pokemon['evolutionIds']
                     evolutionIds = []
                     for evolution in pokemon['evolutionIds']:
-                        evolutionId = None
                         try:
                             evolutionIds.append(PokemonId.Value(evolution))
                         except ValueError:
@@ -610,25 +632,25 @@ class GameMasterReader:
                 if 'evolutionBranch' in pokemon:
                     for j, evoBranch in enumerate(pokemon['evolutionBranch']):
                         if 'evolution' in evoBranch:
-                            pokemon['evolutionBranch'][j]['evolutionName'] = evoBranch['evolution']
+                            evoBranch['evolutionName'] = evoBranch['evolution']
                             try:
-                                pokemon['evolutionBranch'][j]['evolution'] = PokemonId.Value(evoBranch['evolution'])
+                                evoBranch['evolution'] = PokemonId.Value(evoBranch['evolution'])
                             except ValueError:
                                 # Already logged in "pokemon" case
                                 # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], evoBranch['evolution']))
                                 pass
                         if 'form' in evoBranch:
-                            pokemon['evolutionBranch'][j]['formName'] = evoBranch['form']
+                            evoBranch['formName'] = evoBranch['form']
                             try:
-                                pokemon['evolutionBranch'][j]['form'] = Form.Value(evoBranch['form'])
+                                evoBranch['form'] = Form.Value(evoBranch['form'])
                             except ValueError:
                                 # Already logged in "formSettings" case
                                 # print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], evoBranch['form']))
                                 pass
                         if 'evolutionItemRequirement' in evoBranch:
-                            pokemon['evolutionBranch'][j]['evolutionItemRequirementName'] = evoBranch['evolutionItemRequirement']
+                            evoBranch['evolutionItemRequirementName'] = evoBranch['evolutionItemRequirement']
                             try:
-                                pokemon['evolutionBranch'][j]['evolutionItemRequirement'] = ItemId.Value(evoBranch['evolutionItemRequirement'])
+                                evoBranch['evolutionItemRequirement'] = ItemId.Value(evoBranch['evolutionItemRequirement'])
                             except ValueError:
                                 # Already logged in "item" case
                                 # print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], evoBranch['evolutionItemRequirement']))
@@ -660,19 +682,6 @@ class GameMasterReader:
                 if pokemonId is not None:
                     pokemon['pokemonId'] = pokemonId
 
-                if 'quickMoves' in pokemon:
-                    pokemon['quickMoveNames'] = pokemon['quickMoves']
-                    quickMoves = []
-                    for quickMove in pokemon['quickMoves']:
-                        quickMoveId = None
-                        try:
-                            quickMoves.append(PokemonMove.Value(quickMove))
-                        except ValueError:
-                            # Already logged in "move" case
-                            # print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], quickMove)
-                            quickMoves.append(quickMove)
-                    pokemon['quickMoves'] = quickMoves
-
                 if 'rarity' in pokemon:
                     pokemon['rarityName'] = pokemon['rarity']
                     try:
@@ -701,7 +710,7 @@ class GameMasterReader:
                 try:
                     i['genderSettings']['pokemon'] = PokemonId.Value(i['genderSettings']['pokemon'])
                 except ValueError:
-                    # Already logged in "pokemon" case
+                    # Already logged in "pokemonSettings" case
                     # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], i['genderSettings']['pokemon']))
                     pass
 
@@ -710,16 +719,16 @@ class GameMasterReader:
 
                 if 'forms' in formSetting:
                     for j, form in enumerate(formSetting['forms']):
-                        formSetting['forms'][j]['formName'] = form['form']
+                        form['formName'] = form['form']
                         try:
-                            formSetting['forms'][j]['form'] = Form.Value(form['form'])
+                            form['form'] = Form.Value(form['form'])
                         except ValueError:
                             print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], form['form']))
                 formSetting['pokemonName'] = formSetting['pokemon']
                 try:
                     formSetting['pokemon'] = PokemonId.Value(formSetting['pokemon'])
                 except ValueError:
-                    # Already logged in "pokemon" case
+                    # Already logged in "pokemonSettings" case
                     # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], formSetting['pokemon']))
                     pass
 
@@ -802,6 +811,429 @@ class GameMasterReader:
                 try:
                     i['badgeSettings']['badgeType'] = BadgeType.Value(i['badgeSettings']['badgeType'])
                 except ValueError:
-                    print("Unknown badge: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], i['badgeSettings']['badgeType']))
+                    print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], i['badgeSettings']['badgeType']))
+
+            elif 'weatherAffinities' in i:
+                weatherAffinity = i['weatherAffinities']
+
+                weatherAffinity['pokemonTypeNames'] = weatherAffinity['pokemonType']
+                pokemonTypes = []
+                for pokemonType in weatherAffinity['pokemonType']:
+                    try:
+                        pokemonTypes.append(PokemonType.Value(pokemonType))
+                    except ValueError:
+                        # Already logged in "typeEffective" case
+                        # print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], pokemonType))
+                        pokemonTypes.append(pokemonType)
+                weatherAffinity['pokemonType'] = pokemonTypes
+
+                weatherAffinity['weatherConditionName'] = weatherAffinity['weatherCondition']
+                try:
+                    weatherAffinity['weatherCondition'] = WeatherCondition.Value(weatherAffinity['weatherCondition'])
+                except ValueError:
+                    print("Unknown weather condition: (templateId: '{:s}', weatherCondition: '{:s}')".format(i['templateId'], item['weatherCondition']))
+
+            elif 'friendshipMilestoneSettings' in i:
+                friendshipMilestone = i['friendshipMilestoneSettings']
+
+                friendshipMilestone['unlockedTradingNames'] = friendshipMilestone['unlockedTrading']
+                unlockedTradings = []
+                for unlockedTrading in friendshipMilestone['unlockedTrading']:
+                    try:
+                        unlockedTradings.append(PokemonTradingType.Value(unlockedTrading))
+                    except ValueError:
+                        print("Unknown trading unlock: (templateId: '{:s}', unlockedTradingName: '{:s}')".format(i['templateId'], unlockedTrading))
+                        unlockedTradings.append(unlockedTrading)
+                friendshipMilestone['unlockedTrading'] = unlockedTradings
+
+            elif 'exRaidSettings' in i:
+                i['exRaidSettings']['minimumExRaidShareLevelName'] = i['exRaidSettings']['minimumExRaidShareLevel']
+                try:
+                    i['exRaidSettings']['minimumExRaidShareLevel'] = FriendshipLevelMilestone.Value(i['exRaidSettings']['minimumExRaidShareLevel'])
+                except ValueError:
+                    # Already logged in "typeEffective" case
+                    # print("Unknown friendship level: (templateId: '{:s}', friendshipLevelName: '{:s}')".format(i['templateId'], i['exRaidSettings']['minimumExRaidShareLevel']))
+                    pass
+
+            elif 'questSettings' in i:
+                i['questSettings']['questTypeName'] = i['questSettings']['questType']
+                try:
+                    i['questSettings']['questType'] = QuestType.Value(i['questSettings']['questType'])
+                except ValueError:
+                    print("Unknown quest type: (templateId: '{:s}', questTypeName: '{:s}')".format(i['templateId'], i['questSettings']['questType']))
+
+            elif 'partyRecommendationSettings' in i:
+                i['partyRecommendationSettings']['modeName'] = i['partyRecommendationSettings']['mode']
+                try:
+                    i['partyRecommendationSettings']['mode'] = PartyRecommendationMode.Value(i['partyRecommendationSettings']['mode'])
+                except ValueError:
+                    print("Unknown party recommendation mode: (templateId: '{:s}', mode: '{:s}')".format(i['templateId'], i['partyRecommendationSettings']['mode']))
+
+            elif 'combatLeague' in i:
+                combatLeague = i['combatLeague']
+
+                combatLeague['badgeTypeName'] = combatLeague['badgeType']
+                try:
+                    combatLeague['badgeType'] = BadgeType.Value(combatLeague['badgeType'])
+                except ValueError:
+                    # Already logged in "badgeSettings" case
+                    # print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], combatLeague['badgeType']))
+                    pass
+
+                combatLeague['bannedPokemonNames'] = combatLeague['bannedPokemon']
+                bannedPokemon = []
+                for bannedPoke in combatLeague['bannedPokemon']:
+                    try:
+                        bannedPokemon.append(PokemonId.Value(bannedPoke))
+                    except ValueError:
+                        # Already logged in "pokemonSettings" case
+                        # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], bannedPoke))
+                        bannedPokemon.append(bannedPoke)
+                combatLeague['bannedPokemon'] = bannedPokemon
+
+                for condition in ['pokemonCondition', 'unlockCondition']:
+                    if condition in combatLeague:
+                        for j, theCondition in enumerate(combatLeague[condition]):
+                            theCondition['typeName'] = theCondition['type']
+                            try:
+                                theCondition['type'] = ConditionType.Value(theCondition['type'])
+                            except ValueError:
+                                print("Unknown condition type: (templateId: '{:s}', conditionTypeName: '{:s}')".format(i['templateId'], theCondition['type']))
+
+            elif 'combatNpcTrainer' in i:
+                for j, availablePokemon in enumerate(i['combatNpcTrainer']['availablePokemon']):
+                    availablePokemon['pokemonTypeName'] = availablePokemon['pokemonType']
+                    try:
+                        availablePokemon['pokemonType'] = PokemonId.Value(availablePokemon['pokemonType'])
+                    except ValueError:
+                        # Already logged in "pokemonSettings" case
+                        # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], availablePokemon['pokemonType']))
+                        pass
+
+                    if 'pokemonDisplay' in availablePokemon and 'form' in availablePokemon['pokemonDisplay']:
+                        availablePokemon['pokemonDisplay']['formName'] = availablePokemon['pokemonDisplay']['form']
+                        try:
+                            availablePokemon['pokemonDisplay']['form'] = Form.Value(availablePokemon['pokemonDisplay']['form'])
+                        except ValueError:
+                            # Already logged in "formSettings" case
+                            # print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], availablePokemon['pokemonDisplay']['form']))
+                            pass
+
+            elif 'belugaPokemonWhitelist' in i:
+                belugaWhitelist = i['belugaPokemonWhitelist']
+
+                belugaWhitelist['additionalPokemonAllowedNames'] = belugaWhitelist['additionalPokemonAllowed']
+                additionalPokemonAllowed = []
+                for additionalPokemon in belugaWhitelist['additionalPokemonAllowed']:
+                    try:
+                        additionalPokemonAllowed.append(PokemonId.Value(additionalPokemon))
+                    except ValueError:
+                        # Already logged in "pokemonSettings" case
+                        # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], additionalPokemon))
+                        additionalPokemonAllowed.append(additionalPokemon)
+                belugaWhitelist['additionalPokemonAllowed'] = additionalPokemonAllowed
+
+                belugaWhitelist['costumesAllowedNames'] = belugaWhitelist['costumesAllowed']
+                costumesAllowed = []
+                for costume in belugaWhitelist['costumesAllowed']:
+                    try:
+                        costumesAllowed.append(Costume.Value(costume))
+                    except ValueError:
+                        print("Unknown costume: (templateId: '{:s}', costume: '{:s}')".format(i['templateId'], costume))
+                        costumesAllowed.append(costume)
+                belugaWhitelist['costumesAllowed'] = costumesAllowed
+
+            elif 'smeargleMovesSettings' in i:
+                smeargleMoves = i['smeargleMovesSettings']
+
+                smeargleMovesKeyMap = {'quickMoves': 'quickMoveNames', 'cinematicMoves': 'cinematicMoveNames'}
+                for smeargleMovesKey in smeargleMovesKeyMap.keys():
+                    smeargleMoves[smeargleMovesKeyMap[smeargleMovesKey]] = smeargleMoves[smeargleMovesKey]
+                    moveList = []
+                    for theMove in smeargleMoves[smeargleMovesKey]:
+                        try:
+                            moveList.append(PokemonMove.Value(theMove))
+                        except ValueError:
+                            # Already logged in "move" case
+                            # print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], theMove))
+                            moveList.append(theMove)
+                    smeargleMoves[smeargleMovesKey] = moveList
+
+            elif 'avatarCustomization' in i:
+                avatarCustom = i['avatarCustomization']
+
+                if 'avatarType' in avatarCustom:
+                    avatarCustom['avatarTypeName'] = avatarCustom['avatarType']
+                    try:
+                        avatarCustom['avatarType'] = PlayerAvatarType.Value(avatarCustom['avatarType'])
+                    except ValueError:
+                        print("Unknown avatar type: (templateId: '{:s}', avatarTypeName: '{:s}')".format(i['templateId'], avatarCustom['avatarType']))
+
+                avatarCustom['slotNames'] = avatarCustom['slot']
+                slots = []
+                for theSlot in avatarCustom['slot']:
+                    try:
+                        slots.append(Slot.Value(theSlot))
+                    except ValueError:
+                        print("Unknown avatar slot: (templateId: '{:s}', slotName: '{:s}')".format(i['templateId'], theSlot))
+                        slots.append(theSlot)
+                avatarCustom['slot'] = slots
+
+                avatarCustom['unlockTypeName'] = avatarCustom['unlockType']
+                try:
+                    avatarCustom['unlockType'] = AvatarCustomizationUnlockType.Value(avatarCustom['unlockType'])
+                except ValueError:
+                    print("Unknown avatar unlock type: (templateId: '{:s}', avatarUnlockTypeName: '{:s}')".format(i['templateId'], avatarCustom['unlockType']))
+
+                if 'unlockBadgeType' in avatarCustom:
+                    avatarCustom['unlockBadgeTypeName'] = avatarCustom['unlockBadgeType']
+                    try:
+                        avatarCustom['unlockBadgeType'] = BadgeType.Value(avatarCustom['unlockBadgeType'])
+                    except ValueError:
+                        # Already logged in "badgeSettings" case
+                        # print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], avatarCustom['unlockBadgeType']))
+                        pass
+
+            elif 'onboardingV2Settings' in i:
+                i['onboardingV2Settings']['pokedexNames'] = i['onboardingV2Settings']['pokedexId']
+                pokedexIds = []
+                for pokedexId in i['onboardingV2Settings']['pokedexId']:
+                    try:
+                        pokedexIds.append(PokemonId.Value(pokedexId))
+                    except ValueError:
+                        # Already logged in "pokemonSettings" case
+                        # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], pokedexId))
+                        pokedexIds.append(pokedexId)
+                i['onboardingV2Settings']['pokedexId'] = pokedexIds
+
+            elif 'iapCategoryDisplay' in i:
+                i['iapCategoryDisplay']['categoryName'] = i['iapCategoryDisplay']['category']
+                try:
+                    i['iapCategoryDisplay']['category'] = HoloIapItemCategory.Value(i['iapCategoryDisplay']['category'])
+                except ValueError:
+                    print("Unknown store category: (templateId: '{:s}', categoryName: '{:s}')".format(i['templateId'], i['iapCategoryDisplay']['category']))
+
+            elif 'iapItemDisplay' in i:
+                i['iapItemDisplay']['categoryName'] = i['iapItemDisplay']['category']
+                try:
+                    i['iapItemDisplay']['category'] = HoloIapItemCategory.Value(i['iapItemDisplay']['category'])
+                except ValueError:
+                    # Already logged in "iapCategoryDisplay" case
+                    # print("Unknown store category: (templateId: '{:s}', categoryName: '{:s}')".format(i['templateId'], i['iapItemDisplay']['category']))
+                    pass
+
+            elif 'camera' in i:
+                i['camera']['interpolationNames'] = i['camera']['interpolation']
+                interpolations = []
+                for interpolation in i['camera']['interpolation']:
+                    try:
+                        interpolations.append(CameraInterpolation.Value(interpolation))
+                    except ValueError:
+                        print("Unknown camera interpolation: (templateId: '{:s}', interpolationName: '{:s}')".format(i['templateId'], interpolation))
+                        interpolations.append(interpolation)
+                i['camera']['interpolation'] = interpolations
+
+                i['camera']['targetTypeNames'] = i['camera']['targetType']
+                targetTypes = []
+                for targetType in i['camera']['targetType']:
+                    try:
+                        targetTypes.append(CameraTarget.Value(targetType))
+                    except ValueError:
+                        print("Unknown camera target type: (templateId: '{:s}', targetTypeName: '{:s}')".format(i['templateId'], targetType))
+                        targetTypes.append(targetType)
+                i['camera']['targetType'] = targetTypes
+
+            elif 'pokemonScaleSettings' in i:
+                if 'pokemonScaleMode' in i['pokemonScaleSettings']:
+                    i['pokemonScaleSettings']['pokemonScaleModeName'] = i['pokemonScaleSettings']['pokemonScaleMode']
+                    try:
+                        i['pokemonScaleSettings']['pokemonScaleMode'] = PokemonScaleMode.Value(i['pokemonScaleSettings']['pokemonScaleMode'])
+                    except ValueError:
+                        print("Unknown scale mode: (templateId: '{:s}', scaleModeName: '{:s}')".format(i['templateId'], i['pokemonScaleSettings']['pokemonScaleMode']))
+
+            ### New in v2 ###
+
+            elif 'awardLevelSettings' in i:
+                i['awardLevelSettings']['rewardItemNames'] = i['awardLevelSettings']['rewardItem']
+                rewardItems = []
+                for rewardItem in i['awardLevelSettings']['rewardItem']:
+                    try:
+                        rewardItems.append(ItemId.Value(rewardItem))
+                    except ValueError:
+                        # Already logged in "itemSettings" case
+                        # print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], rewardItem))
+                        rewardItems.append(rewardItem)
+                i['awardLevelSettings']['rewardItem'] = rewardItems
+
+            elif 'battleHubBadgeSettings' in i:
+                i['battleHubBadgeSettings']['combatHubDisplayedBadgeNames'] = i['battleHubBadgeSettings']['combatHubDisplayedBadges']
+                badges = []
+                for badge in i['battleHubBadgeSettings']['combatHubDisplayedBadges']:
+                    try:
+                        badges.append(BadgeType.Value(badge))
+                    except ValueError:
+                        # Already logged in "badgeSettings" case
+                        # print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], badge))
+                        badges.append(badge)
+                i['battleHubBadgeSettings']['combatHubDisplayedBadges'] = badges
+
+            elif 'battleHubOrderSettings' in i:
+                battleHub = i['battleHubOrderSettings']
+                for j, section in enumerate(battleHub['section']):
+                    section['mainSectionName'] = section['mainSection']
+                    try:
+                        section['mainSection'] = BattleHubSection.Value(section['mainSection'])
+                    except ValueError:
+                        print("Unknown battle hub section: (templateId: '{:s}', sectionName: '{:s}')".format(i['templateId'], section['mainSection']))
+
+                    section['subsectionNames'] = section['subsection']
+                    subsections = []
+                    for subsection in section['subsection']:
+                        try:
+                            subsections.append(BattleHubSubsection.Value(subsection))
+                        except ValueError:
+                            print("Unknown battle hub subsection: (templateId: '{:s}', subsectionName: '{:s}')".format(i['templateId'], subsection))
+                            subsections.append(subsection)
+                    section['subsection'] = subsections
+
+                for j, sectionGroup in enumerate(battleHub['sectionGroup']):
+                    sectionGroup['sectionNames'] = sectionGroup['section']
+                    sections = []
+                    for groupSection in sectionGroup['section']:
+                        try:
+                            sections.append(BattleHubSection.Value(groupSection))
+                        except ValueError:
+                            print("Unknown battle hub section: (templateId: '{:s}', subsectionName: '{:s}')".format(i['templateId'], groupSection))
+                            sections.append(groupSection)
+                    sectionGroup['section'] = sections
+
+            elif 'buddyActivityCategorySettings' in i:
+                i['buddyActivityCategorySettings']['activityCategoryName'] = i['buddyActivityCategorySettings']['activityCategory']
+                try:
+                    i['buddyActivityCategorySettings']['activityCategory'] = BuddyActivityCategory.Value(i['buddyActivityCategorySettings']['activityCategory'])
+                except ValueError:
+                    print("Unknown buddy activity category: (templateId: '{:s}', activityCategoryName: '{:s}')".format(i['templateId'], i['buddyActivityCategorySettings']['activityCategory']))
+
+            elif 'buddyActivitySettings' in i:
+                buddyActivity = i['buddyActivitySettings']
+
+                buddyActivity['activityName'] = buddyActivity['activity']
+                try:
+                    buddyActivity['activity'] = BuddyActivity.Value(buddyActivity['activity'])
+                except ValueError:
+                    print("Unknown buddy activity: (templateId: '{:s}', buddyActivityName: '{:s}')".format(i['templateId'], buddyActivity['activity']))
+
+                buddyActivity['activityCategoryName'] = buddyActivity['activityCategory']
+                try:
+                    buddyActivity['activityCategory'] = BuddyActivityCategory.Value(buddyActivity['activityCategory'])
+                except ValueError:
+                    # Already logged in "buddyActivityCategorySettings" case
+                    # print("Unknown buddy activity category: (templateId: '{:s}', activityCategoryName: '{:s}')".format(i['templateId'], buddyActivity['activityCategory']))
+                    pass
+
+            elif 'buddyEmotionLevelSettings' in i:
+                buddyEmotion = i['buddyEmotionLevelSettings']
+
+                if 'emotionAnimation' in buddyEmotion:
+                    buddyEmotion['emotionAnimationName'] = buddyEmotion['emotionAnimation']
+                    try:
+                        buddyEmotion['emotionAnimation'] = BuddyAnimation.Value(buddyEmotion['emotionAnimation'])
+                    except ValueError:
+                        print("Unknown buddy animation: (templateId: '{:s}', buddyAnimationName: '{:s}')".format(i['templateId'], buddyEmotion['emotionAnimation']))
+
+                buddyEmotion['emotionLevelName'] = buddyEmotion['emotionLevel']
+                try:
+                    buddyEmotion['emotionLevel'] = BuddyEmotionLevel.Value(buddyEmotion['emotionLevel'])
+                except ValueError:
+                    print("Unknown buddy emotion level: (templateId: '{:s}', emotionLevelName: '{:s}')".format(i['templateId'], buddyActivity['emotionLevel']))
+
+            elif 'buddyInteractionSettings' in i:
+                i['buddyInteractionSettings']['feedItemWhitelistNames'] = i['buddyInteractionSettings']['feedItemWhitelist']
+                feedItems = []
+                for feedItem in i['buddyInteractionSettings']['feedItemWhitelist']:
+                    try:
+                        feedItems.append(ItemId.Value(feedItem))
+                    except ValueError:
+                        # Already logged in "itemSettings" case
+                        # print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], feedItem))
+                        feedItems.append(feedItem)
+                i['buddyInteractionSettings']['feedItemWhitelist'] = feedItems
+
+            elif 'buddyLevelSettings' in i:
+                buddyLevel = i['buddyLevelSettings']
+
+                buddyLevel['levelName'] = buddyLevel['level']
+                try:
+                    buddyLevel['level'] = BuddyLevel.Value(buddyLevel['level'])
+                except ValueError:
+                    print("Unknown buddy level: (templateId: '{:s}', levelName: '{:s}')".format(i['templateId'], buddyLevel['level']))
+
+                if 'unlockedTraits' in buddyLevel:
+                    buddyLevel['unlockedTraitNames'] = buddyLevel['unlockedTraits']
+                    traits = []
+                    for trait in buddyLevel['unlockedTraits']:
+                        try:
+                            traits.append(BuddyTrait.Value(trait))
+                        except ValueError:
+                            print("Unknown buddy trait: (templateId: '{:s}', traitName: '{:s}')".format(i['templateId'], trait))
+                            traits.append(trait)
+                    buddyLevel['unlockedTraits'] = traits
+
+            elif 'combatType' in i:
+                i['combatType']['typeName'] = i['combatType']['type']
+                try:
+                    i['combatType']['type'] = PokemonType.Value(i['combatType']['type'])
+                except ValueError:
+                    # Already logged in "typeEffective" case
+                    # print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], i['combatType']['type']))
+                    pass
+
+            elif 'vsSeekerLoot' in i:
+                for j, reward in enumerate(i['vsSeekerLoot']['reward']):
+                    # Yes, double/nested 'item'
+                    if 'item' in reward and 'item' in reward['item']:
+                        reward['item']['itemName'] = reward['item']['item']
+                        try:
+                            reward['item']['item'] = ItemId.Value(reward['item']['item'])
+                        except ValueError:
+                            # Already logged in "itemSettings" case
+                            # print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], reward['item']['item']))
+                            pass
+
+            elif 'vsSeekerPokemonRewards' in i:
+                for j, availablePokemon in enumerate(i['vsSeekerPokemonRewards']['availablePokemon']):
+                    thePokemon = None
+                    if 'pokemon' in availablePokemon:
+                        thePokemon = availablePokemon['pokemon']
+                    elif 'guaranteedLimitedPokemonReward' in availablePokemon:
+                        thePokemon = availablePokemon['guaranteedLimitedPokemonReward']['pokemon']
+
+                    if thePokemon is not None:
+                        thePokemon['pokemonName'] = thePokemon['pokemonId']
+                        try:
+                            thePokemon['pokemonId'] = PokemonId.Value(thePokemon['pokemonId'])
+                        except ValueError:
+                            # Already logged in "pokemonSettings" case
+                            # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], availablePokemon['pokemonId']))
+                            pass
+
+                        if 'pokemonDisplay' in thePokemon and 'form' in thePokemon['pokemonDisplay']:
+                            thePokemon['pokemonDisplay']['formName'] = thePokemon['pokemonDisplay']['form']
+                            try:
+                                thePokemon['pokemonDisplay']['form'] = Form.Value(thePokemon['pokemonDisplay']['form'])
+                            except ValueError:
+                                # Already logged in "formSettings" case
+                                # print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], thePokemon['pokemonDisplay']['form']))
+                                pass
+
+            # Find new templates
+            else:
+                # All of these need no processing / have no enums:
+                # Currently these:
+                # Already in v1: 'backgroundModeSettings', 'battleSettings', 'combatLeagueSettings', 'combatSettings', 'combatStatStageSettings', 'encounterSettings', 'gymBadgeSettings', 'gymLevel', 'iapSettings', 'luckyPokemonSettings', 'playerLevel', 'pokecoinPurchaseDisplayGmt', 'pokemonUpgrades', 'combatNpcPersonality', 'weatherBonusSettings', 'adventureSyncV2Gmt', 'moveSequenceSettings'
+                # New in v2: 'buddyEncounterCameoSettings', 'buddyHungerSettings', 'buddySwapSettings', 'buddyWalkSettings', 'invasionNpcDisplaySettings', 'combatCompetitiveSeasonSettings', 'combatRankingProtoSettings', 'pokestopInvasionAvailabilitySettings', 'limitedPurchaseSkuSettings', 'platypusRolloutSettings', 'vsSeekerClientSettings'
+                if not any(z in ['backgroundModeSettings', 'battleSettings', 'combatLeagueSettings', 'combatSettings', 'combatStatStageSettings', 'encounterSettings', 'gymBadgeSettings', 'gymLevel', 'iapSettings', 'luckyPokemonSettings', 'playerLevel', 'pokecoinPurchaseDisplayGmt', 'pokemonUpgrades', 'combatNpcPersonality', 'weatherBonusSettings', 'adventureSyncV2Gmt', 'moveSequenceSettings', 'buddyEncounterCameoSettings', 'buddyHungerSettings', 'buddySwapSettings', 'buddyWalkSettings', 'invasionNpcDisplaySettings', 'combatCompetitiveSeasonSettings', 'combatRankingProtoSettings', 'pokestopInvasionAvailabilitySettings', 'limitedPurchaseSkuSettings', 'platypusRolloutSettings', 'vsSeekerClientSettings'] for z in i):
+                    print('### NEW TEMPLATE FOUND ###')
+                    pprint(i.keys())
 
         return itemTemplates
