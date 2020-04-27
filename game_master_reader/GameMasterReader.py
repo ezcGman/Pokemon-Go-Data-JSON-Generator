@@ -605,8 +605,7 @@ class GameMasterReader:
                             try:
                                 moveList.append(PokemonMove.Value(theMove))
                             except ValueError:
-                                # Already logged in "move" case
-                                # print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], theMove))
+                                print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], theMove))
                                 moveList.append(theMove)
                         pokemon[pokemonMovesKey] = moveList
 
@@ -624,8 +623,7 @@ class GameMasterReader:
                         try:
                             evolutionIds.append(PokemonId.Value(evolution))
                         except ValueError:
-                            # Already logged in "pokemon" case
-                            # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], evolution))
+                            print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], evolution))
                             evolutionIds.append(evolution)
                     pokemon['evolutionIds'] = evolutionIds
 
@@ -636,25 +634,19 @@ class GameMasterReader:
                             try:
                                 evoBranch['evolution'] = PokemonId.Value(evoBranch['evolution'])
                             except ValueError:
-                                # Already logged in "pokemon" case
-                                # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], evoBranch['evolution']))
-                                pass
+                                print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], evoBranch['evolution']))
                         if 'form' in evoBranch:
                             evoBranch['formName'] = evoBranch['form']
                             try:
                                 evoBranch['form'] = Form.Value(evoBranch['form'])
                             except ValueError:
-                                # Already logged in "formSettings" case
-                                # print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], evoBranch['form']))
-                                pass
+                                print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], evoBranch['form']))
                         if 'evolutionItemRequirement' in evoBranch:
                             evoBranch['evolutionItemRequirementName'] = evoBranch['evolutionItemRequirement']
                             try:
                                 evoBranch['evolutionItemRequirement'] = ItemId.Value(evoBranch['evolutionItemRequirement'])
                             except ValueError:
-                                # Already logged in "item" case
-                                # print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], evoBranch['evolutionItemRequirement']))
-                                pass
+                                print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], evoBranch['evolutionItemRequirement']))
 
                 pokemon['familyName'] = pokemon['familyId']
                 try:
@@ -666,9 +658,7 @@ class GameMasterReader:
                     try:
                         pokemon['form'] = Form.Value(pokemon['form'])
                     except ValueError:
-                        # Already logged in "formSettings" case
-                        # print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], pokemon['form']))
-                        pass
+                        print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], pokemon['form']))
 
                 pokemon['pokemonName'] = pokemon['pokemonId']
                 pokemonId = None
@@ -693,26 +683,20 @@ class GameMasterReader:
                 try:
                     pokemon['type'] = PokemonType.Value(pokemon['type'])
                 except ValueError:
-                    # Already logged in "typeEffective" case
-                    # print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], pokemon['type']))
-                    pass
+                    print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], pokemon['type']))
                 if 'type2' in pokemon:
                     pokemon['type2Name'] = pokemon['type2']
                     try:
                         pokemon['type2'] = PokemonType.Value(pokemon['type2'])
                     except ValueError:
-                        # Already logged in "typeEffective" case
-                        # print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], pokemon['type2']))
-                        pass
+                        print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], pokemon['type2']))
 
             elif 'genderSettings' in i:
                 i['genderSettings']['pokemonName'] = i['genderSettings']['pokemon']
                 try:
                     i['genderSettings']['pokemon'] = PokemonId.Value(i['genderSettings']['pokemon'])
                 except ValueError:
-                    # Already logged in "pokemonSettings" case
-                    # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], i['genderSettings']['pokemon']))
-                    pass
+                    print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], i['genderSettings']['pokemon']))
 
             elif 'formSettings' in i:
                 formSetting = i['formSettings']
@@ -728,9 +712,7 @@ class GameMasterReader:
                 try:
                     formSetting['pokemon'] = PokemonId.Value(formSetting['pokemon'])
                 except ValueError:
-                    # Already logged in "pokemonSettings" case
-                    # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], formSetting['pokemon']))
-                    pass
+                    print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], formSetting['pokemon']))
 
             elif 'typeEffective' in i:
                 i['typeEffective']['attackTypeName'] = i['typeEffective']['attackType']
@@ -765,9 +747,7 @@ class GameMasterReader:
                 try:
                     move['pokemonType'] = PokemonType.Value(move['pokemonType'])
                 except ValueError:
-                    # Already logged in "typeEffective" case
-                    # print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], move['pokemonType']))
-                    pass
+                    print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], move['pokemonType']))
                 move['energyDelta'] = move.get('energyDelta', 0)
 
             elif 'combatMove' in i:
@@ -778,8 +758,7 @@ class GameMasterReader:
                 try:
                     moveId = PokemonMove.Value(combatMove['uniqueId'])
                 except ValueError:
-                    # Already logged in "move" case
-                    # print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], combatMove['movementId']))
+                    print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], combatMove['movementId']))
                     m = re.search('^COMBAT_V([0-9]+)_MOVE_.*', i['templateId'])
                     if m is not None:
                         moveId = int(m.group(1))
@@ -790,9 +769,7 @@ class GameMasterReader:
                 try:
                     combatMove['type'] = PokemonType.Value(combatMove['type'])
                 except ValueError:
-                    # Already logged in "typeEffective" case
-                    # print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], combatMove['type']))
-                    pass
+                    print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], combatMove['type']))
                 combatMove['energyDelta'] = combatMove.get('energyDelta', 0)
 
             elif 'itemSettings' in i:
@@ -822,8 +799,7 @@ class GameMasterReader:
                     try:
                         pokemonTypes.append(PokemonType.Value(pokemonType))
                     except ValueError:
-                        # Already logged in "typeEffective" case
-                        # print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], pokemonType))
+                        print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], pokemonType))
                         pokemonTypes.append(pokemonType)
                 weatherAffinity['pokemonType'] = pokemonTypes
 
@@ -851,9 +827,7 @@ class GameMasterReader:
                 try:
                     i['exRaidSettings']['minimumExRaidShareLevel'] = FriendshipLevelMilestone.Value(i['exRaidSettings']['minimumExRaidShareLevel'])
                 except ValueError:
-                    # Already logged in "typeEffective" case
-                    # print("Unknown friendship level: (templateId: '{:s}', friendshipLevelName: '{:s}')".format(i['templateId'], i['exRaidSettings']['minimumExRaidShareLevel']))
-                    pass
+                    print("Unknown friendship level: (templateId: '{:s}', friendshipLevelName: '{:s}')".format(i['templateId'], i['exRaidSettings']['minimumExRaidShareLevel']))
 
             elif 'questSettings' in i:
                 i['questSettings']['questTypeName'] = i['questSettings']['questType']
@@ -876,9 +850,7 @@ class GameMasterReader:
                 try:
                     combatLeague['badgeType'] = BadgeType.Value(combatLeague['badgeType'])
                 except ValueError:
-                    # Already logged in "badgeSettings" case
-                    # print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], combatLeague['badgeType']))
-                    pass
+                    print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], combatLeague['badgeType']))
 
                 combatLeague['bannedPokemonNames'] = combatLeague['bannedPokemon']
                 bannedPokemon = []
@@ -886,8 +858,7 @@ class GameMasterReader:
                     try:
                         bannedPokemon.append(PokemonId.Value(bannedPoke))
                     except ValueError:
-                        # Already logged in "pokemonSettings" case
-                        # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], bannedPoke))
+                        print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], bannedPoke))
                         bannedPokemon.append(bannedPoke)
                 combatLeague['bannedPokemon'] = bannedPokemon
 
@@ -906,18 +877,14 @@ class GameMasterReader:
                     try:
                         availablePokemon['pokemonType'] = PokemonId.Value(availablePokemon['pokemonType'])
                     except ValueError:
-                        # Already logged in "pokemonSettings" case
-                        # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], availablePokemon['pokemonType']))
-                        pass
+                        print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], availablePokemon['pokemonType']))
 
                     if 'pokemonDisplay' in availablePokemon and 'form' in availablePokemon['pokemonDisplay']:
                         availablePokemon['pokemonDisplay']['formName'] = availablePokemon['pokemonDisplay']['form']
                         try:
                             availablePokemon['pokemonDisplay']['form'] = Form.Value(availablePokemon['pokemonDisplay']['form'])
                         except ValueError:
-                            # Already logged in "formSettings" case
-                            # print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], availablePokemon['pokemonDisplay']['form']))
-                            pass
+                            print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], availablePokemon['pokemonDisplay']['form']))
 
             elif 'belugaPokemonWhitelist' in i:
                 belugaWhitelist = i['belugaPokemonWhitelist']
@@ -928,8 +895,7 @@ class GameMasterReader:
                     try:
                         additionalPokemonAllowed.append(PokemonId.Value(additionalPokemon))
                     except ValueError:
-                        # Already logged in "pokemonSettings" case
-                        # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], additionalPokemon))
+                        print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], additionalPokemon))
                         additionalPokemonAllowed.append(additionalPokemon)
                 belugaWhitelist['additionalPokemonAllowed'] = additionalPokemonAllowed
 
@@ -954,8 +920,7 @@ class GameMasterReader:
                         try:
                             moveList.append(PokemonMove.Value(theMove))
                         except ValueError:
-                            # Already logged in "move" case
-                            # print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], theMove))
+                            print("Unknown move: (templateId: '{:s}', moveName: '{:s}')".format(i['templateId'], theMove))
                             moveList.append(theMove)
                     smeargleMoves[smeargleMovesKey] = moveList
 
@@ -990,9 +955,7 @@ class GameMasterReader:
                     try:
                         avatarCustom['unlockBadgeType'] = BadgeType.Value(avatarCustom['unlockBadgeType'])
                     except ValueError:
-                        # Already logged in "badgeSettings" case
-                        # print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], avatarCustom['unlockBadgeType']))
-                        pass
+                        print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], avatarCustom['unlockBadgeType']))
 
             elif 'onboardingV2Settings' in i:
                 i['onboardingV2Settings']['pokedexNames'] = i['onboardingV2Settings']['pokedexId']
@@ -1001,8 +964,7 @@ class GameMasterReader:
                     try:
                         pokedexIds.append(PokemonId.Value(pokedexId))
                     except ValueError:
-                        # Already logged in "pokemonSettings" case
-                        # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], pokedexId))
+                        print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], pokedexId))
                         pokedexIds.append(pokedexId)
                 i['onboardingV2Settings']['pokedexId'] = pokedexIds
 
@@ -1018,9 +980,7 @@ class GameMasterReader:
                 try:
                     i['iapItemDisplay']['category'] = HoloIapItemCategory.Value(i['iapItemDisplay']['category'])
                 except ValueError:
-                    # Already logged in "iapCategoryDisplay" case
-                    # print("Unknown store category: (templateId: '{:s}', categoryName: '{:s}')".format(i['templateId'], i['iapItemDisplay']['category']))
-                    pass
+                    print("Unknown store category: (templateId: '{:s}', categoryName: '{:s}')".format(i['templateId'], i['iapItemDisplay']['category']))
 
             elif 'camera' in i:
                 i['camera']['interpolationNames'] = i['camera']['interpolation']
@@ -1060,8 +1020,7 @@ class GameMasterReader:
                     try:
                         rewardItems.append(ItemId.Value(rewardItem))
                     except ValueError:
-                        # Already logged in "itemSettings" case
-                        # print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], rewardItem))
+                        print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], rewardItem))
                         rewardItems.append(rewardItem)
                 i['awardLevelSettings']['rewardItem'] = rewardItems
 
@@ -1072,8 +1031,7 @@ class GameMasterReader:
                     try:
                         badges.append(BadgeType.Value(badge))
                     except ValueError:
-                        # Already logged in "badgeSettings" case
-                        # print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], badge))
+                        print("Unknown badge: (templateId: '{:s}', badgeName: '{:s}')".format(i['templateId'], badge))
                         badges.append(badge)
                 i['battleHubBadgeSettings']['combatHubDisplayedBadges'] = badges
 
@@ -1127,9 +1085,7 @@ class GameMasterReader:
                 try:
                     buddyActivity['activityCategory'] = BuddyActivityCategory.Value(buddyActivity['activityCategory'])
                 except ValueError:
-                    # Already logged in "buddyActivityCategorySettings" case
-                    # print("Unknown buddy activity category: (templateId: '{:s}', activityCategoryName: '{:s}')".format(i['templateId'], buddyActivity['activityCategory']))
-                    pass
+                    print("Unknown buddy activity category: (templateId: '{:s}', activityCategoryName: '{:s}')".format(i['templateId'], buddyActivity['activityCategory']))
 
             elif 'buddyEmotionLevelSettings' in i:
                 buddyEmotion = i['buddyEmotionLevelSettings']
@@ -1154,8 +1110,7 @@ class GameMasterReader:
                     try:
                         feedItems.append(ItemId.Value(feedItem))
                     except ValueError:
-                        # Already logged in "itemSettings" case
-                        # print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], feedItem))
+                        print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], feedItem))
                         feedItems.append(feedItem)
                 i['buddyInteractionSettings']['feedItemWhitelist'] = feedItems
 
@@ -1184,9 +1139,7 @@ class GameMasterReader:
                 try:
                     i['combatType']['type'] = PokemonType.Value(i['combatType']['type'])
                 except ValueError:
-                    # Already logged in "typeEffective" case
-                    # print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], i['combatType']['type']))
-                    pass
+                    print("Unknown type: (templateId: '{:s}', typeName: '{:s}')".format(i['templateId'], i['combatType']['type']))
 
             elif 'vsSeekerLoot' in i:
                 for j, reward in enumerate(i['vsSeekerLoot']['reward']):
@@ -1196,9 +1149,7 @@ class GameMasterReader:
                         try:
                             reward['item']['item'] = ItemId.Value(reward['item']['item'])
                         except ValueError:
-                            # Already logged in "itemSettings" case
-                            # print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], reward['item']['item']))
-                            pass
+                            print("Unknown item: (templateId: '{:s}', itemName: '{:s}')".format(i['templateId'], reward['item']['item']))
 
             elif 'vsSeekerPokemonRewards' in i:
                 for j, availablePokemon in enumerate(i['vsSeekerPokemonRewards']['availablePokemon']):
@@ -1213,18 +1164,14 @@ class GameMasterReader:
                         try:
                             thePokemon['pokemonId'] = PokemonId.Value(thePokemon['pokemonId'])
                         except ValueError:
-                            # Already logged in "pokemonSettings" case
-                            # print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], availablePokemon['pokemonId']))
-                            pass
+                            print("Unknown pokemon: (templateId: '{:s}', pokemonName: '{:s}')".format(i['templateId'], availablePokemon['pokemonId']))
 
                         if 'pokemonDisplay' in thePokemon and 'form' in thePokemon['pokemonDisplay']:
                             thePokemon['pokemonDisplay']['formName'] = thePokemon['pokemonDisplay']['form']
                             try:
                                 thePokemon['pokemonDisplay']['form'] = Form.Value(thePokemon['pokemonDisplay']['form'])
                             except ValueError:
-                                # Already logged in "formSettings" case
-                                # print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], thePokemon['pokemonDisplay']['form']))
-                                pass
+                                print("Unknown form: (templateId: '{:s}', formName: '{:s}')".format(i['templateId'], thePokemon['pokemonDisplay']['form']))
 
             # Find new templates
             else:
