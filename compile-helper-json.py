@@ -58,7 +58,7 @@ for langKey in languages:
 
     translations[langKey] = OrderedDict(sorted(translations[langKey].items()))
     with open("in/translations-{:s}.txt".format(langKey), 'w') as outfile:
-        json.dump(translations[langKey], outfile)
+        json.dump(translations[langKey], outfile, sort_keys=True)
 
 defaultEmptyText = {'en': ''}
 formTranslationKeys = {
@@ -85,7 +85,7 @@ for targetKey, origKey in formTranslationKeys.items():
 formTranslations = OrderedDict(sorted(formTranslations.items()))
 
 with open('in/form-translations.json', 'w') as outfile:
-    json.dump(formTranslations, outfile)
+    json.dump(formTranslations, outfile, sort_keys=True)
 
 
 '''
