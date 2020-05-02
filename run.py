@@ -109,7 +109,7 @@ for i in decodedGameMaster:
 
             forms[pokemonId] = [ pokeForm['form'] for pokeForm in form['forms'] ]
 
-singleTplSettings = ['battleSettings', 'gymBadgeSettings', 'iapSettings', 'pokemonUpgrades', 'weatherBonusSettings', 'luckyPokemonSettings', 'exRaidSettings', 'encounterSettings', 'combatStatStageSettings', 'combatSettings', 'backgroundModeSettings', 'partyRecommendationSettings', 'onboardingV2Settings', 'combatLeagueSettings', 'buddyEncounterCameoSettings', 'buddyHungerSettings', 'buddySwapSettings', 'buddyWalkSettings', 'combatCompetitiveSeasonSettings', 'combatRankingProtoSettings', 'platypusRolloutSettings', 'vsSeekerClientSettings']
+singleTplSettings = ['battleSettings', 'gymBadgeSettings', 'iapSettings', 'pokemonUpgrades', 'weatherBonusSettings', 'luckyPokemonSettings', 'exRaidSettings', 'encounterSettings', 'combatStatStageSettings', 'combatSettings', 'backgroundModeSettings', 'partyRecommendationSettings', 'onboardingV2Settings', 'combatLeagueSettings', 'buddyEncounterCameoSettings', 'buddyHungerSettings', 'buddySwapSettings', 'buddyWalkSettings', 'combatCompetitiveSeasonSettings', 'combatRankingProtoSettings', 'platypusRolloutSettings', 'vsSeekerClientSettings', 'raidSettings']
 singleTplSpecialSettings = ['playerLevel', 'gymLevel', 'pokestopInvasionAvailabilitySettings']
 multiTplSettingsKeyMap = {'questSettings': 'questType', 'weatherAffinities': 'weatherCondition', 'friendshipMilestoneSettings': 'friendshipLevel'}
 
