@@ -40,7 +40,7 @@ for legacyMove in legacyMovesCsv:
 legacyMoves = OrderedDict(sorted(legacyMoves.items(), key=lambda t: int(t[0])))
 
 with open('in/legacy-moves.json', 'w') as outfile:
-    json.dump(legacyMoves, outfile)
+    json.dump(legacyMoves, outfile, sort_keys=True)
 
 
 languages = ['en', 'ja', 'fr', 'es', 'de', 'it', 'ko', 'zh-tw', 'pt-br']
