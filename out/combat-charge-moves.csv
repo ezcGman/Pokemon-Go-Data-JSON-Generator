@@ -21,7 +21,7 @@ id,name,type,power,energyDelta,criticalChance
 40,Blizzard,15,130.0,75,5
 42,Heat Wave,10,95.0,75,5
 45,Aerial Ace,3,55.0,45,5
-46,Drill Run,5,80.0,55,25
+46,Drill Run,5,80.0,45,25
 47,Petal Blizzard,12,110.0,65,5
 48,Mega Drain,12,25.0,55,5
 49,Bug Buzz,7,90.0,60,5
@@ -54,7 +54,7 @@ id,name,type,power,energyDelta,criticalChance
 84,Disarming Voice,18,70.0,45,5
 85,Draining Kiss,18,60.0,55,5
 86,Dazzling Gleam,18,110.0,70,5
-87,Moonblast,18,130.0,70,5
+87,Moonblast,18,110.0,60,5
 88,Play Rough,18,90.0,60,5
 89,Cross Poison,4,40.0,35,25
 90,Sludge Bomb,4,80.0,50,5
@@ -99,7 +99,7 @@ id,name,type,power,energyDelta,criticalChance
 246,Dynamic Punch,2,90.0,50,5
 247,Focus Blast,2,150.0,75,5
 248,Aurora Beam,15,80.0,60,5
-251,Wild Charge,13,90.0,50,5
+251,Wild Charge,13,100.0,45,5
 252,Zap Cannon,13,150.0,80,5
 254,Avalanche,15,90.0,45,5
 256,Brave Bird,3,90.0,55,5
