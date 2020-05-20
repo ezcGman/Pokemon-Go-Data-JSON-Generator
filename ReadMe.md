@@ -43,7 +43,10 @@ The protobuf Game Master in version 2 is unfortunately not (yet?) supported.
 
 
 # Legacy Moveset Helper Changelog
-Last change, 2020-04-21:
+Last change, 2020-05-20:
+- May Community Day: Seedot/Shiftry (Bullet Seed)
+
+Change, 2020-04-21:
 - March/April Community Day: Abra/Alakazam (Counter)
 
 Change, 2020-03-05:
